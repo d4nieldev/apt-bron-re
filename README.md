@@ -87,4 +87,8 @@ To get access to the BRON graph, and have it locally so you can query it when ne
 * [Cypher Docummentation (Neo4j Query Language)](https://neo4j.com/docs/cypher-manual/current/introduction/) - this is the language you will use to query the graph (e.g., getting nodes, relationships, etc...)
 
 ### Docling
-To transform PDFs into raw text to perform extraction, there are a lot of packages to use. One great option is [Docling](https://github.com/docling-project/docling). Docling simplifies document processing, parsing diverse formats — including advanced PDF understanding — and providing seamless integrations with the gen AI ecosystem.
+To convert PDFs into raw text to perform extraction, there are numerous packages to use. One great option is [Docling](https://github.com/docling-project/docling). Docling simplifies document processing, parsing diverse formats — including advanced PDF understanding — and providing seamless integrations with the gen AI ecosystem.
+
+### NLP Tools
+* [NLTK](https://github.com/nltk/nltk) - General NLP libreary with some pretrained models and functions useful for processing language
+* [CyNER](https://github.com/aiforsec/CyNER) - NER tool trained by IBM in 2022 to extract security entities from reports, looks good but I didn't try it
