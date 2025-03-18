@@ -1,4 +1,4 @@
-;# APT BRON Relation Extraction
+# APT BRON Relation Extraction
 Relation extraction from APT reports for the BRON knowledge graph
 
 
