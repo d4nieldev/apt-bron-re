@@ -1,4 +1,4 @@
-# APT BRON Relation Extraction
+;# APT BRON Relation Extraction
 Relation extraction from APT reports for the BRON knowledge graph
 
 
@@ -71,8 +71,8 @@ To get access to the BRON graph, and have it locally so you can query it when ne
     NEO4J_USERNAME="{USERNAME}"
     NEO4J_PASSWORD="{PASSWORD}"
     ```
-    replace {PORT}, {USERNAME}, and {PASSWORD} according to your settings and how you set up the graph in step 4.
-6. To verify you did everything alright, run the test located in `src/neo4j_test.py`.
+    Replace `{PORT}`, `{USERNAME}`, and `{PASSWORD}` according to your settings and how you set up the graph in step 4.
+6. To verify you did everything correctly, run the test located in `src/neo4j_test.py`.
 
 ### Project Requirements
 * You should use [Python 3.13.2](https://www.python.org/downloads/release/python-3132/)
