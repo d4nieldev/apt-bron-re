@@ -62,7 +62,7 @@ The output format should be a JSON file that contains a list of edges of the fol
 ### Get your own BRON
 To get access to the BRON graph, and have it locally so you can query it when needed, you should load the BRON graph to your machine. Follow the steps below:
 1. [Download Neo4j](https://neo4j.com/download/) - this is the client you will use in order to load BRON, and explore it manually or via python code.
-2. [Download BRON](https://ibm-my.sharepoint.com/:u:/r/personal/daniel_ohayon_ibm_com/Documents/Starships/neo4j.dump?csf=1&web=1&e=FPbrPU) - you will load the BRON knowledge graph from this file that contains all the information about it in Neo4j language.
+2. [Download BRON](https://drive.google.com/file/d/13xvxN8OXtJAOY9BRpJ48KkOs-v0RUab5/view?usp=drive_link) - you will load the BRON knowledge graph from this file that contains all the information about it in Neo4j language.
 3. Add BRON dump to the client - in the Neo4j client: Add -> File -> (choose bron dump)
 4. Create database from the dump - in the Neo4j cleint: Click on the `...` icon next to the BRON dump file -> Create new DBMS from dump
 5. Create a `.env` file (in the root directory) with the following variables:
