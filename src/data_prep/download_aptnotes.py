@@ -44,7 +44,7 @@ def report_already_downloaded(download_path):
 
 # === Settings ===
 download_all = False
-num_reports = 50
+num_reports = 60
 
 # === Paths ===
 base_dir = Path(__file__).resolve().parents[2]  # <-- this gets to project root
