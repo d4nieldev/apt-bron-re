@@ -5,30 +5,30 @@ from pathlib import Path
 from neo4j import GraphDatabase
 from dotenv import load_dotenv
 
-# === Load credentials from .env
+# === Load .env variables
 load_dotenv()
 
 URI = os.environ["NEO4J_URI"]
 USERNAME = os.environ["NEO4J_USERNAME"]
 PASSWORD = os.environ["NEO4J_PASSWORD"]
 
-# === Node labels and properties to export
+# === Node labels and properties
 NODE_TYPES = {
     "tactic": ["name", "_id", "original_id"],
     "capec": ["name", "_id", "original_id"],
     "cwe": ["name", "_id", "original_id"],
     "group": ["name", "_id", "original_id"],
     "technique": ["name", "_id", "original_id"],
-    "cpe": ["_id"], 
+    "cpe": ["_id"],
     "cve": ["original_id"]
 }
 
-# === Output directory: data/layer_nodes
-base_dir = Path(__file__).resolve().parents[2]  # Go up from src/data_prep/
+# === Save to: data/layer_nodes (one level outside /src/)
+base_dir = Path(__file__).resolve().parents[2]
 output_dir = base_dir / "data" / "layers_nodes"
 output_dir.mkdir(parents=True, exist_ok=True)
 
-# === Neo4j connection and export logic
+# === Export nodes from Neo4j
 with GraphDatabase.driver(URI, auth=(USERNAME, PASSWORD)) as driver:
     driver.verify_connectivity()
     with driver.session() as session:
@@ -51,7 +51,7 @@ with GraphDatabase.driver(URI, auth=(USERNAME, PASSWORD)) as driver:
                     value = record.get(prop)
                     if value is not None:
                         obj[prop] = value
-                if obj:  # only save non-empty entries
+                if obj:
                     values.append(obj)
 
             output_path = output_dir / f"{label}.json"
