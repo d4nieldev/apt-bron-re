@@ -3,7 +3,7 @@ from pathlib import Path
 
 # === Paths ===
 base_dir = Path(__file__).resolve().parents[1]
-entity_hits_dir = base_dir / "data" / "entity_hits_v2"
+entity_hits_dir = base_dir / "data" / "entity_hits_v2"  # Each subfolder = report name
 
 # === Get all report folders
 report_dirs = [p for p in entity_hits_dir.iterdir() if p.is_dir()]
@@ -52,8 +52,8 @@ def compare_json(a, b, path=""):
 # === Main loop
 for report_dir in report_dirs:
     name = report_dir.name
-    txt_json = report_dir / f"{name}_txt.json"
-    md_json = report_dir / f"{name}_md.json"
+    txt_json = report_dir / "txt.json"
+    md_json = report_dir / "md.json"
 
     txt_data = load_json_safe(txt_json)
     md_data = load_json_safe(md_json)

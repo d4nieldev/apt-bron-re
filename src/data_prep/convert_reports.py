@@ -4,11 +4,12 @@ from tqdm import tqdm
 from docling.document_converter import DocumentConverter
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-# === Paths ===
+# === Updated Paths ===
 base_dir = Path(__file__).resolve().parents[1]
-pdf_root = base_dir / "data" / "pdfs"
-text_dir = base_dir / "data" / "texts"
-markdown_dir = base_dir / "data" / "markdown"
+pdf_root = base_dir / "data" / "pdf_reports"
+output_root = base_dir / "data" / "converted_reports"
+text_dir = output_root / "texts"
+markdown_dir = output_root / "markdown"
 
 text_dir.mkdir(parents=True, exist_ok=True)
 markdown_dir.mkdir(parents=True, exist_ok=True)
@@ -50,7 +51,7 @@ def process_pdf(pdf_path):
         return f"[!] Failed {pdf_filename}: {e}"
 
 
-# === Parallel processing with reduced workers
+# === Parallel processing
 max_workers = 4
 with ThreadPoolExecutor(max_workers=max_workers) as executor:
     futures = [executor.submit(process_pdf, pdf) for pdf in pdf_paths]

@@ -89,8 +89,8 @@ num_reports = 50           # Ignored if download_all is True
 
 # === Paths ===
 base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-base_download_dir = os.path.join(base_dir, "data", "pdfs")
-os.makedirs(base_download_dir, exist_ok=True)
+base_download_dir = os.path.join(base_dir, "data", "pdf_reports")
+
 
 # Limit concurrent downloads
 sem = asyncio.Semaphore(10)
