@@ -3,9 +3,9 @@ import json
 from pathlib import Path
 
 # === Paths ===
-text_dir = Path("../aptnotes/data/texts")
-md_dir = Path("../aptnotes/data/markdown")
-output_base_dir = Path("../aptnotes/data/entity_hits_v2")
+text_dir = Path("data/converted_reports/texts")
+md_dir = Path("data/converted_reports/markdown")
+output_base_dir = Path("data/entity_hits_v2")
 layer_dir = Path("layers_nodes")
 
 # === Load all layers except cve/cpe ===
@@ -116,6 +116,11 @@ def extract_context(text: str, entity_name: str, original_id: str = "", is_markd
     return result
 
 
+def normalize_id(id_str: str) -> str:
+    # Lowercase, remove non-alphanumerics (except underscore), strip leading zeros
+    return re.sub(r'\b0+(\d+)', r'\1', id_str.lower())
+
+
 def match_nodes(text: str, nodes: list[dict], is_markdown=False, raw_text=""):
     seen = set()
     hits = []
@@ -125,20 +130,31 @@ def match_nodes(text: str, nodes: list[dict], is_markdown=False, raw_text=""):
         suffix = node.get("_id", "").split("/")[-1].lower()
 
         name_variants = normalize_name(name)
+        suffix_clean = normalize_id(suffix)
+        original_id_clean = normalize_id(original_id)
 
-        if any(n in text for n in name_variants) or original_id in text or suffix in text:
+        found_by = []
+        if any(n in text for n in name_variants):
+            found_by.append("name")
+        if original_id and original_id_clean in text:
+            found_by.append("original_id")
+        if suffix and suffix_clean in text:
+            found_by.append("_id")
+
+        if found_by:
             key = json.dumps(node, sort_keys=True)
             if key not in seen:
                 seen.add(key)
-
-                # Extract context from raw_text
                 ctx = extract_context(raw_text, name, original_id, is_markdown)
                 enriched_node = dict(node)
                 enriched_node.update(ctx)
-
+                enriched_node["found_by"] = found_by  # New addition
                 hits.append(enriched_node)
+
     return hits
 
+
+all_summaries = {}
 
 # === Process all .txt and .md files
 for txt_file in text_dir.glob("*.txt"):
@@ -199,4 +215,22 @@ for txt_file in text_dir.glob("*.txt"):
     if has_missing_context(md_results):
         print(f"[!] Missing context in MD JSON: {base_name}")
 
+    # === Count entity types per document ===
+    txt_summary = {label: len(items) for label, items in txt_results.items()}
+    md_summary = {label: len(items) for label, items in md_results.items()}
+
+    summary = {
+        "txt_counts": txt_summary,
+        "md_counts": md_summary
+    }
+
+    with open(report_output_dir / "summary_counts.json", "w", encoding="utf-8") as f:
+        json.dump(summary, f, indent=2)
+
+    all_summaries[base_name] = summary
+
     print(f"[✓] Processed: {base_name}")
+
+global_summary_path = output_base_dir / "global_summary.json"
+with open(global_summary_path, "w", encoding="utf-8") as f:
+    json.dump(all_summaries, f, indent=2)
