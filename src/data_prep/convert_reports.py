@@ -1,27 +1,61 @@
-import os
+import fitz  # PyMuPDF
 from pathlib import Path
-
 from tqdm import tqdm
 from docling.document_converter import DocumentConverter
+from concurrent.futures import ThreadPoolExecutor, as_completed
+
+# === Paths ===
+base_dir = Path(__file__).resolve().parents[1]
+pdf_root = base_dir / "data" / "pdfs"
+text_dir = base_dir / "data" / "texts"
+markdown_dir = base_dir / "data" / "markdown"
+
+text_dir.mkdir(parents=True, exist_ok=True)
+markdown_dir.mkdir(parents=True, exist_ok=True)
+
+# === Gather PDFs ===
+pdf_paths = list(pdf_root.glob("**/*.pdf"))
+
+# === Shared converter instance
+converter = DocumentConverter()
 
 
-PDF_REPORTS_DIR = Path(os.path.join('reports', 'pdf'))
-MARKDOWN_REPORTS_DIR = Path(os.path.join('reports', 'markdown'))
+def process_pdf(pdf_path):
+    pdf_filename = pdf_path.name
+    filename_stem = pdf_path.stem
+
+    txt_output = text_dir / f"{filename_stem}.txt"
+    md_output = markdown_dir / f"{filename_stem}.md"
+
+    # === Skip early if both files exist
+    if txt_output.exists() and md_output.exists():
+        return f"[→] Skipped (already converted): {pdf_filename}"
+
+    try:
+        # === Convert to .txt (if needed)
+        if not txt_output.exists():
+            with fitz.open(pdf_path) as doc:
+                with txt_output.open("w", encoding="utf-8") as f:
+                    for page in doc:
+                        f.write(page.get_text())
+
+        # === Convert to .md (if needed)
+        if not md_output.exists():
+            output = converter.convert(pdf_path)
+            md_output.write_text(output.document.export_to_markdown(), encoding="utf-8")
+
+        return f"[✓] Done: {pdf_filename}"
+
+    except Exception as e:
+        return f"[!] Failed {pdf_filename}: {e}"
 
 
-total = 0
-for year_dir in PDF_REPORTS_DIR.iterdir():
-    for report_path in year_dir.iterdir():
-        total += 1
+# === Parallel processing with reduced workers
+max_workers = 4
+with ThreadPoolExecutor(max_workers=max_workers) as executor:
+    futures = [executor.submit(process_pdf, pdf) for pdf in pdf_paths]
 
-progress_bar = tqdm(total=total, desc="Converting PDF reports to Markdown")
-for year_dir in PDF_REPORTS_DIR.iterdir():
-    for report_path in year_dir.iterdir():  
-        source = report_path
-        converter = DocumentConverter()
-        output = converter.convert(source)
-        result = output.document.export_to_markdown()
-        output_path = MARKDOWN_REPORTS_DIR / year_dir.stem / report_path.with_suffix('.md').name
-        output_path.parent.mkdir(parents=True, exist_ok=True)
-        output_path.write_text(result)
-        progress_bar.update(1)
+    for f in tqdm(as_completed(futures), total=len(futures), desc="Converting PDFs"):
+        result = f.result()
+        if result:
+            print(result)

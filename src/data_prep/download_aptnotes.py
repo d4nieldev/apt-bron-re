@@ -1,66 +1,24 @@
-# external
-import magic
-import aiohttp
-from tqdm import tqdm
-from bs4 import BeautifulSoup
-import ssl
-
-# built-in
 import os
-import json
-import glob
-import requests
 import hashlib
 import asyncio
-import logging as log
-from dataclasses import dataclass
+import aiohttp
+import platform
+import glob
+import json
+import os
+import magic
+import requests
 
+from bs4 import BeautifulSoup
 
-APTNOTES_URL = 'https://raw.githubusercontent.com/aptnotes/data/master/APTnotes.json'
-PDF_REPORTS_DIR = os.path.join('reports', 'pdf')
-ssl_context = ssl._create_unverified_context()
-
-
-@dataclass
-class ReportData:
-    Filename: str
-    Title: str
-    Source: str
-    Link: str
-    SHA1: str
-    Date: str
-    Year: str
-
-
-def load_aptnotes() -> list[ReportData]:
-    """
-    Retrieve APT Note Data
-
-    """
-    github_url = APTNOTES_URL
-    aptnotes_json = requests.get(github_url)
-
-    if aptnotes_json.status_code == 200:
-        # Load APT report metadata into JSON container
-        apt_reports_data = json.loads(aptnotes_json.text)
-    else:
-        apt_reports_data = []
-    
-    # Reverse order of reports in order to download newest to oldest
-    apt_reports_data.reverse()
-
-    rename_map = { "SHA-1": "SHA1" }
-    return [ReportData(**{rename_map.get(k, k): v for k, v in report_data.items()}) for report_data in apt_reports_data]
-
-
-def get_download_url(page: bytes) -> str:
+def get_download_url(page):
     """
     Parse preview page for desired elements to build download URL
 
     """
     soup = BeautifulSoup(page, 'lxml')
-    scripts = soup.find('body').find_all('script')  # type: ignore
-    sections = scripts[-1].contents[0].split(';')   # type: ignore
+    scripts = soup.find('body').find_all('script')
+    sections = scripts[-1].contents[0].split(';')
     app_api = json.loads(sections[0].split('=')[1])['/app-api/enduserapp/shared-item']
 
     # Build download URL
@@ -71,23 +29,35 @@ def get_download_url(page: bytes) -> str:
     return file_url
 
 
-def report_already_downloaded(download_path: str) -> bool:
+def load_notes():
     """
-    Check if report is already downloaded
+    Retrieve APT Note Data
 
     """
-    return len(glob.glob(download_path)) + len(glob.glob("{}.*".format(download_path))) > 0
+    github_url = "https://raw.githubusercontent.com/aptnotes/data/master/APTnotes.json"
+    APTnotes = requests.get(github_url)
+
+    if APTnotes.status_code == 200:
+        # Load APT report metadata into JSON container
+        APT_reports = json.loads(APTnotes.text)
+    else:
+        APT_reports = []
+
+    # Reverse order of reports in order to download newest to oldest
+    APT_reports.reverse()
+
+    return APT_reports
 
 
-def verify_report_filetype(download_path: str) -> str:
+supported_filetypes = {"application/pdf": ".pdf",
+                       "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": ".xlsx"}
+
+
+def verify_report_filetype(download_path):
     """
     Identify filetype and add extension
 
     """
-    supported_filetypes = { 
-        "application/pdf": ".pdf",
-        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": ".xlsx"
-    }
     file_type = magic.from_file(download_path, mime=True)
 
     # Add supported extension to path
@@ -104,84 +74,106 @@ def verify_report_filetype(download_path: str) -> str:
     return download_path
 
 
-async def download_report(
-        session: aiohttp.ClientSession, 
-        report: ReportData, 
-        sem: asyncio.Semaphore, 
-        progress_bar: tqdm
-    ):
+def report_already_downloaded(download_path):
+    """
+    Check if report is already downloaded
 
-    report_year = report.Year
-    report_link = report.Link
-    report_filename = report.Filename
-    report_sha1 = report.SHA1
+    """
+    if glob.glob(download_path) or glob.glob("{}.*".format(download_path)):
+        return True
+    return False
 
-    # Set hash check
+# === Settings ===
+download_all = False       # Set to True to download all reports
+num_reports = 50           # Ignored if download_all is True
+
+# === Paths ===
+base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+base_download_dir = os.path.join(base_dir, "data", "pdfs")
+os.makedirs(base_download_dir, exist_ok=True)
+
+# Limit concurrent downloads
+sem = asyncio.Semaphore(10)
+
+
+async def fetch_report_content(session, file_url, download_path, checksum):
     hash_check = hashlib.sha1()
 
-    # Set download path
-    download_dir = os.path.join(PDF_REPORTS_DIR, report_year)
-    download_path = os.path.join(PDF_REPORTS_DIR, report_year, report_filename)
+    async with session.get(file_url) as response:
+        if response.status != 200:
+            print(f"[!] Failed to download {file_url} (status {response.status})")
+            return
 
-    # Ensure directory exists
-    os.makedirs(download_dir, exist_ok=True)
+        try:
+            with open(download_path, 'wb') as f:
+                async for chunk in response.content.iter_chunked(1024):
+                    if chunk:
+                        hash_check.update(chunk)
+                        f.write(chunk)
+
+            # 🧠 File is now closed. We can safely delete it if invalid.
+            if hash_check.hexdigest() != checksum:
+                raise ValueError("File integrity check failed (SHA-1 mismatch)")
+
+            final_path = verify_report_filetype(download_path)
+            print(f"[+] Downloaded: {final_path}")
+
+        except Exception as e:
+            print(f"[!] Error saving {file_url}: {e}")
+            # ✅ Only try to delete after it's closed
+            if os.path.exists(download_path):
+                try:
+                    os.remove(download_path)
+                except Exception as delete_err:
+                    print(f"[!] Failed to delete bad file: {delete_err}")
+
+
+
+async def fetch_report_url(session, report_link):
+    async with session.get(report_link) as splash_response:
+        if splash_response.status != 200:
+            print(f"[!] Failed to fetch splash page: {report_link}")
+            return None
+
+        splash_page = await splash_response.read()
+        try:
+            return get_download_url(splash_page)
+        except Exception as e:
+            print(f"[!] Failed to extract file URL: {e}")
+            return None
+
+
+async def download_report(session, report):
+    report_filename = report['Filename']
+    report_year = report['Year']
+    report_link = report['Link']
+    report_sha1 = report['SHA-1']
+
+    year_folder = os.path.join(base_download_dir, report_year)
+    os.makedirs(year_folder, exist_ok=True)
+
+    download_path = os.path.join(year_folder, report_filename)
 
     if report_already_downloaded(download_path):
-        log.info("[!] File {} already exists".format(report_filename))
-    else:
-        try:
-            # Download report preview page for parsing
-            async with session.get(report_link) as splash_response:
-                splash_page = await splash_response.content.read()
+        print(f"[=] Already exists: {report_filename}")
+        return
 
-            file_url = get_download_url(splash_page)
-
-            # Use semaphore to limit download rate
-            async with sem:
-                # Download file in chunks and save to folder location
-                async with session.get(file_url) as download_response:
-                    with open(download_path, 'wb') as f_handle:
-                        while True:
-                            chunk = await download_response.content.read(1024)
-                            hash_check.update(chunk)
-                            if not chunk:
-                                break
-                            f_handle.write(chunk)
-                    await download_response.release()
-
-            # Verify file contents based on expected hash value
-            if hash_check.hexdigest() != report_sha1:
-                os.remove(download_path)
-                raise ValueError("File integrity check failed")
-
-            # Verify report filetype and add extension
-            download_path = verify_report_filetype(download_path)
-            log.info("[+] Successfully downloaded {}".format(download_path))
-            progress_bar.update(1)
-        except Exception as unexpected_error:
-            message = "[!] Download failure for {}".format(report.Filename)
-            log.warning(message, unexpected_error)
+    async with sem:
+        file_url = await fetch_report_url(session, report_link)
+        if file_url:
+            await fetch_report_content(session, file_url, download_path, report_sha1)
 
 
-async def download_all_reports(
-        APT_reports: list[ReportData],
-        loop: asyncio.AbstractEventLoop,
-        sem: asyncio.Semaphore
-    ):
-    progress_bar = tqdm(total=len(APT_reports), desc="Downloading Reports")
-    async with aiohttp.ClientSession(loop=loop, connector=aiohttp.TCPConnector(ssl=ssl_context)) as session:
-        download_queue = [loop.create_task(download_report(session, report, sem, progress_bar)) for report in APT_reports]
-        await asyncio.wait(download_queue)
+async def download_all_reports(APT_reports):
+    async with aiohttp.ClientSession() as session:
+        selected_reports = APT_reports if download_all else APT_reports[:num_reports]
+        tasks = [download_report(session, report) for report in selected_reports]
+        await asyncio.gather(*tasks)
 
 
-if __name__ == '__main__':
-    # Retrieve APTNotes data
-    aptnotes = load_aptnotes()
+if __name__ == "__main__":
+    if platform.system() == "Windows":
+        asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
-    # Set semaphore for rate limiting
-    sem = asyncio.Semaphore(10)
-
-    # Create async loop
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(download_all_reports(aptnotes, loop, sem))
-
+    all_reports = load_notes()
+    asyncio.run(download_all_reports(all_reports))

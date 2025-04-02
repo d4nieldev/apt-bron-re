@@ -1,5 +1,9 @@
 neo4j
-docling
+PyMuPDF
 python-dotenv
-python-magic
+python-magic-bin==0.4.14
 aiohttp
+beautifulsoup4
+lxml
+requests
+docling
