@@ -14,13 +14,11 @@ PASSWORD = os.environ["NEO4J_PASSWORD"]
 
 # === Node labels and properties
 NODE_TYPES = {
-    "tactic": ["name", "_id", "original_id"],
-    "capec": ["name", "_id", "original_id"],
-    "cwe": ["name", "_id", "original_id"],
-    "group": ["name", "_id", "original_id"],
-    "technique": ["name", "_id", "original_id"],
-    "cpe": ["_id"],
-    "cve": ["original_id"]
+    "tactic": ["name", "original_id"],
+    "capec": ["name", "original_id"],
+    "cwe": ["name", "original_id"],
+    "group": ["name", "original_id"],
+    "technique": ["name", "original_id"],
 }
 
 # === Save to: data/layer_nodes (one level outside /src/)

@@ -19,8 +19,8 @@ for layer_file in layer_dir.glob("*.json"):
             layer_map[label] = json.load(f)
 
 # === Regex patterns ===
-cve_pattern = re.compile(r"\bcve-\d{4}-\d+\b", re.IGNORECASE)
-cpe_pattern = re.compile(r"\bcpe:(?:2\.3:|/)[aoh]:[^\s:]+:[^\s:]+(?::[^\s:]*){0,10}", re.IGNORECASE)
+cve_pattern = re.compile(r"\bcve-\d{4}-\d+\b", re.IGNORECASE)  # captures cve-YYYY-at_least_one_digit
+cpe_pattern = re.compile(r"\bcpe:(?:2\.3:|/)[aoh]:[^\s:]+:[^\s:]+(?::[^\s:]*){0,10}", re.IGNORECASE)  # cpe format
 
 
 def read_file(file_path: Path):
@@ -74,7 +74,6 @@ def has_missing_context(results: dict) -> bool:
 
 def extract_context(text: str, entity_name: str, original_id: str = "", is_markdown=False):
     lines = text.splitlines()
-    flat_text = " ".join(lines)
 
     variants = normalize_name(entity_name)
     if original_id:
@@ -127,19 +126,21 @@ def match_nodes(text: str, nodes: list[dict], is_markdown=False, raw_text=""):
     for node in nodes:
         name = node.get("name", "").lower()
         original_id = node.get("original_id", "").lower()
-        suffix = node.get("_id", "").split("/")[-1].lower()
 
         name_variants = normalize_name(name)
-        suffix_clean = normalize_id(suffix)
         original_id_clean = normalize_id(original_id)
 
         found_by = []
-        if any(n in text for n in name_variants):
-            found_by.append("name")
-        if original_id and original_id_clean in text:
+
+        # Check full word match for each name variant
+        for variant in name_variants:
+            pattern = rf"\b{re.escape(variant)}\b"
+            if re.search(pattern, text):
+                found_by.append("name")
+                break
+
+        if original_id and re.search(rf"\b{re.escape(original_id_clean)}\b", text):
             found_by.append("original_id")
-        if suffix and suffix_clean in text:
-            found_by.append("_id")
 
         if found_by:
             key = json.dumps(node, sort_keys=True)
@@ -148,89 +149,90 @@ def match_nodes(text: str, nodes: list[dict], is_markdown=False, raw_text=""):
                 ctx = extract_context(raw_text, name, original_id, is_markdown)
                 enriched_node = dict(node)
                 enriched_node.update(ctx)
-                enriched_node["found_by"] = found_by  # New addition
+                enriched_node["found_by"] = found_by
                 hits.append(enriched_node)
 
     return hits
 
 
-all_summaries = {}
+if __name__ == "__main__":
+    all_summaries = {}
 
-# === Process all .txt and .md files
-for txt_file in text_dir.glob("*.txt"):
-    base_name = txt_file.stem
-    md_file = md_dir / f"{base_name}.md"
-    if not md_file.exists():
-        print(f"[!] Missing Markdown for: {base_name}")
-        continue
+    # === Process all .txt and .md files
+    for txt_file in text_dir.glob("*.txt"):
+        base_name = txt_file.stem
+        md_file = md_dir / f"{base_name}.md"
+        if not md_file.exists():
+            print(f"[!] Missing Markdown for: {base_name}")
+            continue
 
-    report_output_dir = output_base_dir / base_name
-    report_output_dir.mkdir(parents=True, exist_ok=True)
+        report_output_dir = output_base_dir / base_name
+        report_output_dir.mkdir(parents=True, exist_ok=True)
 
-    txt_raw = read_file(txt_file)
-    md_raw = read_file(md_file)
+        txt_raw = read_file(txt_file)
+        md_raw = read_file(md_file)
 
-    txt_text = txt_raw.lower()
-    md_text = md_raw.lower()
+        txt_text = txt_raw.lower()
+        md_text = md_raw.lower()
 
-    txt_results = {}
-    md_results = {}
+        txt_results = {}
+        md_results = {}
 
-    # === Extract hits from all layers (except CVE/CPE)
-    for label, nodes in layer_map.items():
-        txt_hits = match_nodes(txt_text, nodes, is_markdown=False, raw_text=txt_raw)
-        md_hits = match_nodes(md_text, nodes, is_markdown=True, raw_text=md_raw)
-        if txt_hits:
-            txt_results[label] = txt_hits
-        if md_hits:
-            md_results[label] = md_hits
+        # === Extract hits from all layers (except CVE/CPE)
+        for label, nodes in layer_map.items():
+            txt_hits = match_nodes(txt_text, nodes, is_markdown=False, raw_text=txt_raw)
+            md_hits = match_nodes(md_text, nodes, is_markdown=True, raw_text=md_raw)
+            if txt_hits:
+                txt_results[label] = txt_hits
+            if md_hits:
+                md_results[label] = md_hits
 
-    # === Extract CVEs
-    txt_cves = sorted(set(cve_pattern.findall(txt_text)))
-    md_cves = sorted(set(cve_pattern.findall(md_text)))
-    if txt_cves:
-        txt_results["cve"] = [{"value": cve.upper(), **extract_context(txt_raw, cve)} for cve in txt_cves]
-    if md_cves:
-        md_results["cve"] = [{"value": cve.upper(), **extract_context(md_raw, cve, is_markdown=True)} for cve in md_cves]
+        # === Extract CVEs
+        txt_cves = sorted(set(cve_pattern.findall(txt_text)))
+        md_cves = sorted(set(cve_pattern.findall(md_text)))
+        if txt_cves:
+            txt_results["cve"] = [{"value": cve.upper(), **extract_context(txt_raw, cve)} for cve in txt_cves]
+        if md_cves:
+            md_results["cve"] = [{"value": cve.upper(), **extract_context(md_raw, cve, is_markdown=True)} for cve in md_cves]
 
-    # === Extract CPEs
-    txt_cpes = sorted(set(cpe_pattern.findall(txt_text)))
-    md_cpes = sorted(set(cpe_pattern.findall(md_text)))
-    if txt_cpes:
-        print("found in txt")
-        txt_results["cpe"] = [{"value": cpe.lower(), **extract_context(txt_raw, cpe)} for cpe in txt_cpes]
-    if md_cpes:
-        print("found in md")
-        md_results["cpe"] = [{"value": cpe.lower(), **extract_context(md_raw, cpe, is_markdown=True)} for cpe in md_cpes]
+        # === Extract CPEs
+        txt_cpes = sorted(set(cpe_pattern.findall(txt_text)))
+        md_cpes = sorted(set(cpe_pattern.findall(md_text)))
+        if txt_cpes:
+            print("found in txt")
+            txt_results["cpe"] = [{"value": cpe.lower(), **extract_context(txt_raw, cpe)} for cpe in txt_cpes]
+        if md_cpes:
+            print("found in md")
+            md_results["cpe"] = [{"value": cpe.lower(), **extract_context(md_raw, cpe, is_markdown=True)} for cpe in md_cpes]
 
-    # === Write results
-    with open(report_output_dir / "txt.json", "w", encoding="utf-8") as f:
-        json.dump(txt_results, f, indent=2)
+        # === Write results
+        with open(report_output_dir / "txt.json", "w", encoding="utf-8") as f:
+            json.dump(txt_results, f, indent=2)
 
-    with open(report_output_dir / "md.json", "w", encoding="utf-8") as f:
-        json.dump(md_results, f, indent=2)
+        with open(report_output_dir / "md.json", "w", encoding="utf-8") as f:
+            json.dump(md_results, f, indent=2)
 
-    if has_missing_context(txt_results):
-        print(f"[!] Missing context in TXT JSON: {base_name}")
-    if has_missing_context(md_results):
-        print(f"[!] Missing context in MD JSON: {base_name}")
+        if has_missing_context(txt_results):
+            print(f"[!] Missing context in TXT JSON: {base_name}")
+        if has_missing_context(md_results):
+            print(f"[!] Missing context in MD JSON: {base_name}")
 
-    # === Count entity types per document ===
-    txt_summary = {label: len(items) for label, items in txt_results.items()}
-    md_summary = {label: len(items) for label, items in md_results.items()}
+        # === Count entity types per document ===
+        txt_summary = {label: len(items) for label, items in txt_results.items()}
+        md_summary = {label: len(items) for label, items in md_results.items()}
 
-    summary = {
-        "txt_counts": txt_summary,
-        "md_counts": md_summary
-    }
+        summary = {
+            "txt_counts": txt_summary,
+            "md_counts": md_summary
+        }
 
-    with open(report_output_dir / "summary_counts.json", "w", encoding="utf-8") as f:
-        json.dump(summary, f, indent=2)
+        with open(report_output_dir / "summary_counts.json", "w", encoding="utf-8") as f:
+            json.dump(summary, f, indent=2)
 
-    all_summaries[base_name] = summary
+        all_summaries[base_name] = summary
 
-    print(f"[✓] Processed: {base_name}")
+        print(f"[✓] Processed: {base_name}")
 
-global_summary_path = output_base_dir / "global_summary.json"
-with open(global_summary_path, "w", encoding="utf-8") as f:
-    json.dump(all_summaries, f, indent=2)
+    global_summary_path = output_base_dir / "global_summary.json"
+    with open(global_summary_path, "w", encoding="utf-8") as f:
+        json.dump(all_summaries, f, indent=2)
