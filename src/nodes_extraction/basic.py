@@ -1,6 +1,7 @@
 import re
 import json
 from pathlib import Path
+from datetime import datetime
 
 # === Paths ===
 text_dir = Path("data/converted_reports/texts")
@@ -21,6 +22,40 @@ for layer_file in layer_dir.glob("*.json"):
 # === Regex patterns ===
 cve_pattern = re.compile(r"\bcve-\d{4}-\d+\b", re.IGNORECASE)  # captures cve-YYYY-at_least_one_digit
 cpe_pattern = re.compile(r"\bcpe:(?:2\.3:|/)[aoh]:[^\s:]+:[^\s:]+(?::[^\s:]*){0,10}", re.IGNORECASE)  # cpe standard formats
+
+
+def write_summary_totals_txt(global_summary_path: Path, output_base_dir: Path):
+    if not global_summary_path.exists():
+        print(f"[!] global_summary.json not found at {global_summary_path}")
+        return
+
+    with open(global_summary_path, encoding="utf-8") as f:
+        global_summary = json.load(f)
+
+    txt_totals = {}
+    md_totals = {}
+
+    for report in global_summary.values():
+        for label, count in report.get("txt_counts", {}).items():
+            txt_totals[label] = txt_totals.get(label, 0) + count
+        for label, count in report.get("md_counts", {}).items():
+            md_totals[label] = md_totals.get(label, 0) + count
+
+    lines = ["=== Total Entity Counts Across All Reports ===\n"]
+
+    lines.append("[TXT]")
+    for label, count in sorted(txt_totals.items()):
+        lines.append(f"{label}: {count}")
+
+    lines.append("\n[MD]")
+    for label, count in sorted(md_totals.items()):
+        lines.append(f"{label}: {count}")
+
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M")
+    output_path = output_base_dir / f"{timestamp}_summary.txt"
+    output_path.write_text("\n".join(lines), encoding="utf-8")
+
+    print(f"[✓] Wrote summary totals to: {output_path.name}")
 
 
 def read_file(file_path: Path):
@@ -226,3 +261,4 @@ if __name__ == "__main__":
     global_summary_path = output_base_dir / "global_summary.json"
     with open(global_summary_path, "w", encoding="utf-8") as f:
         json.dump(all_summaries, f, indent=2)
+    write_summary_totals_txt(global_summary_path, output_base_dir)
