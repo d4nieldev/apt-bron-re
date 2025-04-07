@@ -52,14 +52,19 @@ for label, nodes in layer_map.items():
 cve_pattern = re.compile(r"\bcve-\d{4}-\d+\b", re.IGNORECASE)
 cpe_pattern = re.compile(r"\bcpe:(?:2\.3:|/)[aoh]:[^\s:]+:[^\s:]+(?::[^\s:]*){0,10}", re.IGNORECASE)
 
-# === Matching function ===
+# === Matching function with strict boundaries ===
 def match_variants(text, label, automaton):
     found = set()
     results = []
-    for end_idx, variant in automaton.iter(text.lower()):
-        if variant not in found:
-            found.add(variant)
-            results.append(variant_to_node[label][variant])
+    text_lower = text.lower()
+    for end_idx, variant in automaton.iter(text_lower):
+        start_idx = end_idx - len(variant) + 1
+        before = text_lower[start_idx - 1] if start_idx > 0 else " "
+        after = text_lower[end_idx + 1] if end_idx + 1 < len(text_lower) else " "
+        if not before.isalnum() and not after.isalnum():
+            if variant not in found:
+                found.add(variant)
+                results.append(variant_to_node[label][variant])
     return results
 
 # === CVE and CPE matchers ===
@@ -84,8 +89,8 @@ def process_folder(folder, suffix):
                 if hits:
                     results[label] = hits
 
-            cves = match_cve(text)
-            cpes = match_cpe(text)
+            cves = match_cve(text.lower())
+            cpes = match_cpe(text.lower())
             if cves:
                 results["cve"] = cves
             if cpes:
@@ -130,7 +135,6 @@ def deduplicate_entity_hits(base_dir_path: str):
                 json.dump(deduped, f, indent=2)
 
     print(f"[✓] Deduplication completed in: {base_dir_path}")
-
 
 # === Add per-report summary_counts.json and global timestamped summary ===
 def write_summary_counts(report_dir: Path):
@@ -184,7 +188,6 @@ def write_global_summary(base_dir: Path):
 
     print(f"[✓] Global summary written to: {summary_path.name}")
 
-
 # === MAIN ENTRY POINT ===
 if __name__ == "__main__":
     process_folder(text_dir, "txt")
@@ -192,4 +195,3 @@ if __name__ == "__main__":
     deduplicate_entity_hits("data/entity_hits_v3")
     print("✓ All reports processed and saved to data/entity_hits_v3 with CVE/CPE and node hits.")
     write_global_summary(output_dir)
-
