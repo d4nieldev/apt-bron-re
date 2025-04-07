@@ -6,7 +6,7 @@ from pathlib import Path
 text_dir = Path("data/converted_reports/texts")
 md_dir = Path("data/converted_reports/markdown")
 output_base_dir = Path("data/entity_hits_v2")
-layer_dir = Path("data/layers_nodes")
+layer_dir = Path("data/layers_nodes")  # the jsons to compare with
 
 # === Load all layers except cve/cpe ===
 excluded_layers = {"cve", "cpe"}
