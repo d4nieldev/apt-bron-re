@@ -19,6 +19,15 @@ for layer_file in layer_dir.glob("*.json"):
         with open(layer_file, encoding="utf-8") as f:
             layer_map[label] = json.load(f)
 
+# === Techniques and sub-techniques ===
+technique_sub_map = {}
+if "technique" in layer_map:
+    for node in layer_map["technique"]:
+        tid = node.get("original_id", "").upper()
+        if "." in tid:
+            parent = tid.split(".")[0]
+            technique_sub_map.setdefault(parent, []).append(tid)
+
 # === Regex patterns ===
 cve_pattern = re.compile(r"\bcve-\d{4}-\d+\b", re.IGNORECASE)  # captures cve-YYYY-at_least_one_digit
 cpe_pattern = re.compile(r"\bcpe:(?:2\.3:|/)[aoh]:[^\s:]+:[^\s:]+(?::[^\s:]*){0,10}", re.IGNORECASE)  # cpe standard formats
@@ -87,97 +96,107 @@ def split_sentences(text):
     return re.split(pattern, text, flags=re.VERBOSE)
 
 
-def has_missing_context(results: dict) -> bool:
-    for entities in results.values():
-        if isinstance(entities, list):
-            for item in entities:
-                if isinstance(item, dict):
-                    if item.get("line") is None or item.get("sentence") is None:
-                        return True
-    return False
-
-
-def extract_context(text: str, entity_name: str, original_id: str = "", is_markdown=False):
-    lines = text.splitlines()
-
-    variants = normalize_name(entity_name)
-    if original_id:
-        variants.append(original_id.lower())
-
-    # Also check bag-of-words match
-    name_words = set(entity_name.lower().replace("-", " ").split())
-
-    line_number = None
-    table_row = None
-
-    for i in range(len(lines)):
-        chunk_lines = lines[i:i+5]
-        chunk_text = " ".join(chunk_lines).lower()
-        chunk_words = set(chunk_text.split())
-
-        # Match by word bag or ID or name variant
-        if (
-            name_words.issubset(chunk_words)
-            or any(variant in chunk_text for variant in variants)
-        ):
-            line_number = i
-            if is_markdown and lines[i].strip().startswith("|") and lines[i].strip().endswith("|"):
-                table_row = lines[i].strip()
-            break
-
-    # Sentence extraction
-    text_for_sentences = re.sub(r'\n+', ' ', text)
-    sentences = split_sentences(text_for_sentences)
-    sentence = None
-    for s in sentences:
-        if any(variant in s.lower() for variant in variants):
-            sentence = s.strip()
-            break
-
-    result = {"line": line_number, "sentence": sentence}
-    if table_row:
-        result["table_row"] = table_row
-    return result
-
-
 def normalize_id(id_str: str) -> str:
     # Lowercase, remove non-alphanumerics (except underscore), strip leading zeros
     return re.sub(r'\b0+(\d+)', r'\1', id_str.lower())
 
 
-def match_nodes(text: str, nodes: list[dict], is_markdown=False, raw_text=""):
+def match_nodes(text: str, nodes: list[dict], label: str, is_markdown=False, raw_text=""):
     seen = set()
     hits = []
+
+    lines = raw_text.splitlines()
+    sentences = split_sentences(re.sub(r'\n+', ' ', raw_text))  # Cleaned for sentence extraction
+
     for node in nodes:
         name = node.get("name", "").lower()
         original_id = node.get("original_id", "").lower()
+        if label == "technique" and original_id:
+            original_id_upper = original_id.upper()
+            if "." not in original_id_upper:
+                subs = technique_sub_map.get(original_id_upper, [])
+                if any(re.search(rf"\b{re.escape(sub.lower())}\b", text) for sub in subs):
+                    continue  # skip parent technique if sub-technique is present
+
+            pattern = re.compile(rf"\b{re.escape(original_id)}\b")
+            if not pattern.search(text):
+                continue  # skip if exact technique ID not found
 
         name_variants = normalize_name(name)
-        original_id_clean = normalize_id(original_id)
+        if original_id:
+            name_variants.append(original_id)
 
         found_by = []
+        line_number = None
+        matched_sentence = None
+        matched_line_text = None
 
-        # Check full word match for each name variant
-        for variant in name_variants:
-            pattern = rf"\b{re.escape(variant)}\b"
-            if re.search(pattern, text):
-                found_by.append("name")
+        # === Special handling for techniques ===
+        if label == "technique" and original_id:
+            pattern = re.compile(rf"\b{re.escape(original_id)}\b")
+            if not pattern.search(text):
+                continue  # skip if exact ID not found
+
+        # Step 1: Find the line number
+        for i, line in enumerate(lines):
+            line_lower = line.lower()
+            if any(re.search(rf"\b{re.escape(variant)}\b", line_lower) for variant in name_variants):
+                line_number = i
+                matched_line_text = line_lower
                 break
 
-        if original_id and re.search(rf"\b{re.escape(original_id_clean)}\b", text):
-            found_by.append("original_id")
+        if line_number is not None:
+            # Step 2: Find the sentence that contains the variant
+            for s in sentences:
+                s_lower = s.lower()
+                if any(re.search(rf"\b{re.escape(variant)}\b", s_lower) for variant in name_variants):
+                    matched_sentence = s.strip()
+                    break
 
-        if found_by:
+            # Step 3: Confirm why it matched (name/original_id)
+            if any(re.search(rf"\b{re.escape(variant)}\b", matched_line_text) for variant in name_variants):
+                found_by.append("name")
+            if original_id and re.search(rf"\b{re.escape(normalize_id(original_id))}\b", matched_line_text):
+                found_by.append("original_id")
+
             key = json.dumps(node, sort_keys=True)
             if key not in seen:
                 seen.add(key)
-                ctx = extract_context(raw_text, name, original_id, is_markdown)
                 enriched_node = dict(node)
-                enriched_node.update(ctx)
-                enriched_node["found_by"] = found_by
+                enriched_node.update({
+                    "line": line_number,
+                    "sentence": matched_sentence,
+                    "found_by": found_by
+                })
                 hits.append(enriched_node)
 
     return hits
+
+
+def find_line_and_sentence_exact(text: str, matches: list[str]) -> dict:
+    lines = text.splitlines()
+    flat_text = re.sub(r'\n+', ' ', text)
+    sentences = split_sentences(flat_text)
+    result = {}
+
+    for match in matches:
+        pattern = re.compile(rf"\b{re.escape(match.lower())}\b")
+        line_number = None
+        sentence = None
+
+        for i, line in enumerate(lines):
+            if pattern.search(line.lower()):
+                line_number = i
+                break
+
+        for s in sentences:
+            if pattern.search(s.lower()):
+                sentence = s.strip()
+                break
+
+        result[match] = {"line": line_number, "sentence": sentence}
+
+    return result
 
 
 if __name__ == "__main__":
@@ -205,8 +224,8 @@ if __name__ == "__main__":
 
         # === Extract hits from all layers (except CVE/CPE)
         for label, nodes in layer_map.items():
-            txt_hits = match_nodes(txt_text, nodes, is_markdown=False, raw_text=txt_raw)
-            md_hits = match_nodes(md_text, nodes, is_markdown=True, raw_text=md_raw)
+            txt_hits = match_nodes(txt_text, nodes, label=label, is_markdown=False, raw_text=txt_raw)
+            md_hits = match_nodes(md_text, nodes, label=label, is_markdown=True, raw_text=md_raw)
             if txt_hits:
                 txt_results[label] = txt_hits
             if md_hits:
@@ -215,20 +234,55 @@ if __name__ == "__main__":
         # === Extract CVEs
         txt_cves = sorted(set(cve_pattern.findall(txt_text)))
         md_cves = sorted(set(cve_pattern.findall(md_text)))
-        if txt_cves:
-            txt_results["cve"] = [{"value": cve.upper(), **extract_context(txt_raw, cve)} for cve in txt_cves]
-        if md_cves:
-            md_results["cve"] = [{"value": cve.upper(), **extract_context(md_raw, cve, is_markdown=True)} for cve in md_cves]
 
-        # === Extract CPEs
         txt_cpes = sorted(set(cpe_pattern.findall(txt_text)))
         md_cpes = sorted(set(cpe_pattern.findall(md_text)))
+
+        if txt_cves:
+            ctx_map = find_line_and_sentence_exact(txt_raw, txt_cves)
+            txt_results["cve"] = [
+                {
+                    "value": cve.upper(),
+                    "line": ctx_map.get(cve, {}).get("line"),
+                    "sentence": ctx_map.get(cve, {}).get("sentence")
+                }
+                for cve in txt_cves
+            ]
+
+        if md_cves:
+            ctx_map = find_line_and_sentence_exact(md_raw, md_cves)
+            md_results["cve"] = [
+                {
+                    "value": cve.upper(),
+                    "line": ctx_map.get(cve, {}).get("line"),
+                    "sentence": ctx_map.get(cve, {}).get("sentence")
+                }
+                for cve in md_cves
+            ]
+
         if txt_cpes:
             print("found in txt")
-            txt_results["cpe"] = [{"value": cpe.lower(), **extract_context(txt_raw, cpe)} for cpe in txt_cpes]
+            ctx_map = find_line_and_sentence_exact(txt_raw, txt_cpes)
+            txt_results["cpe"] = [
+                {
+                    "value": cpe.lower(),
+                    "line": ctx_map.get(cpe, {}).get("line"),
+                    "sentence": ctx_map.get(cpe, {}).get("sentence")
+                }
+                for cpe in txt_cpes
+            ]
+
         if md_cpes:
             print("found in md")
-            md_results["cpe"] = [{"value": cpe.lower(), **extract_context(md_raw, cpe, is_markdown=True)} for cpe in md_cpes]
+            ctx_map = find_line_and_sentence_exact(md_raw, md_cpes)
+            md_results["cpe"] = [
+                {
+                    "value": cpe.lower(),
+                    "line": ctx_map.get(cpe, {}).get("line"),
+                    "sentence": ctx_map.get(cpe, {}).get("sentence")
+                }
+                for cpe in md_cpes
+            ]
 
         # === Write results
         with open(report_output_dir / "txt.json", "w", encoding="utf-8") as f:
@@ -236,11 +290,6 @@ if __name__ == "__main__":
 
         with open(report_output_dir / "md.json", "w", encoding="utf-8") as f:
             json.dump(md_results, f, indent=2)
-
-        if has_missing_context(txt_results):
-            print(f"[!] Missing context in TXT JSON: {base_name}")
-        if has_missing_context(md_results):
-            print(f"[!] Missing context in MD JSON: {base_name}")
 
         # === Count entity types per document ===
         txt_summary = {label: len(items) for label, items in txt_results.items()}
