@@ -20,7 +20,7 @@ for layer_file in layer_dir.glob("*.json"):
 
 # === Regex patterns ===
 cve_pattern = re.compile(r"\bcve-\d{4}-\d+\b", re.IGNORECASE)  # captures cve-YYYY-at_least_one_digit
-cpe_pattern = re.compile(r"\bcpe:(?:2\.3:|/)[aoh]:[^\s:]+:[^\s:]+(?::[^\s:]*){0,10}", re.IGNORECASE)  # cpe format
+cpe_pattern = re.compile(r"\bcpe:(?:2\.3:|/)[aoh]:[^\s:]+:[^\s:]+(?::[^\s:]*){0,10}", re.IGNORECASE)  # cpe standard formats
 
 
 def read_file(file_path: Path):
@@ -34,16 +34,6 @@ def read_file(file_path: Path):
 def normalize_name(name: str) -> list:
     base = name.lower()
     variants = {base, base.replace("-", " "), base.replace(" ", ""), base.replace(" ", "-")}
-
-    if base.endswith("s"):
-        singular = base[:-1]
-        variants.update({
-            singular,
-            singular.replace("-", " "),
-            singular.replace(" ", ""),
-            singular.replace(" ", "-")
-        })
-
     return list(variants)
 
 
