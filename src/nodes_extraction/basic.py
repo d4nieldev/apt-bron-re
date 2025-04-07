@@ -61,7 +61,9 @@ def write_summary_totals_txt(global_summary_path: Path, output_base_dir: Path):
         lines.append(f"{label}: {count}")
 
     timestamp = datetime.now().strftime("%Y%m%d_%H%M")
-    output_path = output_base_dir / f"{timestamp}_summary.txt"
+    summary_dir = output_base_dir / "summaries"
+    summary_dir.mkdir(parents=True, exist_ok=True)
+    output_path = summary_dir / f"{timestamp}_summary.txt"
     output_path.write_text("\n".join(lines), encoding="utf-8")
 
     print(f"[✓] Wrote summary totals to: {output_path.name}")
