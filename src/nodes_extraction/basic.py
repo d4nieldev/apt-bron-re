@@ -9,7 +9,7 @@ md_dir = Path("data/converted_reports/markdown")
 output_base_dir = Path("data/entity_hits_v2")
 layer_dir = Path("data/layers_nodes")  # the jsons to compare with
 
-# === Load all layers except cve/cpe ===
+# === Load all layers except cve/cpe into a dictionary ===
 excluded_layers = {"cve", "cpe"}
 layer_map = {}
 
@@ -19,7 +19,7 @@ for layer_file in layer_dir.glob("*.json"):
         with open(layer_file, encoding="utf-8") as f:
             layer_map[label] = json.load(f)
 
-# === Techniques and sub-techniques ===
+# === Load Techniques and sub-techniques into a dictionary, key is parent-technique, the values lists is the sub-techniques===
 technique_sub_map = {}
 if "technique" in layer_map:
     for node in layer_map["technique"]:
@@ -82,7 +82,7 @@ def normalize_name(name: str) -> list:
 
 
 def split_sentences(text):
-    # Avoid splitting on common abbreviations and inside parentheses
+    # Avoid splitting on common abbreviations and inside parentheses, used to add "sentence" field to the output json
     pattern = r"""
         (?<!\w\.\w.)           # Ignore abbreviations like e.g.
         (?<![A-Z][a-z]\.)      # Ignore Dr. Mr. etc.
@@ -115,8 +115,15 @@ def match_nodes(text: str, nodes: list[dict], label: str, is_markdown=False, raw
             original_id_upper = original_id.upper()
             if "." not in original_id_upper:
                 subs = technique_sub_map.get(original_id_upper, [])
-                if any(re.search(rf"\b{re.escape(sub.lower())}\b", text) for sub in subs):
-                    continue  # skip parent technique if sub-technique is present
+                parent_pattern = re.compile(rf"\b{re.escape(original_id.lower())}\b")
+                parent_appears = parent_pattern.search(text)
+
+                sub_appears = any(
+                    re.search(rf"\b{re.escape(sub.lower())}\b", text) for sub in subs
+                )
+
+                if not parent_appears and sub_appears:
+                    continue  # only skip if sub appears and parent doesn't
 
             pattern = re.compile(rf"\b{re.escape(original_id)}\b")
             if not pattern.search(text):
@@ -194,7 +201,10 @@ def find_line_and_sentence_exact(text: str, matches: list[str]) -> dict:
                 sentence = s.strip()
                 break
 
-        result[match] = {"line": line_number, "sentence": sentence}
+        result[match.lower()] = {
+            "line": line_number,
+            "sentence": sentence
+        }
 
     return result
 
@@ -243,8 +253,8 @@ if __name__ == "__main__":
             txt_results["cve"] = [
                 {
                     "value": cve.upper(),
-                    "line": ctx_map.get(cve, {}).get("line"),
-                    "sentence": ctx_map.get(cve, {}).get("sentence")
+                    "line": ctx_map.get(cve.lower(), {}).get("line"),
+                    "sentence": ctx_map.get(cve.lower(), {}).get("sentence")
                 }
                 for cve in txt_cves
             ]
