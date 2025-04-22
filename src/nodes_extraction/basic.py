@@ -4,22 +4,27 @@ from pathlib import Path
 import ahocorasick
 from datetime import datetime
 
-# === Paths ===
+# paths
 text_dir = Path("data/converted_reports/texts")
 md_dir = Path("data/converted_reports/markdown")
 layer_dir = Path("data/layers_nodes")
 output_dir = Path("data/entity_hits_v3")
 output_dir.mkdir(parents=True, exist_ok=True)
 
-# === Load all layers ===
+""" create a dictionary with keys as layer type (group, tactic, etc.) 
+and values as lists of the relevant entities """
 layer_map = {}
 for layer_file in layer_dir.glob("*.json"):
     label = layer_file.stem
     with open(layer_file, encoding="utf-8") as f:
         layer_map[label] = json.load(f)
 
-# === Generate variants ===
+
 def generate_variants(text):
+    """
+    generates simple variants, to enable entities (names or ids) to appear
+    in more manners
+    """
     base = text.lower()
     return {
         base,
@@ -28,7 +33,9 @@ def generate_variants(text):
         base.replace(" ", "-")
     }
 
-# === Build automata for each layer except CVE/CPE ===
+
+""" building automatas, one for each layer type (besides CVE and CPE) to be later
+ used by the aho-corasick algorithm """
 automata_map = {}
 variant_to_node = {}
 
@@ -48,34 +55,52 @@ for label, nodes in layer_map.items():
     automata_map[label] = A
     variant_to_node[label] = node_map
 
-# === Regex patterns for CVE and CPE ===
+# regex patterns for CVE and CPE
 cve_pattern = re.compile(r"\bcve-\d{4}-\d+\b", re.IGNORECASE)
 cpe_pattern = re.compile(r"\bcpe:(?:2\.3:|/)[aoh]:[^\s:]+:[^\s:]+(?::[^\s:]*){0,10}", re.IGNORECASE)
 
-# === Matching function with strict boundaries ===
-def match_variants(text, label, automaton):
+
+def match_variants(text, category, automaton):
+    """
+    uses the automaton built on label (node type),
+    to match the entities in the text (converted report)
+    """
     found = set()
     results = []
     text_lower = text.lower()
-    for end_idx, variant in automaton.iter(text_lower):
-        start_idx = end_idx - len(variant) + 1
+    for end_idx, variant_str in automaton.iter(text_lower):
+        start_idx = end_idx - len(variant_str) + 1
         before = text_lower[start_idx - 1] if start_idx > 0 else " "
         after = text_lower[end_idx + 1] if end_idx + 1 < len(text_lower) else " "
         if not before.isalnum() and not after.isalnum():
-            if variant not in found:
-                found.add(variant)
-                results.append(variant_to_node[label][variant])
+            if variant_str not in found:
+                found.add(variant_str)
+                results.append(variant_to_node[category][variant_str])
     return results
 
-# === CVE and CPE matchers ===
+
+# CVE and CPE matching
 def match_cve(text):
+    """
+    finds matches using regex on the structure of cves
+    and returns the nodes in uppercase (how it appears in BRON, e.g. CVE-2007-4240)
+    """
     return [{"value": m.upper()} for m in cve_pattern.findall(text)]
 
+
 def match_cpe(text):
+    """
+    finds matches using regex on the structure of cpe
+    and returns the nodes in lowercase (how it appears in BRON, e.g. cpe:2.3:a:bmc:patrol_agent)
+    """
     return [{"value": m.lower()} for m in cpe_pattern.findall(text)]
 
-# === Process a folder (.txt or .md) ===
+
 def process_folder(folder, suffix):
+    """
+    runs the automata and regex matches on the folders of converted reports,
+    stores the entity hits in data/entity_hits_v3
+    """
     for file in folder.glob(f"*.{suffix}"):
         base_name = file.stem
         report_dir = output_dir / base_name
@@ -84,10 +109,10 @@ def process_folder(folder, suffix):
             text = file.read_text(encoding="utf-8")
             results = {}
 
-            for label, automaton in automata_map.items():
-                hits = match_variants(text, label, automaton)
+            for layer_type, automaton in automata_map.items():
+                hits = match_variants(text, layer_type, automaton)
                 if hits:
-                    results[label] = hits
+                    results[layer_type] = hits
 
             cves = match_cve(text.lower())
             cpes = match_cpe(text.lower())
@@ -99,10 +124,14 @@ def process_folder(folder, suffix):
             out_path = report_dir / f"{suffix}.json"
             out_path.write_text(json.dumps(results, indent=2), encoding="utf-8")
         except Exception as e:
-            print(f"[!] Failed to process {file.name}: {e}")
+            print(f"Failed to process {file.name}: {e}")
 
-# === Deduplicate entries in JSONs ===
+
 def deduplicate_entity_hits(base_dir_path: str):
+    """
+    removes duplicate nodes that were extracted,
+    from the output files created by process_folder
+    """
     base_dir = Path(base_dir_path)
 
     for report_dir in base_dir.iterdir():
@@ -115,43 +144,51 @@ def deduplicate_entity_hits(base_dir_path: str):
                 continue
 
             try:
-                with open(file_path, encoding="utf-8") as f:
-                    data = json.load(f)
+                with open(file_path, encoding="utf-8") as output_file:
+                    data = json.load(output_file)
             except Exception as e:
-                print(f"[!] Failed to read {file_path}: {e}")
+                print(f"Failed to read {file_path}: {e}")
                 continue
 
             deduped = {}
-            for label, entries in data.items():
+            for category, entries in data.items():
                 seen = set()
-                deduped[label] = []
+                deduped[category] = []
                 for entry in entries:
                     key = json.dumps(entry, sort_keys=True)
                     if key not in seen:
                         seen.add(key)
-                        deduped[label].append(entry)
+                        deduped[category].append(entry)
 
-            with open(file_path, "w", encoding="utf-8") as f:
-                json.dump(deduped, f, indent=2)
+            with open(file_path, "w", encoding="utf-8") as output_f:
+                json.dump(deduped, output_f, indent=2)
 
-    print(f"[✓] Deduplication completed in: {base_dir_path}")
 
-# === Add per-report summary_counts.json and global timestamped summary ===
 def write_summary_counts(report_dir: Path):
+    """
+    compares between the outputs originating from both types of filetypes to which the report was converted,
+    inserts the summary of that comparison into summary_counts.json, on the same report_dir (dir named after the report)
+    """
     summary = {}
     for json_file in ["txt.json", "md.json"]:
         path = report_dir / json_file
         if path.exists():
-            with open(path, encoding="utf-8") as f:
-                data = json.load(f)
+            with open(path, encoding="utf-8") as j_file:
+                data = json.load(j_file)
             summary_key = "txt_counts" if "txt" in json_file else "md_counts"
-            summary[summary_key] = {label: len(entries) for label, entries in data.items()}
+            summary[summary_key] = {category: len(entries) for category, entries in data.items()}
     if summary:
-        with open(report_dir / "summary_counts.json", "w", encoding="utf-8") as f:
-            json.dump(summary, f, indent=2)
+        with open(report_dir / "summary_counts.json", "w", encoding="utf-8") as sum_file:
+            json.dump(summary, sum_file, indent=2)
     return summary
 
+
 def write_global_summary(base_dir: Path):
+    """
+    writes a timestamped global summary of the nodes extraction, to compare with previous attempts
+    to be inserted to entity_hits_v3/summaries, and also a summary/comparison between the number of entities
+    in the reports, stored in entity_hits_v3/global_summary.json
+    """
     global_summary = {}
     for report_dir in base_dir.iterdir():
         if report_dir.is_dir():
@@ -167,31 +204,30 @@ def write_global_summary(base_dir: Path):
     md_totals = {}
 
     for report in global_summary.values():
-        for label, count in report.get("txt_counts", {}).items():
-            txt_totals[label] = txt_totals.get(label, 0) + count
-        for label, count in report.get("md_counts", {}).items():
-            md_totals[label] = md_totals.get(label, 0) + count
+        for category, count in report.get("txt_counts", {}).items():
+            txt_totals[category] = txt_totals.get(category, 0) + count
+        for category, count in report.get("md_counts", {}).items():
+            md_totals[category] = md_totals.get(category, 0) + count
 
     summary_txt.append("[TXT]")
-    for label, count in sorted(txt_totals.items()):
-        summary_txt.append(f"{label}: {count}")
+    for category, count in sorted(txt_totals.items()):
+        summary_txt.append(f"{category}: {count}")
     summary_txt.append("\n[MD]")
-    for label, count in sorted(md_totals.items()):
-        summary_txt.append(f"{label}: {count}")
+    for category, count in sorted(md_totals.items()):
+        summary_txt.append(f"{category}: {count}")
 
     summary_path = summary_dir / f"{timestamp}_summary.txt"
     summary_path.write_text("\n".join(summary_txt), encoding="utf-8")
 
     global_summary_path = base_dir / "global_summary.json"
-    with open(global_summary_path, "w", encoding="utf-8") as f:
-        json.dump(global_summary, f, indent=2)
+    with open(global_summary_path, "w", encoding="utf-8") as global_file:
+        json.dump(global_summary, global_file, indent=2)
 
-    print(f"[✓] Global summary written to: {summary_path.name}")
 
-# === MAIN ENTRY POINT ===
 if __name__ == "__main__":
     process_folder(text_dir, "txt")
     process_folder(md_dir, "md")
     deduplicate_entity_hits("data/entity_hits_v3")
-    print("✓ All reports processed and saved to data/entity_hits_v3 with CVE/CPE and node hits.")
+    print("Finished extracting nodes from the reports, results are in: data/entity_hits_v3 ")
     write_global_summary(output_dir)
+    print(f"Global and timestamped summary written to entity_hits_v3/summaries")
