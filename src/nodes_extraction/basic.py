@@ -37,20 +37,35 @@ def generate_variants(text):
 """ building automatas, one for each layer type (besides CVE and CPE) to be later
  used by the aho-corasick algorithm """
 automata_map = {}
+
+""" variant_to_node acts as a lookup dictionary, matching variant strings to the full node objects
+    "technique": {
+        "t1059": { "name": "Command and Scripting Interpreter", "original_id": "T1059" },
+        "powershell": { "name": "PowerShell", "original_id": "T1059.001" },
+    } """
 variant_to_node = {}
+technique_id_to_node = {}
+technique_id_pattern = re.compile(r"\bT1\d{3}(?:\.\d{3})?\b", re.IGNORECASE)
 
 for label, nodes in layer_map.items():
-    if label in {"cve", "cpe"}:
-        continue
     A = ahocorasick.Automaton()
     node_map = {}
+
     for node in nodes:
-        name_variants = generate_variants(node["name"])
-        id_variants = generate_variants(node["original_id"])
-        for variant in name_variants.union(id_variants):
-            if variant not in node_map:
-                node_map[variant] = node
-                A.add_word(variant, variant)
+        if label == "technique":
+            for variant in generate_variants(node["name"]):
+                if variant not in node_map:
+                    node_map[variant] = node
+                    A.add_word(variant, variant)
+            technique_id_to_node[node["original_id"].lower()] = node
+        else:
+            name_variants = generate_variants(node["name"])
+            id_variants = generate_variants(node["original_id"])
+            for variant in name_variants.union(id_variants):
+                if variant not in node_map:
+                    node_map[variant] = node
+                    A.add_word(variant, variant)
+
     A.make_automaton()
     automata_map[label] = A
     variant_to_node[label] = node_map
@@ -65,9 +80,10 @@ def match_variants(text, category, automaton):
     uses the automaton built on label (node type),
     to match the entities in the text (converted report)
     """
+    text_lower = text.lower()
     found = set()
     results = []
-    text_lower = text.lower()
+
     for end_idx, variant_str in automaton.iter(text_lower):
         start_idx = end_idx - len(variant_str) + 1
         before = text_lower[start_idx - 1] if start_idx > 0 else " "
@@ -79,13 +95,28 @@ def match_variants(text, category, automaton):
     return results
 
 
+def match_technique_ids(text):
+    """
+    Uses regex to find technique IDs (T#### or T####.###)
+    and maps them to their node objects.
+    """
+    matched_ids = set()
+    results = []
+    for match in technique_id_pattern.findall(text):
+        tid = match.lower()
+        if tid not in matched_ids and tid in technique_id_to_node:
+            matched_ids.add(tid)
+            results.append(technique_id_to_node[tid])
+    return results
+
+
 # CVE and CPE matching
 def match_cve(text):
     """
     finds matches using regex on the structure of cves
     and returns the nodes in uppercase (how it appears in BRON, e.g. CVE-2007-4240)
     """
-    return [{"value": m.upper()} for m in cve_pattern.findall(text)]
+    return [{"value": m.upper()} for m in cve_pattern.findall(text.lower())]
 
 
 def match_cpe(text):
@@ -93,7 +124,7 @@ def match_cpe(text):
     finds matches using regex on the structure of cpe
     and returns the nodes in lowercase (how it appears in BRON, e.g. cpe:2.3:a:bmc:patrol_agent)
     """
-    return [{"value": m.lower()} for m in cpe_pattern.findall(text)]
+    return [{"value": m.lower()} for m in cpe_pattern.findall(text.lower())]
 
 
 def process_folder(folder, suffix):
@@ -110,12 +141,19 @@ def process_folder(folder, suffix):
             results = {}
 
             for layer_type, automaton in automata_map.items():
-                hits = match_variants(text, layer_type, automaton)
-                if hits:
-                    results[layer_type] = hits
+                if layer_type == "technique":
+                    name_hits = match_variants(text, layer_type, automaton)
+                    id_hits = match_technique_ids(text)
+                    combined = {json.dumps(hit, sort_keys=True): hit for hit in name_hits + id_hits}
+                    if combined:
+                        results["technique"] = list(combined.values())
+                else:
+                    hits = match_variants(text, layer_type, automaton)
+                    if hits:
+                        results[layer_type] = hits
 
-            cves = match_cve(text.lower())
-            cpes = match_cpe(text.lower())
+            cves = match_cve(text)
+            cpes = match_cpe(text)
             if cves:
                 results["cve"] = cves
             if cpes:
@@ -133,7 +171,6 @@ def deduplicate_entity_hits(base_dir_path: str):
     from the output files created by process_folder
     """
     base_dir = Path(base_dir_path)
-
     for report_dir in base_dir.iterdir():
         if not report_dir.is_dir():
             continue
