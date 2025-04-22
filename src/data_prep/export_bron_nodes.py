@@ -20,7 +20,7 @@ NODE_TYPES = {
     "cve": ["original_id"]
 }
 
-OUTPUT_DIR = "layers_nodes"
+OUTPUT_DIR = "../layers_nodes"
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 with GraphDatabase.driver(URI, auth=(USERNAME, PASSWORD)) as driver:

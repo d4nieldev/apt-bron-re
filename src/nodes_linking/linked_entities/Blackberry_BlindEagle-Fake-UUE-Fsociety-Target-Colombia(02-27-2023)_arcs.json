@@ -1,0 +1,172 @@
+[
+  {
+    "from": "T1566",
+    "to": "CAPEC-98",
+    "from_name": "Phishing",
+    "to_name": "Phishing",
+    "from_layer": "technique",
+    "to_layer": "capec",
+    "justification": "Both entities appear in the same sentence: 'It relies on spear- phishing emails sent to specific and strategic companies to conduct its campaigns.' which indicates a potential connection between a technique and a capec.",
+    "context": "It relies on spear- phishing emails sent to specific and strategic companies to conduct its campaigns."
+  },
+  {
+    "from": "T1547",
+    "to": "CAPEC-163",
+    "from_name": "Boot or Logon Autostart Execution",
+    "to_name": "Spear Phishing",
+    "from_layer": "technique",
+    "to_layer": "capec",
+    "justification": "Both entities appear in the same sentence: 'Brief MITRE ATT&CK Information Tactic Technique Initial Access T1566.001 Execution T1204.001, T1204.002, T1059.005, T1059.001, T1059.003 Persistence T1053.005, T1547.001 Defense Evasion T1218.009 Weaponization and Technical Overview Weapons PDF for lures, Visual Basic Scripts, .NET Assemblies injected in memory, Malicious DLLs, PowerShell Attack Vector Spear-phishing attachment with PDF Network Infrastructure DDNS DuckDNS, Discord, Web Applications Targets Entities in Colombia Technical Analysis Context APT-C-36 is a South American cyber espionage group that has been actively targeting Latin America-based entities over the last few years.' which indicates a potential connection between a technique and a capec.",
+    "context": "Brief MITRE ATT&CK Information Tactic Technique Initial Access T1566.001 Execution T1204.001, T1204.002, T1059.005, T1059.001, T1059.003 Persistence T1053.005, T1547.001 Defense Evasion T1218.009 Weaponization and Technical Overview Weapons PDF for lures, Visual Basic Scripts, .NET Assemblies injected in memory, Malicious DLLs, PowerShell Attack Vector Spear-phishing attachment with PDF Network Infrastructure DDNS DuckDNS, Discord, Web Applications Targets Entities in Colombia Technical Analysis Context APT-C-36 is a South American cyber espionage group that has been actively targeting Latin America-based entities over the last few years."
+  },
+  {
+    "from": "T1059",
+    "to": "CAPEC-163",
+    "from_name": "Command and Scripting Interpreter",
+    "to_name": "Spear Phishing",
+    "from_layer": "technique",
+    "to_layer": "capec",
+    "justification": "Both entities appear in the same sentence: 'Brief MITRE ATT&CK Information Tactic Technique Initial Access T1566.001 Execution T1204.001, T1204.002, T1059.005, T1059.001, T1059.003 Persistence T1053.005, T1547.001 Defense Evasion T1218.009 Weaponization and Technical Overview Weapons PDF for lures, Visual Basic Scripts, .NET Assemblies injected in memory, Malicious DLLs, PowerShell Attack Vector Spear-phishing attachment with PDF Network Infrastructure DDNS DuckDNS, Discord, Web Applications Targets Entities in Colombia Technical Analysis Context APT-C-36 is a South American cyber espionage group that has been actively targeting Latin America-based entities over the last few years.' which indicates a potential connection between a technique and a capec.",
+    "context": "Brief MITRE ATT&CK Information Tactic Technique Initial Access T1566.001 Execution T1204.001, T1204.002, T1059.005, T1059.001, T1059.003 Persistence T1053.005, T1547.001 Defense Evasion T1218.009 Weaponization and Technical Overview Weapons PDF for lures, Visual Basic Scripts, .NET Assemblies injected in memory, Malicious DLLs, PowerShell Attack Vector Spear-phishing attachment with PDF Network Infrastructure DDNS DuckDNS, Discord, Web Applications Targets Entities in Colombia Technical Analysis Context APT-C-36 is a South American cyber espionage group that has been actively targeting Latin America-based entities over the last few years."
+  },
+  {
+    "from": "T1590.002",
+    "to": "CAPEC-163",
+    "from_name": "DNS",
+    "to_name": "Spear Phishing",
+    "from_layer": "technique",
+    "to_layer": "capec",
+    "justification": "Both entities appear in the same sentence: 'Brief MITRE ATT&CK Information Tactic Technique Initial Access T1566.001 Execution T1204.001, T1204.002, T1059.005, T1059.001, T1059.003 Persistence T1053.005, T1547.001 Defense Evasion T1218.009 Weaponization and Technical Overview Weapons PDF for lures, Visual Basic Scripts, .NET Assemblies injected in memory, Malicious DLLs, PowerShell Attack Vector Spear-phishing attachment with PDF Network Infrastructure DDNS DuckDNS, Discord, Web Applications Targets Entities in Colombia Technical Analysis Context APT-C-36 is a South American cyber espionage group that has been actively targeting Latin America-based entities over the last few years.' which indicates a potential connection between a technique and a capec.",
+    "context": "Brief MITRE ATT&CK Information Tactic Technique Initial Access T1566.001 Execution T1204.001, T1204.002, T1059.005, T1059.001, T1059.003 Persistence T1053.005, T1547.001 Defense Evasion T1218.009 Weaponization and Technical Overview Weapons PDF for lures, Visual Basic Scripts, .NET Assemblies injected in memory, Malicious DLLs, PowerShell Attack Vector Spear-phishing attachment with PDF Network Infrastructure DDNS DuckDNS, Discord, Web Applications Targets Entities in Colombia Technical Analysis Context APT-C-36 is a South American cyber espionage group that has been actively targeting Latin America-based entities over the last few years."
+  },
+  {
+    "from": "T1071.004",
+    "to": "CAPEC-163",
+    "from_name": "DNS",
+    "to_name": "Spear Phishing",
+    "from_layer": "technique",
+    "to_layer": "capec",
+    "justification": "Both entities appear in the same sentence: 'Brief MITRE ATT&CK Information Tactic Technique Initial Access T1566.001 Execution T1204.001, T1204.002, T1059.005, T1059.001, T1059.003 Persistence T1053.005, T1547.001 Defense Evasion T1218.009 Weaponization and Technical Overview Weapons PDF for lures, Visual Basic Scripts, .NET Assemblies injected in memory, Malicious DLLs, PowerShell Attack Vector Spear-phishing attachment with PDF Network Infrastructure DDNS DuckDNS, Discord, Web Applications Targets Entities in Colombia Technical Analysis Context APT-C-36 is a South American cyber espionage group that has been actively targeting Latin America-based entities over the last few years.' which indicates a potential connection between a technique and a capec.",
+    "context": "Brief MITRE ATT&CK Information Tactic Technique Initial Access T1566.001 Execution T1204.001, T1204.002, T1059.005, T1059.001, T1059.003 Persistence T1053.005, T1547.001 Defense Evasion T1218.009 Weaponization and Technical Overview Weapons PDF for lures, Visual Basic Scripts, .NET Assemblies injected in memory, Malicious DLLs, PowerShell Attack Vector Spear-phishing attachment with PDF Network Infrastructure DDNS DuckDNS, Discord, Web Applications Targets Entities in Colombia Technical Analysis Context APT-C-36 is a South American cyber espionage group that has been actively targeting Latin America-based entities over the last few years."
+  },
+  {
+    "from": "T1204.002",
+    "to": "CAPEC-163",
+    "from_name": "Malicious File",
+    "to_name": "Spear Phishing",
+    "from_layer": "technique",
+    "to_layer": "capec",
+    "justification": "Both entities appear in the same sentence: 'Brief MITRE ATT&CK Information Tactic Technique Initial Access T1566.001 Execution T1204.001, T1204.002, T1059.005, T1059.001, T1059.003 Persistence T1053.005, T1547.001 Defense Evasion T1218.009 Weaponization and Technical Overview Weapons PDF for lures, Visual Basic Scripts, .NET Assemblies injected in memory, Malicious DLLs, PowerShell Attack Vector Spear-phishing attachment with PDF Network Infrastructure DDNS DuckDNS, Discord, Web Applications Targets Entities in Colombia Technical Analysis Context APT-C-36 is a South American cyber espionage group that has been actively targeting Latin America-based entities over the last few years.' which indicates a potential connection between a technique and a capec.",
+    "context": "Brief MITRE ATT&CK Information Tactic Technique Initial Access T1566.001 Execution T1204.001, T1204.002, T1059.005, T1059.001, T1059.003 Persistence T1053.005, T1547.001 Defense Evasion T1218.009 Weaponization and Technical Overview Weapons PDF for lures, Visual Basic Scripts, .NET Assemblies injected in memory, Malicious DLLs, PowerShell Attack Vector Spear-phishing attachment with PDF Network Infrastructure DDNS DuckDNS, Discord, Web Applications Targets Entities in Colombia Technical Analysis Context APT-C-36 is a South American cyber espionage group that has been actively targeting Latin America-based entities over the last few years."
+  },
+  {
+    "from": "T1204.001",
+    "to": "CAPEC-163",
+    "from_name": "Malicious Link",
+    "to_name": "Spear Phishing",
+    "from_layer": "technique",
+    "to_layer": "capec",
+    "justification": "Both entities appear in the same sentence: 'Brief MITRE ATT&CK Information Tactic Technique Initial Access T1566.001 Execution T1204.001, T1204.002, T1059.005, T1059.001, T1059.003 Persistence T1053.005, T1547.001 Defense Evasion T1218.009 Weaponization and Technical Overview Weapons PDF for lures, Visual Basic Scripts, .NET Assemblies injected in memory, Malicious DLLs, PowerShell Attack Vector Spear-phishing attachment with PDF Network Infrastructure DDNS DuckDNS, Discord, Web Applications Targets Entities in Colombia Technical Analysis Context APT-C-36 is a South American cyber espionage group that has been actively targeting Latin America-based entities over the last few years.' which indicates a potential connection between a technique and a capec.",
+    "context": "Brief MITRE ATT&CK Information Tactic Technique Initial Access T1566.001 Execution T1204.001, T1204.002, T1059.005, T1059.001, T1059.003 Persistence T1053.005, T1547.001 Defense Evasion T1218.009 Weaponization and Technical Overview Weapons PDF for lures, Visual Basic Scripts, .NET Assemblies injected in memory, Malicious DLLs, PowerShell Attack Vector Spear-phishing attachment with PDF Network Infrastructure DDNS DuckDNS, Discord, Web Applications Targets Entities in Colombia Technical Analysis Context APT-C-36 is a South American cyber espionage group that has been actively targeting Latin America-based entities over the last few years."
+  },
+  {
+    "from": "T1059.001",
+    "to": "CAPEC-163",
+    "from_name": "PowerShell",
+    "to_name": "Spear Phishing",
+    "from_layer": "technique",
+    "to_layer": "capec",
+    "justification": "Both entities appear in the same sentence: 'Brief MITRE ATT&CK Information Tactic Technique Initial Access T1566.001 Execution T1204.001, T1204.002, T1059.005, T1059.001, T1059.003 Persistence T1053.005, T1547.001 Defense Evasion T1218.009 Weaponization and Technical Overview Weapons PDF for lures, Visual Basic Scripts, .NET Assemblies injected in memory, Malicious DLLs, PowerShell Attack Vector Spear-phishing attachment with PDF Network Infrastructure DDNS DuckDNS, Discord, Web Applications Targets Entities in Colombia Technical Analysis Context APT-C-36 is a South American cyber espionage group that has been actively targeting Latin America-based entities over the last few years.' which indicates a potential connection between a technique and a capec.",
+    "context": "Brief MITRE ATT&CK Information Tactic Technique Initial Access T1566.001 Execution T1204.001, T1204.002, T1059.005, T1059.001, T1059.003 Persistence T1053.005, T1547.001 Defense Evasion T1218.009 Weaponization and Technical Overview Weapons PDF for lures, Visual Basic Scripts, .NET Assemblies injected in memory, Malicious DLLs, PowerShell Attack Vector Spear-phishing attachment with PDF Network Infrastructure DDNS DuckDNS, Discord, Web Applications Targets Entities in Colombia Technical Analysis Context APT-C-36 is a South American cyber espionage group that has been actively targeting Latin America-based entities over the last few years."
+  },
+  {
+    "from": "T1547.001",
+    "to": "CAPEC-163",
+    "from_name": "Registry Run Keys / Startup Folder",
+    "to_name": "Spear Phishing",
+    "from_layer": "technique",
+    "to_layer": "capec",
+    "justification": "Both entities appear in the same sentence: 'Brief MITRE ATT&CK Information Tactic Technique Initial Access T1566.001 Execution T1204.001, T1204.002, T1059.005, T1059.001, T1059.003 Persistence T1053.005, T1547.001 Defense Evasion T1218.009 Weaponization and Technical Overview Weapons PDF for lures, Visual Basic Scripts, .NET Assemblies injected in memory, Malicious DLLs, PowerShell Attack Vector Spear-phishing attachment with PDF Network Infrastructure DDNS DuckDNS, Discord, Web Applications Targets Entities in Colombia Technical Analysis Context APT-C-36 is a South American cyber espionage group that has been actively targeting Latin America-based entities over the last few years.' which indicates a potential connection between a technique and a capec.",
+    "context": "Brief MITRE ATT&CK Information Tactic Technique Initial Access T1566.001 Execution T1204.001, T1204.002, T1059.005, T1059.001, T1059.003 Persistence T1053.005, T1547.001 Defense Evasion T1218.009 Weaponization and Technical Overview Weapons PDF for lures, Visual Basic Scripts, .NET Assemblies injected in memory, Malicious DLLs, PowerShell Attack Vector Spear-phishing attachment with PDF Network Infrastructure DDNS DuckDNS, Discord, Web Applications Targets Entities in Colombia Technical Analysis Context APT-C-36 is a South American cyber espionage group that has been actively targeting Latin America-based entities over the last few years."
+  },
+  {
+    "from": "T1218.009",
+    "to": "CAPEC-163",
+    "from_name": "Regsvcs/Regasm",
+    "to_name": "Spear Phishing",
+    "from_layer": "technique",
+    "to_layer": "capec",
+    "justification": "Both entities appear in the same sentence: 'Brief MITRE ATT&CK Information Tactic Technique Initial Access T1566.001 Execution T1204.001, T1204.002, T1059.005, T1059.001, T1059.003 Persistence T1053.005, T1547.001 Defense Evasion T1218.009 Weaponization and Technical Overview Weapons PDF for lures, Visual Basic Scripts, .NET Assemblies injected in memory, Malicious DLLs, PowerShell Attack Vector Spear-phishing attachment with PDF Network Infrastructure DDNS DuckDNS, Discord, Web Applications Targets Entities in Colombia Technical Analysis Context APT-C-36 is a South American cyber espionage group that has been actively targeting Latin America-based entities over the last few years.' which indicates a potential connection between a technique and a capec.",
+    "context": "Brief MITRE ATT&CK Information Tactic Technique Initial Access T1566.001 Execution T1204.001, T1204.002, T1059.005, T1059.001, T1059.003 Persistence T1053.005, T1547.001 Defense Evasion T1218.009 Weaponization and Technical Overview Weapons PDF for lures, Visual Basic Scripts, .NET Assemblies injected in memory, Malicious DLLs, PowerShell Attack Vector Spear-phishing attachment with PDF Network Infrastructure DDNS DuckDNS, Discord, Web Applications Targets Entities in Colombia Technical Analysis Context APT-C-36 is a South American cyber espionage group that has been actively targeting Latin America-based entities over the last few years."
+  },
+  {
+    "from": "T1053.005",
+    "to": "CAPEC-163",
+    "from_name": "Scheduled Task",
+    "to_name": "Spear Phishing",
+    "from_layer": "technique",
+    "to_layer": "capec",
+    "justification": "Both entities appear in the same sentence: 'Brief MITRE ATT&CK Information Tactic Technique Initial Access T1566.001 Execution T1204.001, T1204.002, T1059.005, T1059.001, T1059.003 Persistence T1053.005, T1547.001 Defense Evasion T1218.009 Weaponization and Technical Overview Weapons PDF for lures, Visual Basic Scripts, .NET Assemblies injected in memory, Malicious DLLs, PowerShell Attack Vector Spear-phishing attachment with PDF Network Infrastructure DDNS DuckDNS, Discord, Web Applications Targets Entities in Colombia Technical Analysis Context APT-C-36 is a South American cyber espionage group that has been actively targeting Latin America-based entities over the last few years.' which indicates a potential connection between a technique and a capec.",
+    "context": "Brief MITRE ATT&CK Information Tactic Technique Initial Access T1566.001 Execution T1204.001, T1204.002, T1059.005, T1059.001, T1059.003 Persistence T1053.005, T1547.001 Defense Evasion T1218.009 Weaponization and Technical Overview Weapons PDF for lures, Visual Basic Scripts, .NET Assemblies injected in memory, Malicious DLLs, PowerShell Attack Vector Spear-phishing attachment with PDF Network Infrastructure DDNS DuckDNS, Discord, Web Applications Targets Entities in Colombia Technical Analysis Context APT-C-36 is a South American cyber espionage group that has been actively targeting Latin America-based entities over the last few years."
+  },
+  {
+    "from": "T1053",
+    "to": "CAPEC-163",
+    "from_name": "Scheduled Task/Job",
+    "to_name": "Spear Phishing",
+    "from_layer": "technique",
+    "to_layer": "capec",
+    "justification": "Both entities appear in the same sentence: 'Brief MITRE ATT&CK Information Tactic Technique Initial Access T1566.001 Execution T1204.001, T1204.002, T1059.005, T1059.001, T1059.003 Persistence T1053.005, T1547.001 Defense Evasion T1218.009 Weaponization and Technical Overview Weapons PDF for lures, Visual Basic Scripts, .NET Assemblies injected in memory, Malicious DLLs, PowerShell Attack Vector Spear-phishing attachment with PDF Network Infrastructure DDNS DuckDNS, Discord, Web Applications Targets Entities in Colombia Technical Analysis Context APT-C-36 is a South American cyber espionage group that has been actively targeting Latin America-based entities over the last few years.' which indicates a potential connection between a technique and a capec.",
+    "context": "Brief MITRE ATT&CK Information Tactic Technique Initial Access T1566.001 Execution T1204.001, T1204.002, T1059.005, T1059.001, T1059.003 Persistence T1053.005, T1547.001 Defense Evasion T1218.009 Weaponization and Technical Overview Weapons PDF for lures, Visual Basic Scripts, .NET Assemblies injected in memory, Malicious DLLs, PowerShell Attack Vector Spear-phishing attachment with PDF Network Infrastructure DDNS DuckDNS, Discord, Web Applications Targets Entities in Colombia Technical Analysis Context APT-C-36 is a South American cyber espionage group that has been actively targeting Latin America-based entities over the last few years."
+  },
+  {
+    "from": "T1566.001",
+    "to": "CAPEC-163",
+    "from_name": "Spearphishing Attachment",
+    "to_name": "Spear Phishing",
+    "from_layer": "technique",
+    "to_layer": "capec",
+    "justification": "Both entities appear in the same sentence: 'Brief MITRE ATT&CK Information Tactic Technique Initial Access T1566.001 Execution T1204.001, T1204.002, T1059.005, T1059.001, T1059.003 Persistence T1053.005, T1547.001 Defense Evasion T1218.009 Weaponization and Technical Overview Weapons PDF for lures, Visual Basic Scripts, .NET Assemblies injected in memory, Malicious DLLs, PowerShell Attack Vector Spear-phishing attachment with PDF Network Infrastructure DDNS DuckDNS, Discord, Web Applications Targets Entities in Colombia Technical Analysis Context APT-C-36 is a South American cyber espionage group that has been actively targeting Latin America-based entities over the last few years.' which indicates a potential connection between a technique and a capec.",
+    "context": "Brief MITRE ATT&CK Information Tactic Technique Initial Access T1566.001 Execution T1204.001, T1204.002, T1059.005, T1059.001, T1059.003 Persistence T1053.005, T1547.001 Defense Evasion T1218.009 Weaponization and Technical Overview Weapons PDF for lures, Visual Basic Scripts, .NET Assemblies injected in memory, Malicious DLLs, PowerShell Attack Vector Spear-phishing attachment with PDF Network Infrastructure DDNS DuckDNS, Discord, Web Applications Targets Entities in Colombia Technical Analysis Context APT-C-36 is a South American cyber espionage group that has been actively targeting Latin America-based entities over the last few years."
+  },
+  {
+    "from": "T1218",
+    "to": "CAPEC-163",
+    "from_name": "System Binary Proxy Execution",
+    "to_name": "Spear Phishing",
+    "from_layer": "technique",
+    "to_layer": "capec",
+    "justification": "Both entities appear in the same sentence: 'Brief MITRE ATT&CK Information Tactic Technique Initial Access T1566.001 Execution T1204.001, T1204.002, T1059.005, T1059.001, T1059.003 Persistence T1053.005, T1547.001 Defense Evasion T1218.009 Weaponization and Technical Overview Weapons PDF for lures, Visual Basic Scripts, .NET Assemblies injected in memory, Malicious DLLs, PowerShell Attack Vector Spear-phishing attachment with PDF Network Infrastructure DDNS DuckDNS, Discord, Web Applications Targets Entities in Colombia Technical Analysis Context APT-C-36 is a South American cyber espionage group that has been actively targeting Latin America-based entities over the last few years.' which indicates a potential connection between a technique and a capec.",
+    "context": "Brief MITRE ATT&CK Information Tactic Technique Initial Access T1566.001 Execution T1204.001, T1204.002, T1059.005, T1059.001, T1059.003 Persistence T1053.005, T1547.001 Defense Evasion T1218.009 Weaponization and Technical Overview Weapons PDF for lures, Visual Basic Scripts, .NET Assemblies injected in memory, Malicious DLLs, PowerShell Attack Vector Spear-phishing attachment with PDF Network Infrastructure DDNS DuckDNS, Discord, Web Applications Targets Entities in Colombia Technical Analysis Context APT-C-36 is a South American cyber espionage group that has been actively targeting Latin America-based entities over the last few years."
+  },
+  {
+    "from": "T1204",
+    "to": "CAPEC-163",
+    "from_name": "User Execution",
+    "to_name": "Spear Phishing",
+    "from_layer": "technique",
+    "to_layer": "capec",
+    "justification": "Both entities appear in the same sentence: 'Brief MITRE ATT&CK Information Tactic Technique Initial Access T1566.001 Execution T1204.001, T1204.002, T1059.005, T1059.001, T1059.003 Persistence T1053.005, T1547.001 Defense Evasion T1218.009 Weaponization and Technical Overview Weapons PDF for lures, Visual Basic Scripts, .NET Assemblies injected in memory, Malicious DLLs, PowerShell Attack Vector Spear-phishing attachment with PDF Network Infrastructure DDNS DuckDNS, Discord, Web Applications Targets Entities in Colombia Technical Analysis Context APT-C-36 is a South American cyber espionage group that has been actively targeting Latin America-based entities over the last few years.' which indicates a potential connection between a technique and a capec.",
+    "context": "Brief MITRE ATT&CK Information Tactic Technique Initial Access T1566.001 Execution T1204.001, T1204.002, T1059.005, T1059.001, T1059.003 Persistence T1053.005, T1547.001 Defense Evasion T1218.009 Weaponization and Technical Overview Weapons PDF for lures, Visual Basic Scripts, .NET Assemblies injected in memory, Malicious DLLs, PowerShell Attack Vector Spear-phishing attachment with PDF Network Infrastructure DDNS DuckDNS, Discord, Web Applications Targets Entities in Colombia Technical Analysis Context APT-C-36 is a South American cyber espionage group that has been actively targeting Latin America-based entities over the last few years."
+  },
+  {
+    "from": "T1059.005",
+    "to": "CAPEC-163",
+    "from_name": "Visual Basic",
+    "to_name": "Spear Phishing",
+    "from_layer": "technique",
+    "to_layer": "capec",
+    "justification": "Both entities appear in the same sentence: 'Brief MITRE ATT&CK Information Tactic Technique Initial Access T1566.001 Execution T1204.001, T1204.002, T1059.005, T1059.001, T1059.003 Persistence T1053.005, T1547.001 Defense Evasion T1218.009 Weaponization and Technical Overview Weapons PDF for lures, Visual Basic Scripts, .NET Assemblies injected in memory, Malicious DLLs, PowerShell Attack Vector Spear-phishing attachment with PDF Network Infrastructure DDNS DuckDNS, Discord, Web Applications Targets Entities in Colombia Technical Analysis Context APT-C-36 is a South American cyber espionage group that has been actively targeting Latin America-based entities over the last few years.' which indicates a potential connection between a technique and a capec.",
+    "context": "Brief MITRE ATT&CK Information Tactic Technique Initial Access T1566.001 Execution T1204.001, T1204.002, T1059.005, T1059.001, T1059.003 Persistence T1053.005, T1547.001 Defense Evasion T1218.009 Weaponization and Technical Overview Weapons PDF for lures, Visual Basic Scripts, .NET Assemblies injected in memory, Malicious DLLs, PowerShell Attack Vector Spear-phishing attachment with PDF Network Infrastructure DDNS DuckDNS, Discord, Web Applications Targets Entities in Colombia Technical Analysis Context APT-C-36 is a South American cyber espionage group that has been actively targeting Latin America-based entities over the last few years."
+  },
+  {
+    "from": "T1059.003",
+    "to": "CAPEC-163",
+    "from_name": "Windows Command Shell",
+    "to_name": "Spear Phishing",
+    "from_layer": "technique",
+    "to_layer": "capec",
+    "justification": "Both entities appear in the same sentence: 'Brief MITRE ATT&CK Information Tactic Technique Initial Access T1566.001 Execution T1204.001, T1204.002, T1059.005, T1059.001, T1059.003 Persistence T1053.005, T1547.001 Defense Evasion T1218.009 Weaponization and Technical Overview Weapons PDF for lures, Visual Basic Scripts, .NET Assemblies injected in memory, Malicious DLLs, PowerShell Attack Vector Spear-phishing attachment with PDF Network Infrastructure DDNS DuckDNS, Discord, Web Applications Targets Entities in Colombia Technical Analysis Context APT-C-36 is a South American cyber espionage group that has been actively targeting Latin America-based entities over the last few years.' which indicates a potential connection between a technique and a capec.",
+    "context": "Brief MITRE ATT&CK Information Tactic Technique Initial Access T1566.001 Execution T1204.001, T1204.002, T1059.005, T1059.001, T1059.003 Persistence T1053.005, T1547.001 Defense Evasion T1218.009 Weaponization and Technical Overview Weapons PDF for lures, Visual Basic Scripts, .NET Assemblies injected in memory, Malicious DLLs, PowerShell Attack Vector Spear-phishing attachment with PDF Network Infrastructure DDNS DuckDNS, Discord, Web Applications Targets Entities in Colombia Technical Analysis Context APT-C-36 is a South American cyber espionage group that has been actively targeting Latin America-based entities over the last few years."
+  }
+]

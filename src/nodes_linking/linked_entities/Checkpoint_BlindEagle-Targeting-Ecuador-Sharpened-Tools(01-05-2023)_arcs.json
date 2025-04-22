@@ -1,0 +1,12 @@
+[
+  {
+    "from": "T1566",
+    "to": "CAPEC-98",
+    "from_name": "Phishing",
+    "to_name": "Phishing",
+    "from_layer": "technique",
+    "to_layer": "capec",
+    "justification": "Both entities appear in the same sentence: 'The backdoor chosen for this campaign is typically used by espionage campaigns, which is unusual for this group ACTIVE CAMPAIGNS AGAINST COLOMBIAN TARGETS For the last few months, we have been observing the ongoing campaigns orchestrated by Blind Eagle, which have mostly adhered to the TTPs described above \u2014 phishing emails pretending to be from the Colombian government.' which indicates a potential connection between a technique and a capec.",
+    "context": "The backdoor chosen for this campaign is typically used by espionage campaigns, which is unusual for this group ACTIVE CAMPAIGNS AGAINST COLOMBIAN TARGETS For the last few months, we have been observing the ongoing campaigns orchestrated by Blind Eagle, which have mostly adhered to the TTPs described above \u2014 phishing emails pretending to be from the Colombian government."
+  }
+]

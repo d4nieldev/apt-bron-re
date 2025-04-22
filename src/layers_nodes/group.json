@@ -1,0 +1,707 @@
+[
+  {
+    "name": "APT-C-36",
+    "_id": "group/group_00088",
+    "original_id": "G0099"
+  },
+  {
+    "name": "APT1",
+    "_id": "group/group_00005",
+    "original_id": "G0006"
+  },
+  {
+    "name": "APT12",
+    "_id": "group/group_00004",
+    "original_id": "G0005"
+  },
+  {
+    "name": "APT16",
+    "_id": "group/group_00020",
+    "original_id": "G0023"
+  },
+  {
+    "name": "APT17",
+    "_id": "group/group_00022",
+    "original_id": "G0025"
+  },
+  {
+    "name": "APT18",
+    "_id": "group/group_00023",
+    "original_id": "G0026"
+  },
+  {
+    "name": "APT19",
+    "_id": "group/group_00065",
+    "original_id": "G0073"
+  },
+  {
+    "name": "APT28",
+    "_id": "group/group_00006",
+    "original_id": "G0007"
+  },
+  {
+    "name": "APT29",
+    "_id": "group/group_00013",
+    "original_id": "G0016"
+  },
+  {
+    "name": "APT3",
+    "_id": "group/group_00019",
+    "original_id": "G0022"
+  },
+  {
+    "name": "APT30",
+    "_id": "group/group_00012",
+    "original_id": "G0013"
+  },
+  {
+    "name": "APT32",
+    "_id": "group/group_00045",
+    "original_id": "G0050"
+  },
+  {
+    "name": "APT33",
+    "_id": "group/group_00057",
+    "original_id": "G0064"
+  },
+  {
+    "name": "APT37",
+    "_id": "group/group_00060",
+    "original_id": "G0067"
+  },
+  {
+    "name": "APT38",
+    "_id": "group/group_00073",
+    "original_id": "G0082"
+  },
+  {
+    "name": "APT39",
+    "_id": "group/group_00077",
+    "original_id": "G0087"
+  },
+  {
+    "name": "APT41",
+    "_id": "group/group_00086",
+    "original_id": "G0096"
+  },
+  {
+    "name": "Ajax Security Team",
+    "_id": "group/group_00111",
+    "original_id": "G0130"
+  },
+  {
+    "name": "Andariel",
+    "_id": "group/group_00118",
+    "original_id": "G0138"
+  },
+  {
+    "name": "Aoqin Dragon",
+    "_id": "group/group_00129",
+    "original_id": "G1007"
+  },
+  {
+    "name": "Aquatic Panda",
+    "_id": "group/group_00122",
+    "original_id": "G0143"
+  },
+  {
+    "name": "Axiom",
+    "_id": "group/group_00000",
+    "original_id": "G0001"
+  },
+  {
+    "name": "BITTER",
+    "_id": "group/group_00124",
+    "original_id": "G1002"
+  },
+  {
+    "name": "BRONZE BUTLER",
+    "_id": "group/group_00053",
+    "original_id": "G0060"
+  },
+  {
+    "name": "BackdoorDiplomacy",
+    "_id": "group/group_00115",
+    "original_id": "G0135"
+  },
+  {
+    "name": "BlackOasis",
+    "_id": "group/group_00056",
+    "original_id": "G0063"
+  },
+  {
+    "name": "BlackTech",
+    "_id": "group/group_00087",
+    "original_id": "G0098"
+  },
+  {
+    "name": "Blue Mockingbird",
+    "_id": "group/group_00095",
+    "original_id": "G0108"
+  },
+  {
+    "name": "CURIUM",
+    "_id": "group/group_00133",
+    "original_id": "G1012"
+  },
+  {
+    "name": "Carbanak",
+    "_id": "group/group_00007",
+    "original_id": "G0008"
+  },
+  {
+    "name": "Chimera",
+    "_id": "group/group_00097",
+    "original_id": "G0114"
+  },
+  {
+    "name": "Cleaver",
+    "_id": "group/group_00002",
+    "original_id": "G0003"
+  },
+  {
+    "name": "Cobalt Group",
+    "_id": "group/group_00071",
+    "original_id": "G0080"
+  },
+  {
+    "name": "Confucius",
+    "_id": "group/group_00121",
+    "original_id": "G0142"
+  },
+  {
+    "name": "CopyKittens",
+    "_id": "group/group_00047",
+    "original_id": "G0052"
+  },
+  {
+    "name": "Dark Caracal",
+    "_id": "group/group_00063",
+    "original_id": "G0070"
+  },
+  {
+    "name": "DarkHydrus",
+    "_id": "group/group_00070",
+    "original_id": "G0079"
+  },
+  {
+    "name": "DarkVishnya",
+    "_id": "group/group_00092",
+    "original_id": "G0105"
+  },
+  {
+    "name": "Darkhotel",
+    "_id": "group/group_00011",
+    "original_id": "G0012"
+  },
+  {
+    "name": "Deep Panda",
+    "_id": "group/group_00008",
+    "original_id": "G0009"
+  },
+  {
+    "name": "DragonOK",
+    "_id": "group/group_00014",
+    "original_id": "G0017"
+  },
+  {
+    "name": "Dragonfly",
+    "_id": "group/group_00031",
+    "original_id": "G0035"
+  },
+  {
+    "name": "EXOTIC LILY",
+    "_id": "group/group_00132",
+    "original_id": "G1011"
+  },
+  {
+    "name": "Earth Lusca",
+    "_id": "group/group_00128",
+    "original_id": "G1006"
+  },
+  {
+    "name": "Elderwood",
+    "_id": "group/group_00059",
+    "original_id": "G0066"
+  },
+  {
+    "name": "Ember Bear",
+    "_id": "group/group_00125",
+    "original_id": "G1003"
+  },
+  {
+    "name": "Equation",
+    "_id": "group/group_00017",
+    "original_id": "G0020"
+  },
+  {
+    "name": "Evilnum",
+    "_id": "group/group_00101",
+    "original_id": "G0120"
+  },
+  {
+    "name": "FIN10",
+    "_id": "group/group_00046",
+    "original_id": "G0051"
+  },
+  {
+    "name": "FIN13",
+    "_id": "group/group_00137",
+    "original_id": "G1016"
+  },
+  {
+    "name": "FIN4",
+    "_id": "group/group_00076",
+    "original_id": "G0085"
+  },
+  {
+    "name": "FIN5",
+    "_id": "group/group_00048",
+    "original_id": "G0053"
+  },
+  {
+    "name": "FIN6",
+    "_id": "group/group_00033",
+    "original_id": "G0037"
+  },
+  {
+    "name": "FIN7",
+    "_id": "group/group_00041",
+    "original_id": "G0046"
+  },
+  {
+    "name": "FIN8",
+    "_id": "group/group_00054",
+    "original_id": "G0061"
+  },
+  {
+    "name": "Ferocious Kitten",
+    "_id": "group/group_00117",
+    "original_id": "G0137"
+  },
+  {
+    "name": "Fox Kitten",
+    "_id": "group/group_00099",
+    "original_id": "G0117"
+  },
+  {
+    "name": "GALLIUM",
+    "_id": "group/group_00083",
+    "original_id": "G0093"
+  },
+  {
+    "name": "GCMAN",
+    "_id": "group/group_00032",
+    "original_id": "G0036"
+  },
+  {
+    "name": "GOLD SOUTHFIELD",
+    "_id": "group/group_00098",
+    "original_id": "G0115"
+  },
+  {
+    "name": "Gallmaker",
+    "_id": "group/group_00075",
+    "original_id": "G0084"
+  },
+  {
+    "name": "Gamaredon Group",
+    "_id": "group/group_00042",
+    "original_id": "G0047"
+  },
+  {
+    "name": "Gorgon Group",
+    "_id": "group/group_00069",
+    "original_id": "G0078"
+  },
+  {
+    "name": "Group5",
+    "_id": "group/group_00038",
+    "original_id": "G0043"
+  },
+  {
+    "name": "HAFNIUM",
+    "_id": "group/group_00106",
+    "original_id": "G0125"
+  },
+  {
+    "name": "HEXANE",
+    "_id": "group/group_00123",
+    "original_id": "G1001"
+  },
+  {
+    "name": "Higaisa",
+    "_id": "group/group_00107",
+    "original_id": "G0126"
+  },
+  {
+    "name": "Inception",
+    "_id": "group/group_00089",
+    "original_id": "G0100"
+  },
+  {
+    "name": "IndigoZebra",
+    "_id": "group/group_00116",
+    "original_id": "G0136"
+  },
+  {
+    "name": "Indrik Spider",
+    "_id": "group/group_00100",
+    "original_id": "G0119"
+  },
+  {
+    "name": "Ke3chang",
+    "_id": "group/group_00003",
+    "original_id": "G0004"
+  },
+  {
+    "name": "Kimsuky",
+    "_id": "group/group_00084",
+    "original_id": "G0094"
+  },
+  {
+    "name": "LAPSUS$",
+    "_id": "group/group_00126",
+    "original_id": "G1004"
+  },
+  {
+    "name": "Lazarus Group",
+    "_id": "group/group_00028",
+    "original_id": "G0032"
+  },
+  {
+    "name": "LazyScripter",
+    "_id": "group/group_00120",
+    "original_id": "G0140"
+  },
+  {
+    "name": "Leafminer",
+    "_id": "group/group_00068",
+    "original_id": "G0077"
+  },
+  {
+    "name": "Leviathan",
+    "_id": "group/group_00058",
+    "original_id": "G0065"
+  },
+  {
+    "name": "Lotus Blossom",
+    "_id": "group/group_00027",
+    "original_id": "G0030"
+  },
+  {
+    "name": "LuminousMoth",
+    "_id": "group/group_00135",
+    "original_id": "G1014"
+  },
+  {
+    "name": "Machete",
+    "_id": "group/group_00085",
+    "original_id": "G0095"
+  },
+  {
+    "name": "Magic Hound",
+    "_id": "group/group_00052",
+    "original_id": "G0059"
+  },
+  {
+    "name": "Metador",
+    "_id": "group/group_00134",
+    "original_id": "G1013"
+  },
+  {
+    "name": "Moafee",
+    "_id": "group/group_00001",
+    "original_id": "G0002"
+  },
+  {
+    "name": "Mofang",
+    "_id": "group/group_00091",
+    "original_id": "G0103"
+  },
+  {
+    "name": "Molerats",
+    "_id": "group/group_00018",
+    "original_id": "G0021"
+  },
+  {
+    "name": "Moses Staff",
+    "_id": "group/group_00131",
+    "original_id": "G1009"
+  },
+  {
+    "name": "MoustachedBouncer",
+    "_id": "group/group_00140",
+    "original_id": "G1019"
+  },
+  {
+    "name": "MuddyWater",
+    "_id": "group/group_00062",
+    "original_id": "G0069"
+  },
+  {
+    "name": "Mustang Panda",
+    "_id": "group/group_00110",
+    "original_id": "G0129"
+  },
+  {
+    "name": "NEODYMIUM",
+    "_id": "group/group_00050",
+    "original_id": "G0055"
+  },
+  {
+    "name": "Naikon",
+    "_id": "group/group_00016",
+    "original_id": "G0019"
+  },
+  {
+    "name": "Nomadic Octopus",
+    "_id": "group/group_00113",
+    "original_id": "G0133"
+  },
+  {
+    "name": "OilRig",
+    "_id": "group/group_00044",
+    "original_id": "G0049"
+  },
+  {
+    "name": "Orangeworm",
+    "_id": "group/group_00064",
+    "original_id": "G0071"
+  },
+  {
+    "name": "PLATINUM",
+    "_id": "group/group_00061",
+    "original_id": "G0068"
+  },
+  {
+    "name": "POLONIUM",
+    "_id": "group/group_00127",
+    "original_id": "G1005"
+  },
+  {
+    "name": "PROMETHIUM",
+    "_id": "group/group_00051",
+    "original_id": "G0056"
+  },
+  {
+    "name": "Patchwork",
+    "_id": "group/group_00036",
+    "original_id": "G0040"
+  },
+  {
+    "name": "PittyTiger",
+    "_id": "group/group_00010",
+    "original_id": "G0011"
+  },
+  {
+    "name": "Poseidon Group",
+    "_id": "group/group_00029",
+    "original_id": "G0033"
+  },
+  {
+    "name": "Putter Panda",
+    "_id": "group/group_00021",
+    "original_id": "G0024"
+  },
+  {
+    "name": "RTM",
+    "_id": "group/group_00043",
+    "original_id": "G0048"
+  },
+  {
+    "name": "Rancor",
+    "_id": "group/group_00066",
+    "original_id": "G0075"
+  },
+  {
+    "name": "Rocke",
+    "_id": "group/group_00093",
+    "original_id": "G0106"
+  },
+  {
+    "name": "Sandworm Team",
+    "_id": "group/group_00030",
+    "original_id": "G0034"
+  },
+  {
+    "name": "Scarlet Mimic",
+    "_id": "group/group_00026",
+    "original_id": "G0029"
+  },
+  {
+    "name": "Scattered Spider",
+    "_id": "group/group_00136",
+    "original_id": "G1015"
+  },
+  {
+    "name": "SideCopy",
+    "_id": "group/group_00130",
+    "original_id": "G1008"
+  },
+  {
+    "name": "Sidewinder",
+    "_id": "group/group_00102",
+    "original_id": "G0121"
+  },
+  {
+    "name": "Silence",
+    "_id": "group/group_00081",
+    "original_id": "G0091"
+  },
+  {
+    "name": "Silent Librarian",
+    "_id": "group/group_00103",
+    "original_id": "G0122"
+  },
+  {
+    "name": "SilverTerrier",
+    "_id": "group/group_00074",
+    "original_id": "G0083"
+  },
+  {
+    "name": "Sowbug",
+    "_id": "group/group_00049",
+    "original_id": "G0054"
+  },
+  {
+    "name": "Stealth Falcon",
+    "_id": "group/group_00034",
+    "original_id": "G0038"
+  },
+  {
+    "name": "Strider",
+    "_id": "group/group_00037",
+    "original_id": "G0041"
+  },
+  {
+    "name": "Suckfly",
+    "_id": "group/group_00035",
+    "original_id": "G0039"
+  },
+  {
+    "name": "TA2541",
+    "_id": "group/group_00139",
+    "original_id": "G1018"
+  },
+  {
+    "name": "TA459",
+    "_id": "group/group_00055",
+    "original_id": "G0062"
+  },
+  {
+    "name": "TA505",
+    "_id": "group/group_00082",
+    "original_id": "G0092"
+  },
+  {
+    "name": "TA551",
+    "_id": "group/group_00108",
+    "original_id": "G0127"
+  },
+  {
+    "name": "TEMP.Veles",
+    "_id": "group/group_00078",
+    "original_id": "G0088"
+  },
+  {
+    "name": "TeamTNT",
+    "_id": "group/group_00119",
+    "original_id": "G0139"
+  },
+  {
+    "name": "The White Company",
+    "_id": "group/group_00079",
+    "original_id": "G0089"
+  },
+  {
+    "name": "Threat Group-1314",
+    "_id": "group/group_00025",
+    "original_id": "G0028"
+  },
+  {
+    "name": "Threat Group-3390",
+    "_id": "group/group_00024",
+    "original_id": "G0027"
+  },
+  {
+    "name": "Thrip",
+    "_id": "group/group_00067",
+    "original_id": "G0076"
+  },
+  {
+    "name": "Tonto Team",
+    "_id": "group/group_00112",
+    "original_id": "G0131"
+  },
+  {
+    "name": "Transparent Tribe",
+    "_id": "group/group_00114",
+    "original_id": "G0134"
+  },
+  {
+    "name": "Tropic Trooper",
+    "_id": "group/group_00072",
+    "original_id": "G0081"
+  },
+  {
+    "name": "Turla",
+    "_id": "group/group_00009",
+    "original_id": "G0010"
+  },
+  {
+    "name": "Volatile Cedar",
+    "_id": "group/group_00104",
+    "original_id": "G0123"
+  },
+  {
+    "name": "Volt Typhoon",
+    "_id": "group/group_00138",
+    "original_id": "G1017"
+  },
+  {
+    "name": "WIRTE",
+    "_id": "group/group_00080",
+    "original_id": "G0090"
+  },
+  {
+    "name": "Whitefly",
+    "_id": "group/group_00094",
+    "original_id": "G0107"
+  },
+  {
+    "name": "Windigo",
+    "_id": "group/group_00105",
+    "original_id": "G0124"
+  },
+  {
+    "name": "Windshift",
+    "_id": "group/group_00096",
+    "original_id": "G0112"
+  },
+  {
+    "name": "Winnti Group",
+    "_id": "group/group_00039",
+    "original_id": "G0044"
+  },
+  {
+    "name": "Wizard Spider",
+    "_id": "group/group_00090",
+    "original_id": "G0102"
+  },
+  {
+    "name": "ZIRCONIUM",
+    "_id": "group/group_00109",
+    "original_id": "G0128"
+  },
+  {
+    "name": "admin@338",
+    "_id": "group/group_00015",
+    "original_id": "G0018"
+  },
+  {
+    "name": "menuPass",
+    "_id": "group/group_00040",
+    "original_id": "G0045"
+  }
+]

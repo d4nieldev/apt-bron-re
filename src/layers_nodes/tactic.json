@@ -1,0 +1,72 @@
+[
+  {
+    "name": "collection",
+    "_id": "tactic/tactic_00001",
+    "original_id": "TA0009"
+  },
+  {
+    "name": "command-and-control",
+    "_id": "tactic/tactic_00002",
+    "original_id": "TA0011"
+  },
+  {
+    "name": "credential-access",
+    "_id": "tactic/tactic_00003",
+    "original_id": "TA0006"
+  },
+  {
+    "name": "defense-evasion",
+    "_id": "tactic/tactic_00004",
+    "original_id": "TA0005"
+  },
+  {
+    "name": "discovery",
+    "_id": "tactic/tactic_00005",
+    "original_id": "TA0007"
+  },
+  {
+    "name": "execution",
+    "_id": "tactic/tactic_00006",
+    "original_id": "TA0002"
+  },
+  {
+    "name": "exfiltration",
+    "_id": "tactic/tactic_00007",
+    "original_id": "TA0010"
+  },
+  {
+    "name": "impact",
+    "_id": "tactic/tactic_00008",
+    "original_id": "TA0040"
+  },
+  {
+    "name": "initial-access",
+    "_id": "tactic/tactic_00009",
+    "original_id": "TA0001"
+  },
+  {
+    "name": "lateral-movement",
+    "_id": "tactic/tactic_00010",
+    "original_id": "TA0008"
+  },
+  {
+    "name": "persistence",
+    "_id": "tactic/tactic_00011",
+    "original_id": "TA0003"
+  },
+  {
+    "name": "privilege-escalation",
+    "_id": "tactic/tactic_00012",
+    "original_id": "TA0004"
+  },
+  {
+    "name": "reconnaissance",
+    "_id": "tactic/tactic_00013",
+    "original_id": "TA0043"
+  },
+  {
+    "name": "resource-development",
+    "_id": "tactic/tactic_00014",
+    "original_id": "TA0042"
+  }
+]

@@ -1,0 +1,22 @@
+[
+  {
+    "from": "T1566",
+    "to": "CAPEC-98",
+    "from_name": "Phishing",
+    "to_name": "Phishing",
+    "from_layer": "technique",
+    "to_layer": "capec",
+    "justification": "Both entities appear in the same sentence: 'The attackers used spear-phishing emails to gain initial access to the targeted networks.' which indicates a potential connection between a technique and a capec.",
+    "context": "The attackers used spear-phishing emails to gain initial access to the targeted networks."
+  },
+  {
+    "from": "T1566",
+    "to": "CAPEC-163",
+    "from_name": "Phishing",
+    "to_name": "Spear Phishing",
+    "from_layer": "technique",
+    "to_layer": "capec",
+    "justification": "Both entities appear in the same sentence: 'The attackers used spear-phishing emails to gain initial access to the targeted networks.' which indicates a potential connection between a technique and a capec.",
+    "context": "The attackers used spear-phishing emails to gain initial access to the targeted networks."
+  }
+]

@@ -1,0 +1,4692 @@
+[
+  {
+    "name": ".NET Misconfiguration: Use of Impersonation",
+    "_id": "cwe/cwe_01825",
+    "original_id": "CWE-520"
+  },
+  {
+    "name": "ASP.NET Misconfiguration: Creating Debug Binary",
+    "_id": "cwe/cwe_01275",
+    "original_id": "CWE-11"
+  },
+  {
+    "name": "ASP.NET Misconfiguration: Improper Model Validation",
+    "_id": "cwe/cwe_01314",
+    "original_id": "CWE-1174"
+  },
+  {
+    "name": "ASP.NET Misconfiguration: Missing Custom Error Page",
+    "_id": "cwe/cwe_01325",
+    "original_id": "CWE-12"
+  },
+  {
+    "name": "ASP.NET Misconfiguration: Not Using Input Validation Framework",
+    "_id": "cwe/cwe_01858",
+    "original_id": "CWE-554"
+  },
+  {
+    "name": "ASP.NET Misconfiguration: Password in Configuration File",
+    "_id": "cwe/cwe_01412",
+    "original_id": "CWE-13"
+  },
+  {
+    "name": "ASP.NET Misconfiguration: Use of Identity Impersonation",
+    "_id": "cwe/cwe_01860",
+    "original_id": "CWE-556"
+  },
+  {
+    "name": "Absolute Path Traversal",
+    "_id": "cwe/cwe_01682",
+    "original_id": "CWE-36"
+  },
+  {
+    "name": "Acceptance of Extraneous Untrusted Data With Trusted Data",
+    "_id": "cwe/cwe_01671",
+    "original_id": "CWE-349"
+  },
+  {
+    "name": "Access Control Check Implemented After Asset is Accessed",
+    "_id": "cwe/cwe_01391",
+    "original_id": "CWE-1280"
+  },
+  {
+    "name": "Access of Memory Location After End of Buffer",
+    "_id": "cwe/cwe_02046",
+    "original_id": "CWE-788"
+  },
+  {
+    "name": "Access of Memory Location Before Start of Buffer",
+    "_id": "cwe/cwe_02044",
+    "original_id": "CWE-786"
+  },
+  {
+    "name": "Access of Resource Using Incompatible Type ('Type Confusion')",
+    "_id": "cwe/cwe_02091",
+    "original_id": "CWE-843"
+  },
+  {
+    "name": "Access of Uninitialized Pointer",
+    "_id": "cwe/cwe_02071",
+    "original_id": "CWE-824"
+  },
+  {
+    "name": "Access to Critical Private Variable via Public Method",
+    "_id": "cwe/cwe_02024",
+    "original_id": "CWE-767"
+  },
+  {
+    "name": "Active Debug Code",
+    "_id": "cwe/cwe_01798",
+    "original_id": "CWE-489"
+  },
+  {
+    "name": "Addition of Data Structure Sentinel",
+    "_id": "cwe/cwe_01773",
+    "original_id": "CWE-464"
+  },
+  {
+    "name": "Allocation of File Descriptors or Handles Without Limits or Throttling",
+    "_id": "cwe/cwe_02031",
+    "original_id": "CWE-774"
+  },
+  {
+    "name": "Allocation of Resources Without Limits or Throttling",
+    "_id": "cwe/cwe_02027",
+    "original_id": "CWE-770"
+  },
+  {
+    "name": "Always-Incorrect Control Flow Implementation",
+    "_id": "cwe/cwe_01968",
+    "original_id": "CWE-670"
+  },
+  {
+    "name": "Application-Level Admin Tool with Inconsistent View of Underlying Operating System",
+    "_id": "cwe/cwe_01356",
+    "original_id": "CWE-1249"
+  },
+  {
+    "name": "Architecture with Number of Horizontal Layers Outside of Expected Range",
+    "_id": "cwe/cwe_01215",
+    "original_id": "CWE-1044"
+  },
+  {
+    "name": "Array Declared Public, Final, and Static",
+    "_id": "cwe/cwe_01886",
+    "original_id": "CWE-582"
+  },
+  {
+    "name": "Assigning instead of Comparing",
+    "_id": "cwe/cwe_01791",
+    "original_id": "CWE-481"
+  },
+  {
+    "name": "Assignment of a Fixed Address to a Pointer",
+    "_id": "cwe/cwe_01891",
+    "original_id": "CWE-587"
+  },
+  {
+    "name": "Assignment to Variable without Use",
+    "_id": "cwe/cwe_01866",
+    "original_id": "CWE-563"
+  },
+  {
+    "name": "Assumed-Immutable Data is Stored in Writable Memory",
+    "_id": "cwe/cwe_01393",
+    "original_id": "CWE-1282"
+  },
+  {
+    "name": "Asymmetric Resource Consumption (Amplification)",
+    "_id": "cwe/cwe_01720",
+    "original_id": "CWE-405"
+  },
+  {
+    "name": "Attempt to Access Child of a Non-structure Pointer",
+    "_id": "cwe/cwe_01892",
+    "original_id": "CWE-588"
+  },
+  {
+    "name": "Authentication Bypass Using an Alternate Path or Channel",
+    "_id": "cwe/cwe_01607",
+    "original_id": "CWE-288"
+  },
+  {
+    "name": "Authentication Bypass by Alternate Name",
+    "_id": "cwe/cwe_01608",
+    "original_id": "CWE-289"
+  },
+  {
+    "name": "Authentication Bypass by Assumed-Immutable Data",
+    "_id": "cwe/cwe_01622",
+    "original_id": "CWE-302"
+  },
+  {
+    "name": "Authentication Bypass by Capture-replay",
+    "_id": "cwe/cwe_01613",
+    "original_id": "CWE-294"
+  },
+  {
+    "name": "Authentication Bypass by Primary Weakness",
+    "_id": "cwe/cwe_01625",
+    "original_id": "CWE-305"
+  },
+  {
+    "name": "Authentication Bypass by Spoofing",
+    "_id": "cwe/cwe_01610",
+    "original_id": "CWE-290"
+  },
+  {
+    "name": "Authentication Bypass: OpenSSL CTX Object Modified after SSL Objects are Created",
+    "_id": "cwe/cwe_01897",
+    "original_id": "CWE-593"
+  },
+  {
+    "name": "Authorization Bypass Through User-Controlled Key",
+    "_id": "cwe/cwe_01937",
+    "original_id": "CWE-639"
+  },
+  {
+    "name": "Authorization Bypass Through User-Controlled SQL Primary Key",
+    "_id": "cwe/cwe_01869",
+    "original_id": "CWE-566"
+  },
+  {
+    "name": "Automated Recognition Mechanism with Inadequate Detection or Handling of Adversarial Input Perturbations",
+    "_id": "cwe/cwe_01210",
+    "original_id": "CWE-1039"
+  },
+  {
+    "name": "Behavioral Change in New Version or Environment",
+    "_id": "cwe/cwe_01751",
+    "original_id": "CWE-439"
+  },
+  {
+    "name": "Binding to an Unrestricted IP Address",
+    "_id": "cwe/cwe_01436",
+    "original_id": "CWE-1327"
+  },
+  {
+    "name": "Buffer Access Using Size of Source Buffer",
+    "_id": "cwe/cwe_02063",
+    "original_id": "CWE-806"
+  },
+  {
+    "name": "Buffer Access with Incorrect Length Value",
+    "_id": "cwe/cwe_02062",
+    "original_id": "CWE-805"
+  },
+  {
+    "name": "Buffer Copy without Checking Size of Input ('Classic Buffer Overflow')",
+    "_id": "cwe/cwe_01326",
+    "original_id": "CWE-120"
+  },
+  {
+    "name": "Buffer Over-read",
+    "_id": "cwe/cwe_01368",
+    "original_id": "CWE-126"
+  },
+  {
+    "name": "Buffer Under-read",
+    "_id": "cwe/cwe_01379",
+    "original_id": "CWE-127"
+  },
+  {
+    "name": "Buffer Underwrite ('Buffer Underflow')",
+    "_id": "cwe/cwe_01346",
+    "original_id": "CWE-124"
+  },
+  {
+    "name": "CPU Hardware Not Configured to Support Exclusivity of Write and Execute Operations",
+    "_id": "cwe/cwe_01360",
+    "original_id": "CWE-1252"
+  },
+  {
+    "name": "Call to Non-ubiquitous API",
+    "_id": "cwe/cwe_01893",
+    "original_id": "CWE-589"
+  },
+  {
+    "name": "Call to Thread run() instead of start()",
+    "_id": "cwe/cwe_01875",
+    "original_id": "CWE-572"
+  },
+  {
+    "name": "Callable with Insufficient Behavioral Summary",
+    "_id": "cwe/cwe_01295",
+    "original_id": "CWE-1117"
+  },
+  {
+    "name": "Channel Accessible by Non-Endpoint",
+    "_id": "cwe/cwe_01620",
+    "original_id": "CWE-300"
+  },
+  {
+    "name": "Class Instance Self Destruction Control Element",
+    "_id": "cwe/cwe_01256",
+    "original_id": "CWE-1082"
+  },
+  {
+    "name": "Class with Excessive Number of Child Classes",
+    "_id": "cwe/cwe_01260",
+    "original_id": "CWE-1086"
+  },
+  {
+    "name": "Class with Excessively Deep Inheritance",
+    "_id": "cwe/cwe_01248",
+    "original_id": "CWE-1074"
+  },
+  {
+    "name": "Class with Virtual Method without a Virtual Destructor",
+    "_id": "cwe/cwe_01261",
+    "original_id": "CWE-1087"
+  },
+  {
+    "name": "Cleartext Storage in a File or on Disk",
+    "_id": "cwe/cwe_01633",
+    "original_id": "CWE-313"
+  },
+  {
+    "name": "Cleartext Storage in the Registry",
+    "_id": "cwe/cwe_01634",
+    "original_id": "CWE-314"
+  },
+  {
+    "name": "Cleartext Storage of Sensitive Information",
+    "_id": "cwe/cwe_01632",
+    "original_id": "CWE-312"
+  },
+  {
+    "name": "Cleartext Storage of Sensitive Information in Executable",
+    "_id": "cwe/cwe_01638",
+    "original_id": "CWE-318"
+  },
+  {
+    "name": "Cleartext Storage of Sensitive Information in GUI",
+    "_id": "cwe/cwe_01637",
+    "original_id": "CWE-317"
+  },
+  {
+    "name": "Cleartext Storage of Sensitive Information in Memory",
+    "_id": "cwe/cwe_01636",
+    "original_id": "CWE-316"
+  },
+  {
+    "name": "Cleartext Storage of Sensitive Information in a Cookie",
+    "_id": "cwe/cwe_01635",
+    "original_id": "CWE-315"
+  },
+  {
+    "name": "Cleartext Storage of Sensitive Information in an Environment Variable",
+    "_id": "cwe/cwe_01831",
+    "original_id": "CWE-526"
+  },
+  {
+    "name": "Cleartext Transmission of Sensitive Information",
+    "_id": "cwe/cwe_01639",
+    "original_id": "CWE-319"
+  },
+  {
+    "name": "Client-Side Enforcement of Server-Side Security",
+    "_id": "cwe/cwe_01906",
+    "original_id": "CWE-602"
+  },
+  {
+    "name": "Cloneable Class Containing Sensitive Information",
+    "_id": "cwe/cwe_01807",
+    "original_id": "CWE-498"
+  },
+  {
+    "name": "Collapse of Data into Unsafe Value",
+    "_id": "cwe/cwe_01508",
+    "original_id": "CWE-182"
+  },
+  {
+    "name": "Command Shell in Externally Accessible Directory",
+    "_id": "cwe/cwe_01857",
+    "original_id": "CWE-553"
+  },
+  {
+    "name": "Comparing instead of Assigning",
+    "_id": "cwe/cwe_01792",
+    "original_id": "CWE-482"
+  },
+  {
+    "name": "Comparison Logic is Vulnerable to Power Side-Channel Attacks",
+    "_id": "cwe/cwe_01363",
+    "original_id": "CWE-1255"
+  },
+  {
+    "name": "Comparison Using Wrong Factors",
+    "_id": "cwe/cwe_01206",
+    "original_id": "CWE-1025"
+  },
+  {
+    "name": "Comparison of Classes by Name",
+    "_id": "cwe/cwe_01795",
+    "original_id": "CWE-486"
+  },
+  {
+    "name": "Comparison of Incompatible Types",
+    "_id": "cwe/cwe_01205",
+    "original_id": "CWE-1024"
+  },
+  {
+    "name": "Comparison of Object References Instead of Object Contents",
+    "_id": "cwe/cwe_01899",
+    "original_id": "CWE-595"
+  },
+  {
+    "name": "Compilation with Insufficient Warnings or Errors",
+    "_id": "cwe/cwe_01306",
+    "original_id": "CWE-1127"
+  },
+  {
+    "name": "Compiler Optimization Removal or Modification of Security-critical Code",
+    "_id": "cwe/cwe_02006",
+    "original_id": "CWE-733"
+  },
+  {
+    "name": "Compiler Removal of Code to Clear Buffers",
+    "_id": "cwe/cwe_01465",
+    "original_id": "CWE-14"
+  },
+  {
+    "name": "Concurrent Execution using Shared Resource with Improper Synchronization ('Race Condition')",
+    "_id": "cwe/cwe_01684",
+    "original_id": "CWE-362"
+  },
+  {
+    "name": "Context Switching Race Condition",
+    "_id": "cwe/cwe_01689",
+    "original_id": "CWE-368"
+  },
+  {
+    "name": "Covert Channel",
+    "_id": "cwe/cwe_01822",
+    "original_id": "CWE-514"
+  },
+  {
+    "name": "Covert Storage Channel",
+    "_id": "cwe/cwe_01823",
+    "original_id": "CWE-515"
+  },
+  {
+    "name": "Covert Timing Channel",
+    "_id": "cwe/cwe_01703",
+    "original_id": "CWE-385"
+  },
+  {
+    "name": "Creation of Class Instance within a Static Code Block",
+    "_id": "cwe/cwe_01236",
+    "original_id": "CWE-1063"
+  },
+  {
+    "name": "Creation of Emergent Resource",
+    "_id": "cwe/cwe_01336",
+    "original_id": "CWE-1229"
+  },
+  {
+    "name": "Creation of Immutable Text Using String Concatenation",
+    "_id": "cwe/cwe_01217",
+    "original_id": "CWE-1046"
+  },
+  {
+    "name": "Creation of Temporary File With Insecure Permissions",
+    "_id": "cwe/cwe_01697",
+    "original_id": "CWE-378"
+  },
+  {
+    "name": "Creation of Temporary File in Directory with Insecure Permissions",
+    "_id": "cwe/cwe_01698",
+    "original_id": "CWE-379"
+  },
+  {
+    "name": "Creation of chroot Jail Without Changing Working Directory",
+    "_id": "cwe/cwe_01566",
+    "original_id": "CWE-243"
+  },
+  {
+    "name": "Critical Data Element Declared Public",
+    "_id": "cwe/cwe_02023",
+    "original_id": "CWE-766"
+  },
+  {
+    "name": "Critical Public Variable Without Final Modifier",
+    "_id": "cwe/cwe_01802",
+    "original_id": "CWE-493"
+  },
+  {
+    "name": "Cross-Site Request Forgery (CSRF)",
+    "_id": "cwe/cwe_01675",
+    "original_id": "CWE-352"
+  },
+  {
+    "name": "Cryptographic Operations are run Before Supporting Units are Ready",
+    "_id": "cwe/cwe_01389",
+    "original_id": "CWE-1279"
+  },
+  {
+    "name": "DMA Device Enabled Too Early in Boot Phase",
+    "_id": "cwe/cwe_01321",
+    "original_id": "CWE-1190"
+  },
+  {
+    "name": "Dangerous Signal Handler not Disabled During Sensitive Operations",
+    "_id": "cwe/cwe_01745",
+    "original_id": "CWE-432"
+  },
+  {
+    "name": "Dangling Database Cursor ('Cursor Injection')",
+    "_id": "cwe/cwe_01923",
+    "original_id": "CWE-619"
+  },
+  {
+    "name": "Data Access Operations Outside of Expected Data Manager Component",
+    "_id": "cwe/cwe_01229",
+    "original_id": "CWE-1057"
+  },
+  {
+    "name": "Data Access from Outside Expected Data Manager Component",
+    "_id": "cwe/cwe_01257",
+    "original_id": "CWE-1083"
+  },
+  {
+    "name": "Data Element Aggregating an Excessively Large Number of Non-Primitive Elements",
+    "_id": "cwe/cwe_01214",
+    "original_id": "CWE-1043"
+  },
+  {
+    "name": "Data Element containing Pointer Item without Proper Copy Control Element",
+    "_id": "cwe/cwe_01273",
+    "original_id": "CWE-1098"
+  },
+  {
+    "name": "Data Resource Access without Use of Connection Pooling",
+    "_id": "cwe/cwe_01246",
+    "original_id": "CWE-1072"
+  },
+  {
+    "name": "Dead Code",
+    "_id": "cwe/cwe_01864",
+    "original_id": "CWE-561"
+  },
+  {
+    "name": "Deadlock",
+    "_id": "cwe/cwe_02081",
+    "original_id": "CWE-833"
+  },
+  {
+    "name": "Debug Messages Revealing Unnecessary Information",
+    "_id": "cwe/cwe_01407",
+    "original_id": "CWE-1295"
+  },
+  {
+    "name": "Declaration of Catch for Generic Exception",
+    "_id": "cwe/cwe_01712",
+    "original_id": "CWE-396"
+  },
+  {
+    "name": "Declaration of Throws for Generic Exception",
+    "_id": "cwe/cwe_01713",
+    "original_id": "CWE-397"
+  },
+  {
+    "name": "Declaration of Variable with Unnecessarily Wide Scope",
+    "_id": "cwe/cwe_01305",
+    "original_id": "CWE-1126"
+  },
+  {
+    "name": "Deletion of Data Structure Sentinel",
+    "_id": "cwe/cwe_01772",
+    "original_id": "CWE-463"
+  },
+  {
+    "name": "Dependency on Vulnerable Third-Party Component",
+    "_id": "cwe/cwe_01464",
+    "original_id": "CWE-1395"
+  },
+  {
+    "name": "Deployment of Wrong Handler",
+    "_id": "cwe/cwe_01743",
+    "original_id": "CWE-430"
+  },
+  {
+    "name": "Deserialization of Untrusted Data",
+    "_id": "cwe/cwe_01813",
+    "original_id": "CWE-502"
+  },
+  {
+    "name": "Detection of Error Condition Without Action",
+    "_id": "cwe/cwe_01706",
+    "original_id": "CWE-390"
+  },
+  {
+    "name": "Device Unlock Credential Sharing",
+    "_id": "cwe/cwe_01383",
+    "original_id": "CWE-1273"
+  },
+  {
+    "name": "Direct Request ('Forced Browsing')",
+    "_id": "cwe/cwe_01738",
+    "original_id": "CWE-425"
+  },
+  {
+    "name": "Direct Use of Unsafe JNI",
+    "_id": "cwe/cwe_01287",
+    "original_id": "CWE-111"
+  },
+  {
+    "name": "Divide By Zero",
+    "_id": "cwe/cwe_01690",
+    "original_id": "CWE-369"
+  },
+  {
+    "name": "Double Decoding of the Same Data",
+    "_id": "cwe/cwe_01500",
+    "original_id": "CWE-174"
+  },
+  {
+    "name": "Double Free",
+    "_id": "cwe/cwe_01730",
+    "original_id": "CWE-415"
+  },
+  {
+    "name": "Double-Checked Locking",
+    "_id": "cwe/cwe_01912",
+    "original_id": "CWE-609"
+  },
+  {
+    "name": "Doubled Character XSS Manipulations",
+    "_id": "cwe/cwe_02092",
+    "original_id": "CWE-85"
+  },
+  {
+    "name": "Download of Code Without Integrity Check",
+    "_id": "cwe/cwe_01803",
+    "original_id": "CWE-494"
+  },
+  {
+    "name": "Duplicate Key in Associative List (Alist)",
+    "_id": "cwe/cwe_01771",
+    "original_id": "CWE-462"
+  },
+  {
+    "name": "Dynamic Variable Evaluation",
+    "_id": "cwe/cwe_01932",
+    "original_id": "CWE-627"
+  },
+  {
+    "name": "EJB Bad Practices: Use of AWT Swing",
+    "_id": "cwe/cwe_01878",
+    "original_id": "CWE-575"
+  },
+  {
+    "name": "EJB Bad Practices: Use of Class Loader",
+    "_id": "cwe/cwe_01881",
+    "original_id": "CWE-578"
+  },
+  {
+    "name": "EJB Bad Practices: Use of Java I/O",
+    "_id": "cwe/cwe_01879",
+    "original_id": "CWE-576"
+  },
+  {
+    "name": "EJB Bad Practices: Use of Sockets",
+    "_id": "cwe/cwe_01880",
+    "original_id": "CWE-577"
+  },
+  {
+    "name": "EJB Bad Practices: Use of Synchronization Primitives",
+    "_id": "cwe/cwe_01877",
+    "original_id": "CWE-574"
+  },
+  {
+    "name": "Embedded Malicious Code",
+    "_id": "cwe/cwe_01814",
+    "original_id": "CWE-506"
+  },
+  {
+    "name": "Empty Code Block",
+    "_id": "cwe/cwe_01245",
+    "original_id": "CWE-1071"
+  },
+  {
+    "name": "Empty Exception Block",
+    "_id": "cwe/cwe_01242",
+    "original_id": "CWE-1069"
+  },
+  {
+    "name": "Empty Password in Configuration File",
+    "_id": "cwe/cwe_01577",
+    "original_id": "CWE-258"
+  },
+  {
+    "name": "Empty Synchronized Block",
+    "_id": "cwe/cwe_01889",
+    "original_id": "CWE-585"
+  },
+  {
+    "name": "Encoding Error",
+    "_id": "cwe/cwe_01498",
+    "original_id": "CWE-172"
+  },
+  {
+    "name": "Excessive Attack Surface",
+    "_id": "cwe/cwe_01304",
+    "original_id": "CWE-1125"
+  },
+  {
+    "name": "Excessive Code Complexity",
+    "_id": "cwe/cwe_01299",
+    "original_id": "CWE-1120"
+  },
+  {
+    "name": "Excessive Data Query Operations in a Large Data Table",
+    "_id": "cwe/cwe_01220",
+    "original_id": "CWE-1049"
+  },
+  {
+    "name": "Excessive Execution of Sequential Searches of Data Resource",
+    "_id": "cwe/cwe_01240",
+    "original_id": "CWE-1067"
+  },
+  {
+    "name": "Excessive Halstead Complexity",
+    "_id": "cwe/cwe_01301",
+    "original_id": "CWE-1122"
+  },
+  {
+    "name": "Excessive Index Range Scan for a Data Resource",
+    "_id": "cwe/cwe_01269",
+    "original_id": "CWE-1094"
+  },
+  {
+    "name": "Excessive Iteration",
+    "_id": "cwe/cwe_02082",
+    "original_id": "CWE-834"
+  },
+  {
+    "name": "Excessive McCabe Cyclomatic Complexity",
+    "_id": "cwe/cwe_01300",
+    "original_id": "CWE-1121"
+  },
+  {
+    "name": "Excessive Number of Inefficient Server-Side Data Accesses",
+    "_id": "cwe/cwe_01233",
+    "original_id": "CWE-1060"
+  },
+  {
+    "name": "Excessive Platform Resource Consumption within a Loop",
+    "_id": "cwe/cwe_01222",
+    "original_id": "CWE-1050"
+  },
+  {
+    "name": "Excessive Reliance on Global Variables",
+    "_id": "cwe/cwe_01285",
+    "original_id": "CWE-1108"
+  },
+  {
+    "name": "Excessive Use of Hard-Coded Literals in Initialization",
+    "_id": "cwe/cwe_01224",
+    "original_id": "CWE-1052"
+  },
+  {
+    "name": "Excessive Use of Self-Modifying Code",
+    "_id": "cwe/cwe_01302",
+    "original_id": "CWE-1123"
+  },
+  {
+    "name": "Excessive Use of Unconditional Branching",
+    "_id": "cwe/cwe_01297",
+    "original_id": "CWE-1119"
+  },
+  {
+    "name": "Excessively Complex Data Representation",
+    "_id": "cwe/cwe_01268",
+    "original_id": "CWE-1093"
+  },
+  {
+    "name": "Excessively Deep Nesting",
+    "_id": "cwe/cwe_01303",
+    "original_id": "CWE-1124"
+  },
+  {
+    "name": "Executable Regular Expression Error",
+    "_id": "cwe/cwe_01929",
+    "original_id": "CWE-624"
+  },
+  {
+    "name": "Execution After Redirect (EAR)",
+    "_id": "cwe/cwe_01994",
+    "original_id": "CWE-698"
+  },
+  {
+    "name": "Execution with Unnecessary Privileges",
+    "_id": "cwe/cwe_01572",
+    "original_id": "CWE-250"
+  },
+  {
+    "name": "Expected Behavior Violation",
+    "_id": "cwe/cwe_01753",
+    "original_id": "CWE-440"
+  },
+  {
+    "name": "Expired Pointer Dereference",
+    "_id": "cwe/cwe_02072",
+    "original_id": "CWE-825"
+  },
+  {
+    "name": "Explicit Call to Finalize()",
+    "_id": "cwe/cwe_01890",
+    "original_id": "CWE-586"
+  },
+  {
+    "name": "Exposed Dangerous Method or Function",
+    "_id": "cwe/cwe_02008",
+    "original_id": "CWE-749"
+  },
+  {
+    "name": "Exposed IOCTL with Insufficient Access Control",
+    "_id": "cwe/cwe_02040",
+    "original_id": "CWE-782"
+  },
+  {
+    "name": "Exposed Unsafe ActiveX Method",
+    "_id": "cwe/cwe_01922",
+    "original_id": "CWE-618"
+  },
+  {
+    "name": "Exposure of Access Control List Files to an Unauthorized Control Sphere",
+    "_id": "cwe/cwe_01834",
+    "original_id": "CWE-529"
+  },
+  {
+    "name": "Exposure of Backup File to an Unauthorized Control Sphere",
+    "_id": "cwe/cwe_01836",
+    "original_id": "CWE-530"
+  },
+  {
+    "name": "Exposure of Core Dump File to an Unauthorized Control Sphere",
+    "_id": "cwe/cwe_01833",
+    "original_id": "CWE-528"
+  },
+  {
+    "name": "Exposure of Data Element to Wrong Session",
+    "_id": "cwe/cwe_01797",
+    "original_id": "CWE-488"
+  },
+  {
+    "name": "Exposure of File Descriptor to Unintended Control Sphere ('File Descriptor Leak')",
+    "_id": "cwe/cwe_01718",
+    "original_id": "CWE-403"
+  },
+  {
+    "name": "Exposure of Information Through Directory Listing",
+    "_id": "cwe/cwe_01851",
+    "original_id": "CWE-548"
+  },
+  {
+    "name": "Exposure of Information Through Shell Error Message",
+    "_id": "cwe/cwe_01839",
+    "original_id": "CWE-535"
+  },
+  {
+    "name": "Exposure of Private Personal Information to an Unauthorized Actor",
+    "_id": "cwe/cwe_01681",
+    "original_id": "CWE-359"
+  },
+  {
+    "name": "Exposure of Resource to Wrong Sphere",
+    "_id": "cwe/cwe_01965",
+    "original_id": "CWE-668"
+  },
+  {
+    "name": "Exposure of Sensitive Information Due to Incompatible Policies",
+    "_id": "cwe/cwe_01538",
+    "original_id": "CWE-213"
+  },
+  {
+    "name": "Exposure of Sensitive Information Through Data Queries",
+    "_id": "cwe/cwe_01527",
+    "original_id": "CWE-202"
+  },
+  {
+    "name": "Exposure of Sensitive Information Through Metadata",
+    "_id": "cwe/cwe_01338",
+    "original_id": "CWE-1230"
+  },
+  {
+    "name": "Exposure of Sensitive Information to an Unauthorized Actor",
+    "_id": "cwe/cwe_01525",
+    "original_id": "CWE-200"
+  },
+  {
+    "name": "Exposure of Sensitive System Information Due to Uncleared Debug Information",
+    "_id": "cwe/cwe_01366",
+    "original_id": "CWE-1258"
+  },
+  {
+    "name": "Exposure of Sensitive System Information to an Unauthorized Control Sphere",
+    "_id": "cwe/cwe_01806",
+    "original_id": "CWE-497"
+  },
+  {
+    "name": "Exposure of Version-Control Repository to an Unauthorized Control Sphere",
+    "_id": "cwe/cwe_01832",
+    "original_id": "CWE-527"
+  },
+  {
+    "name": "Exposure of WSDL File Containing Sensitive Information",
+    "_id": "cwe/cwe_01951",
+    "original_id": "CWE-651"
+  },
+  {
+    "name": "Expression is Always False",
+    "_id": "cwe/cwe_01873",
+    "original_id": "CWE-570"
+  },
+  {
+    "name": "Expression is Always True",
+    "_id": "cwe/cwe_01874",
+    "original_id": "CWE-571"
+  },
+  {
+    "name": "External Control of Assumed-Immutable Web Parameter",
+    "_id": "cwe/cwe_01781",
+    "original_id": "CWE-472"
+  },
+  {
+    "name": "External Control of Critical State Data",
+    "_id": "cwe/cwe_01941",
+    "original_id": "CWE-642"
+  },
+  {
+    "name": "External Control of File Name or Path",
+    "_id": "cwe/cwe_02004",
+    "original_id": "CWE-73"
+  },
+  {
+    "name": "External Control of System or Configuration Setting",
+    "_id": "cwe/cwe_01477",
+    "original_id": "CWE-15"
+  },
+  {
+    "name": "External Influence of Sphere Definition",
+    "_id": "cwe/cwe_01971",
+    "original_id": "CWE-673"
+  },
+  {
+    "name": "External Initialization of Trusted Variables or Data Stores",
+    "_id": "cwe/cwe_01764",
+    "original_id": "CWE-454"
+  },
+  {
+    "name": "Externally Controlled Reference to a Resource in Another Sphere",
+    "_id": "cwe/cwe_01914",
+    "original_id": "CWE-610"
+  },
+  {
+    "name": "Externally-Generated Error Message Containing Sensitive Information",
+    "_id": "cwe/cwe_01536",
+    "original_id": "CWE-211"
+  },
+  {
+    "name": "Fabric-Address Map Allows Programming of Unwarranted Overlaps of Protected and Unprotected Ranges",
+    "_id": "cwe/cwe_01426",
+    "original_id": "CWE-1316"
+  },
+  {
+    "name": "Failure to Disable Reserved Bits",
+    "_id": "cwe/cwe_01328",
+    "original_id": "CWE-1209"
+  },
+  {
+    "name": "Failure to Handle Incomplete Element",
+    "_id": "cwe/cwe_01561",
+    "original_id": "CWE-239"
+  },
+  {
+    "name": "Failure to Handle Missing Parameter",
+    "_id": "cwe/cwe_01556",
+    "original_id": "CWE-234"
+  },
+  {
+    "name": "Failure to Sanitize Paired Delimiters",
+    "_id": "cwe/cwe_01485",
+    "original_id": "CWE-157"
+  },
+  {
+    "name": "Failure to Sanitize Special Elements into a Different Plane (Special Element Injection)",
+    "_id": "cwe/cwe_02009",
+    "original_id": "CWE-75"
+  },
+  {
+    "name": "Files or Directories Accessible to External Parties",
+    "_id": "cwe/cwe_01856",
+    "original_id": "CWE-552"
+  },
+  {
+    "name": "Firmware Not Updateable",
+    "_id": "cwe/cwe_01387",
+    "original_id": "CWE-1277"
+  },
+  {
+    "name": "Floating Point Comparison with Incorrect Operator",
+    "_id": "cwe/cwe_01251",
+    "original_id": "CWE-1077"
+  },
+  {
+    "name": "Free of Memory not on the Heap",
+    "_id": "cwe/cwe_01895",
+    "original_id": "CWE-590"
+  },
+  {
+    "name": "Free of Pointer not at Start of Buffer",
+    "_id": "cwe/cwe_02018",
+    "original_id": "CWE-761"
+  },
+  {
+    "name": "Function Call With Incorrect Argument Type",
+    "_id": "cwe/cwe_01981",
+    "original_id": "CWE-686"
+  },
+  {
+    "name": "Function Call With Incorrect Number of Arguments",
+    "_id": "cwe/cwe_01980",
+    "original_id": "CWE-685"
+  },
+  {
+    "name": "Function Call With Incorrect Order of Arguments",
+    "_id": "cwe/cwe_01978",
+    "original_id": "CWE-683"
+  },
+  {
+    "name": "Function Call With Incorrect Variable or Reference as Argument",
+    "_id": "cwe/cwe_01983",
+    "original_id": "CWE-688"
+  },
+  {
+    "name": "Function Call With Incorrectly Specified Argument Value",
+    "_id": "cwe/cwe_01982",
+    "original_id": "CWE-687"
+  },
+  {
+    "name": "Function Call with Incorrectly Specified Arguments",
+    "_id": "cwe/cwe_01933",
+    "original_id": "CWE-628"
+  },
+  {
+    "name": "Generation of Error Message Containing Sensitive Information",
+    "_id": "cwe/cwe_01534",
+    "original_id": "CWE-209"
+  },
+  {
+    "name": "Generation of Incorrect Security Tokens",
+    "_id": "cwe/cwe_01380",
+    "original_id": "CWE-1270"
+  },
+  {
+    "name": "Generation of Predictable IV with CBC Mode",
+    "_id": "cwe/cwe_01649",
+    "original_id": "CWE-329"
+  },
+  {
+    "name": "Generation of Predictable Numbers or Identifiers",
+    "_id": "cwe/cwe_01662",
+    "original_id": "CWE-340"
+  },
+  {
+    "name": "Generation of Weak Initialization Vector (IV)",
+    "_id": "cwe/cwe_01327",
+    "original_id": "CWE-1204"
+  },
+  {
+    "name": "Guessable CAPTCHA",
+    "_id": "cwe/cwe_02061",
+    "original_id": "CWE-804"
+  },
+  {
+    "name": "Hardware Allows Activation of Test or Debug Logic at Runtime",
+    "_id": "cwe/cwe_01423",
+    "original_id": "CWE-1313"
+  },
+  {
+    "name": "Hardware Child Block Incorrectly Connected to Parent System",
+    "_id": "cwe/cwe_01386",
+    "original_id": "CWE-1276"
+  },
+  {
+    "name": "Hardware Internal or Debug Modes Allow Override of Locks",
+    "_id": "cwe/cwe_01342",
+    "original_id": "CWE-1234"
+  },
+  {
+    "name": "Hardware Logic Contains Race Conditions",
+    "_id": "cwe/cwe_01410",
+    "original_id": "CWE-1298"
+  },
+  {
+    "name": "Hardware Logic with Insecure De-Synchronization between Control and Data Channels",
+    "_id": "cwe/cwe_01373",
+    "original_id": "CWE-1264"
+  },
+  {
+    "name": "Heap-based Buffer Overflow",
+    "_id": "cwe/cwe_01330",
+    "original_id": "CWE-122"
+  },
+  {
+    "name": "Hidden Functionality",
+    "_id": "cwe/cwe_02106",
+    "original_id": "CWE-912"
+  },
+  {
+    "name": "Improper Access Control",
+    "_id": "cwe/cwe_01603",
+    "original_id": "CWE-284"
+  },
+  {
+    "name": "Improper Access Control Applied to Mirrored or Aliased Memory Regions",
+    "_id": "cwe/cwe_01365",
+    "original_id": "CWE-1257"
+  },
+  {
+    "name": "Improper Access Control for Register Interface",
+    "_id": "cwe/cwe_01371",
+    "original_id": "CWE-1262"
+  },
+  {
+    "name": "Improper Access Control for Volatile Memory Containing Boot Code",
+    "_id": "cwe/cwe_01384",
+    "original_id": "CWE-1274"
+  },
+  {
+    "name": "Improper Access Control in Fabric Bridge",
+    "_id": "cwe/cwe_01427",
+    "original_id": "CWE-1317"
+  },
+  {
+    "name": "Improper Address Validation in IOCTL with METHOD_NEITHER I/O Control Code",
+    "_id": "cwe/cwe_02039",
+    "original_id": "CWE-781"
+  },
+  {
+    "name": "Improper Adherence to Coding Standards",
+    "_id": "cwe/cwe_02002",
+    "original_id": "CWE-710"
+  },
+  {
+    "name": "Improper Authentication",
+    "_id": "cwe/cwe_01606",
+    "original_id": "CWE-287"
+  },
+  {
+    "name": "Improper Authorization",
+    "_id": "cwe/cwe_01604",
+    "original_id": "CWE-285"
+  },
+  {
+    "name": "Improper Authorization in Handler for Custom URL Scheme",
+    "_id": "cwe/cwe_02122",
+    "original_id": "CWE-939"
+  },
+  {
+    "name": "Improper Authorization of Index Containing Sensitive Information",
+    "_id": "cwe/cwe_01916",
+    "original_id": "CWE-612"
+  },
+  {
+    "name": "Improper Certificate Validation",
+    "_id": "cwe/cwe_01614",
+    "original_id": "CWE-295"
+  },
+  {
+    "name": "Improper Check for Certificate Revocation",
+    "_id": "cwe/cwe_01618",
+    "original_id": "CWE-299"
+  },
+  {
+    "name": "Improper Check for Dropped Privileges",
+    "_id": "cwe/cwe_01592",
+    "original_id": "CWE-273"
+  },
+  {
+    "name": "Improper Check for Unusual or Exceptional Conditions",
+    "_id": "cwe/cwe_02010",
+    "original_id": "CWE-754"
+  },
+  {
+    "name": "Improper Check or Handling of Exceptional Conditions",
+    "_id": "cwe/cwe_01996",
+    "original_id": "CWE-703"
+  },
+  {
+    "name": "Improper Cleanup on Thrown Exception",
+    "_id": "cwe/cwe_01770",
+    "original_id": "CWE-460"
+  },
+  {
+    "name": "Improper Clearing of Heap Memory Before Release ('Heap Inspection')",
+    "_id": "cwe/cwe_01567",
+    "original_id": "CWE-244"
+  },
+  {
+    "name": "Improper Control of Document Type Definition",
+    "_id": "cwe/cwe_02074",
+    "original_id": "CWE-827"
+  },
+  {
+    "name": "Improper Control of Dynamically-Identified Variables",
+    "_id": "cwe/cwe_02108",
+    "original_id": "CWE-914"
+  },
+  {
+    "name": "Improper Control of Dynamically-Managed Code Resources",
+    "_id": "cwe/cwe_02107",
+    "original_id": "CWE-913"
+  },
+  {
+    "name": "Improper Control of Filename for Include/Require Statement in PHP Program ('PHP Remote File Inclusion')",
+    "_id": "cwe/cwe_02131",
+    "original_id": "CWE-98"
+  },
+  {
+    "name": "Improper Control of Filename for Include/Require Statement in PHP Program ('PHP Remote File Inclusion')",
+    "_id": "cwe/cwe_02135",
+    "original_id": "CWE-98"
+  },
+  {
+    "name": "Improper Control of Generation of Code ('Code Injection')",
+    "_id": "cwe/cwe_02123",
+    "original_id": "CWE-94"
+  },
+  {
+    "name": "Improper Control of Interaction Frequency",
+    "_id": "cwe/cwe_02058",
+    "original_id": "CWE-799"
+  },
+  {
+    "name": "Improper Control of Resource Identifiers ('Resource Injection')",
+    "_id": "cwe/cwe_02132",
+    "original_id": "CWE-99"
+  },
+  {
+    "name": "Improper Control of Resource Identifiers ('Resource Injection')",
+    "_id": "cwe/cwe_02136",
+    "original_id": "CWE-99"
+  },
+  {
+    "name": "Improper Control of a Resource Through its Lifetime",
+    "_id": "cwe/cwe_01961",
+    "original_id": "CWE-664"
+  },
+  {
+    "name": "Improper Encoding or Escaping of Output",
+    "_id": "cwe/cwe_01310",
+    "original_id": "CWE-116"
+  },
+  {
+    "name": "Improper Enforcement of Behavioral Workflow",
+    "_id": "cwe/cwe_02089",
+    "original_id": "CWE-841"
+  },
+  {
+    "name": "Improper Enforcement of Message Integrity During Transmission in a Communication Channel",
+    "_id": "cwe/cwe_02117",
+    "original_id": "CWE-924"
+  },
+  {
+    "name": "Improper Enforcement of a Single, Unique Action",
+    "_id": "cwe/cwe_02085",
+    "original_id": "CWE-837"
+  },
+  {
+    "name": "Improper Export of Android Application Components",
+    "_id": "cwe/cwe_02119",
+    "original_id": "CWE-926"
+  },
+  {
+    "name": "Improper Filtering of Special Elements",
+    "_id": "cwe/cwe_02049",
+    "original_id": "CWE-790"
+  },
+  {
+    "name": "Improper Finite State Machines (FSMs) in Hardware Logic",
+    "_id": "cwe/cwe_01352",
+    "original_id": "CWE-1245"
+  },
+  {
+    "name": "Improper Following of Specification by Caller",
+    "_id": "cwe/cwe_01876",
+    "original_id": "CWE-573"
+  },
+  {
+    "name": "Improper Following of a Certificate's Chain of Trust",
+    "_id": "cwe/cwe_01615",
+    "original_id": "CWE-296"
+  },
+  {
+    "name": "Improper Handling of Additional Special Element",
+    "_id": "cwe/cwe_01495",
+    "original_id": "CWE-167"
+  },
+  {
+    "name": "Improper Handling of Alternate Encoding",
+    "_id": "cwe/cwe_01499",
+    "original_id": "CWE-173"
+  },
+  {
+    "name": "Improper Handling of Apple HFS+ Alternate Data Stream Path",
+    "_id": "cwe/cwe_02003",
+    "original_id": "CWE-72"
+  },
+  {
+    "name": "Improper Handling of Case Sensitivity",
+    "_id": "cwe/cwe_01504",
+    "original_id": "CWE-178"
+  },
+  {
+    "name": "Improper Handling of Exceptional Conditions",
+    "_id": "cwe/cwe_02011",
+    "original_id": "CWE-755"
+  },
+  {
+    "name": "Improper Handling of Extra Parameters",
+    "_id": "cwe/cwe_01557",
+    "original_id": "CWE-235"
+  },
+  {
+    "name": "Improper Handling of Extra Values",
+    "_id": "cwe/cwe_01553",
+    "original_id": "CWE-231"
+  },
+  {
+    "name": "Improper Handling of Faults that Lead to Instruction Skips",
+    "_id": "cwe/cwe_01441",
+    "original_id": "CWE-1332"
+  },
+  {
+    "name": "Improper Handling of File Names that Identify Virtual Resources",
+    "_id": "cwe/cwe_01958",
+    "original_id": "CWE-66"
+  },
+  {
+    "name": "Improper Handling of Hardware Behavior in Exceptionally Cold Environments",
+    "_id": "cwe/cwe_01452",
+    "original_id": "CWE-1351"
+  },
+  {
+    "name": "Improper Handling of Highly Compressed Data (Data Amplification)",
+    "_id": "cwe/cwe_01724",
+    "original_id": "CWE-409"
+  },
+  {
+    "name": "Improper Handling of Incomplete Structural Elements",
+    "_id": "cwe/cwe_01560",
+    "original_id": "CWE-238"
+  },
+  {
+    "name": "Improper Handling of Inconsistent Special Elements",
+    "_id": "cwe/cwe_01496",
+    "original_id": "CWE-168"
+  },
+  {
+    "name": "Improper Handling of Inconsistent Structural Elements",
+    "_id": "cwe/cwe_01563",
+    "original_id": "CWE-240"
+  },
+  {
+    "name": "Improper Handling of Insufficient Entropy in TRNG",
+    "_id": "cwe/cwe_01654",
+    "original_id": "CWE-333"
+  },
+  {
+    "name": "Improper Handling of Insufficient Permissions or Privileges ",
+    "_id": "cwe/cwe_01599",
+    "original_id": "CWE-280"
+  },
+  {
+    "name": "Improper Handling of Insufficient Privileges",
+    "_id": "cwe/cwe_01593",
+    "original_id": "CWE-274"
+  },
+  {
+    "name": "Improper Handling of Invalid Use of Special Elements",
+    "_id": "cwe/cwe_01487",
+    "original_id": "CWE-159"
+  },
+  {
+    "name": "Improper Handling of Length Parameter Inconsistency",
+    "_id": "cwe/cwe_01413",
+    "original_id": "CWE-130"
+  },
+  {
+    "name": "Improper Handling of Missing Special Element",
+    "_id": "cwe/cwe_01494",
+    "original_id": "CWE-166"
+  },
+  {
+    "name": "Improper Handling of Missing Values",
+    "_id": "cwe/cwe_01552",
+    "original_id": "CWE-230"
+  },
+  {
+    "name": "Improper Handling of Mixed Encoding",
+    "_id": "cwe/cwe_01501",
+    "original_id": "CWE-175"
+  },
+  {
+    "name": "Improper Handling of Overlap Between Protected Memory Ranges",
+    "_id": "cwe/cwe_01369",
+    "original_id": "CWE-1260"
+  },
+  {
+    "name": "Improper Handling of Parameters",
+    "_id": "cwe/cwe_01555",
+    "original_id": "CWE-233"
+  },
+  {
+    "name": "Improper Handling of Physical or Environmental Conditions",
+    "_id": "cwe/cwe_01455",
+    "original_id": "CWE-1384"
+  },
+  {
+    "name": "Improper Handling of Single Event Upsets",
+    "_id": "cwe/cwe_01370",
+    "original_id": "CWE-1261"
+  },
+  {
+    "name": "Improper Handling of Structural Elements",
+    "_id": "cwe/cwe_01559",
+    "original_id": "CWE-237"
+  },
+  {
+    "name": "Improper Handling of Syntactically Invalid Structure",
+    "_id": "cwe/cwe_01549",
+    "original_id": "CWE-228"
+  },
+  {
+    "name": "Improper Handling of URL Encoding (Hex Encoding)",
+    "_id": "cwe/cwe_01503",
+    "original_id": "CWE-177"
+  },
+  {
+    "name": "Improper Handling of Undefined Parameters",
+    "_id": "cwe/cwe_01558",
+    "original_id": "CWE-236"
+  },
+  {
+    "name": "Improper Handling of Undefined Values",
+    "_id": "cwe/cwe_01554",
+    "original_id": "CWE-232"
+  },
+  {
+    "name": "Improper Handling of Unexpected Data Type",
+    "_id": "cwe/cwe_01564",
+    "original_id": "CWE-241"
+  },
+  {
+    "name": "Improper Handling of Unicode Encoding",
+    "_id": "cwe/cwe_01502",
+    "original_id": "CWE-176"
+  },
+  {
+    "name": "Improper Handling of Values",
+    "_id": "cwe/cwe_01550",
+    "original_id": "CWE-229"
+  },
+  {
+    "name": "Improper Handling of Windows ::DATA Alternate Data Stream",
+    "_id": "cwe/cwe_01985",
+    "original_id": "CWE-69"
+  },
+  {
+    "name": "Improper Handling of Windows Device Names",
+    "_id": "cwe/cwe_01967",
+    "original_id": "CWE-67"
+  },
+  {
+    "name": "Improper Initialization",
+    "_id": "cwe/cwe_01962",
+    "original_id": "CWE-665"
+  },
+  {
+    "name": "Improper Input Validation",
+    "_id": "cwe/cwe_01524",
+    "original_id": "CWE-20"
+  },
+  {
+    "name": "Improper Interaction Between Multiple Correctly-Behaving Entities",
+    "_id": "cwe/cwe_01748",
+    "original_id": "CWE-435"
+  },
+  {
+    "name": "Improper Isolation of Shared Resources in Network On Chip (NoC)",
+    "_id": "cwe/cwe_01440",
+    "original_id": "CWE-1331"
+  },
+  {
+    "name": "Improper Isolation of Shared Resources on System-on-a-Chip (SoC)",
+    "_id": "cwe/cwe_01319",
+    "original_id": "CWE-1189"
+  },
+  {
+    "name": "Improper Isolation or Compartmentalization",
+    "_id": "cwe/cwe_01953",
+    "original_id": "CWE-653"
+  },
+  {
+    "name": "Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')",
+    "_id": "cwe/cwe_01542",
+    "original_id": "CWE-22"
+  },
+  {
+    "name": "Improper Link Resolution Before File Access ('Link Following')",
+    "_id": "cwe/cwe_01894",
+    "original_id": "CWE-59"
+  },
+  {
+    "name": "Improper Lock Behavior After Power State Transition",
+    "_id": "cwe/cwe_01340",
+    "original_id": "CWE-1232"
+  },
+  {
+    "name": "Improper Locking",
+    "_id": "cwe/cwe_01964",
+    "original_id": "CWE-667"
+  },
+  {
+    "name": "Improper Management of Sensitive Trace Data",
+    "_id": "cwe/cwe_01433",
+    "original_id": "CWE-1323"
+  },
+  {
+    "name": "Improper Neutralization",
+    "_id": "cwe/cwe_02000",
+    "original_id": "CWE-707"
+  },
+  {
+    "name": "Improper Neutralization of Alternate XSS Syntax",
+    "_id": "cwe/cwe_02096",
+    "original_id": "CWE-87"
+  },
+  {
+    "name": "Improper Neutralization of Argument Delimiters in a Command ('Argument Injection')",
+    "_id": "cwe/cwe_02097",
+    "original_id": "CWE-88"
+  },
+  {
+    "name": "Improper Neutralization of CRLF Sequences ('CRLF Injection')",
+    "_id": "cwe/cwe_02121",
+    "original_id": "CWE-93"
+  },
+  {
+    "name": "Improper Neutralization of CRLF Sequences in HTTP Headers ('HTTP Request/Response Splitting')",
+    "_id": "cwe/cwe_01307",
+    "original_id": "CWE-113"
+  },
+  {
+    "name": "Improper Neutralization of Comment Delimiters",
+    "_id": "cwe/cwe_01479",
+    "original_id": "CWE-151"
+  },
+  {
+    "name": "Improper Neutralization of Data within XPath Expressions ('XPath Injection')",
+    "_id": "cwe/cwe_01942",
+    "original_id": "CWE-643"
+  },
+  {
+    "name": "Improper Neutralization of Data within XQuery Expressions ('XQuery Injection')",
+    "_id": "cwe/cwe_01952",
+    "original_id": "CWE-652"
+  },
+  {
+    "name": "Improper Neutralization of Delimiters",
+    "_id": "cwe/cwe_01466",
+    "original_id": "CWE-140"
+  },
+  {
+    "name": "Improper Neutralization of Directives in Dynamically Evaluated Code ('Eval Injection')",
+    "_id": "cwe/cwe_02128",
+    "original_id": "CWE-95"
+  },
+  {
+    "name": "Improper Neutralization of Directives in Statically Saved Code ('Static Code Injection')",
+    "_id": "cwe/cwe_02129",
+    "original_id": "CWE-96"
+  },
+  {
+    "name": "Improper Neutralization of Directives in Statically Saved Code ('Static Code Injection')",
+    "_id": "cwe/cwe_02133",
+    "original_id": "CWE-96"
+  },
+  {
+    "name": "Improper Neutralization of Encoded URI Schemes in a Web Page",
+    "_id": "cwe/cwe_02088",
+    "original_id": "CWE-84"
+  },
+  {
+    "name": "Improper Neutralization of Equivalent Special Elements",
+    "_id": "cwe/cwe_02016",
+    "original_id": "CWE-76"
+  },
+  {
+    "name": "Improper Neutralization of Escape, Meta, or Control Sequences",
+    "_id": "cwe/cwe_01478",
+    "original_id": "CWE-150"
+  },
+  {
+    "name": "Improper Neutralization of Expression/Command Delimiters",
+    "_id": "cwe/cwe_01473",
+    "original_id": "CWE-146"
+  },
+  {
+    "name": "Improper Neutralization of Formula Elements in a CSV File",
+    "_id": "cwe/cwe_01344",
+    "original_id": "CWE-1236"
+  },
+  {
+    "name": "Improper Neutralization of HTTP Headers for Scripting Syntax",
+    "_id": "cwe/cwe_01943",
+    "original_id": "CWE-644"
+  },
+  {
+    "name": "Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')",
+    "_id": "cwe/cwe_02048",
+    "original_id": "CWE-79"
+  },
+  {
+    "name": "Improper Neutralization of Input Leaders",
+    "_id": "cwe/cwe_01475",
+    "original_id": "CWE-148"
+  },
+  {
+    "name": "Improper Neutralization of Input Terminators",
+    "_id": "cwe/cwe_01474",
+    "original_id": "CWE-147"
+  },
+  {
+    "name": "Improper Neutralization of Internal Special Elements",
+    "_id": "cwe/cwe_01492",
+    "original_id": "CWE-164"
+  },
+  {
+    "name": "Improper Neutralization of Invalid Characters in Identifiers in Web Pages",
+    "_id": "cwe/cwe_02093",
+    "original_id": "CWE-86"
+  },
+  {
+    "name": "Improper Neutralization of Leading Special Elements",
+    "_id": "cwe/cwe_01488",
+    "original_id": "CWE-160"
+  },
+  {
+    "name": "Improper Neutralization of Line Delimiters",
+    "_id": "cwe/cwe_01471",
+    "original_id": "CWE-144"
+  },
+  {
+    "name": "Improper Neutralization of Macro Symbols",
+    "_id": "cwe/cwe_01480",
+    "original_id": "CWE-152"
+  },
+  {
+    "name": "Improper Neutralization of Multiple Internal Special Elements",
+    "_id": "cwe/cwe_01493",
+    "original_id": "CWE-165"
+  },
+  {
+    "name": "Improper Neutralization of Multiple Leading Special Elements",
+    "_id": "cwe/cwe_01489",
+    "original_id": "CWE-161"
+  },
+  {
+    "name": "Improper Neutralization of Multiple Trailing Special Elements",
+    "_id": "cwe/cwe_01491",
+    "original_id": "CWE-163"
+  },
+  {
+    "name": "Improper Neutralization of Null Byte or NUL Character",
+    "_id": "cwe/cwe_01486",
+    "original_id": "CWE-158"
+  },
+  {
+    "name": "Improper Neutralization of Parameter/Argument Delimiters",
+    "_id": "cwe/cwe_01467",
+    "original_id": "CWE-141"
+  },
+  {
+    "name": "Improper Neutralization of Quoting Syntax",
+    "_id": "cwe/cwe_01476",
+    "original_id": "CWE-149"
+  },
+  {
+    "name": "Improper Neutralization of Record Delimiters",
+    "_id": "cwe/cwe_01470",
+    "original_id": "CWE-143"
+  },
+  {
+    "name": "Improper Neutralization of Script in Attributes in a Web Page",
+    "_id": "cwe/cwe_02077",
+    "original_id": "CWE-83"
+  },
+  {
+    "name": "Improper Neutralization of Script in Attributes of IMG Tags in a Web Page",
+    "_id": "cwe/cwe_02066",
+    "original_id": "CWE-82"
+  },
+  {
+    "name": "Improper Neutralization of Script in an Error Message Web Page",
+    "_id": "cwe/cwe_02065",
+    "original_id": "CWE-81"
+  },
+  {
+    "name": "Improper Neutralization of Script-Related HTML Tags in a Web Page (Basic XSS)",
+    "_id": "cwe/cwe_02060",
+    "original_id": "CWE-80"
+  },
+  {
+    "name": "Improper Neutralization of Section Delimiters",
+    "_id": "cwe/cwe_01472",
+    "original_id": "CWE-145"
+  },
+  {
+    "name": "Improper Neutralization of Server-Side Includes (SSI) Within a Web Page",
+    "_id": "cwe/cwe_02130",
+    "original_id": "CWE-97"
+  },
+  {
+    "name": "Improper Neutralization of Server-Side Includes (SSI) Within a Web Page",
+    "_id": "cwe/cwe_02134",
+    "original_id": "CWE-97"
+  },
+  {
+    "name": "Improper Neutralization of Special Elements",
+    "_id": "cwe/cwe_01454",
+    "original_id": "CWE-138"
+  },
+  {
+    "name": "Improper Neutralization of Special Elements Used in a Template Engine",
+    "_id": "cwe/cwe_01445",
+    "original_id": "CWE-1336"
+  },
+  {
+    "name": "Improper Neutralization of Special Elements in Data Query Logic",
+    "_id": "cwe/cwe_02127",
+    "original_id": "CWE-943"
+  },
+  {
+    "name": "Improper Neutralization of Special Elements in Output Used by a Downstream Component ('Injection')",
+    "_id": "cwe/cwe_02007",
+    "original_id": "CWE-74"
+  },
+  {
+    "name": "Improper Neutralization of Special Elements used in a Command ('Command Injection')",
+    "_id": "cwe/cwe_02026",
+    "original_id": "CWE-77"
+  },
+  {
+    "name": "Improper Neutralization of Special Elements used in an Expression Language Statement ('Expression Language Injection')",
+    "_id": "cwe/cwe_02111",
+    "original_id": "CWE-917"
+  },
+  {
+    "name": "Improper Neutralization of Special Elements used in an LDAP Query ('LDAP Injection')",
+    "_id": "cwe/cwe_02100",
+    "original_id": "CWE-90"
+  },
+  {
+    "name": "Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')",
+    "_id": "cwe/cwe_02037",
+    "original_id": "CWE-78"
+  },
+  {
+    "name": "Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')",
+    "_id": "cwe/cwe_02098",
+    "original_id": "CWE-89"
+  },
+  {
+    "name": "Improper Neutralization of Substitution Characters",
+    "_id": "cwe/cwe_01481",
+    "original_id": "CWE-153"
+  },
+  {
+    "name": "Improper Neutralization of Trailing Special Elements",
+    "_id": "cwe/cwe_01490",
+    "original_id": "CWE-162"
+  },
+  {
+    "name": "Improper Neutralization of Value Delimiters",
+    "_id": "cwe/cwe_01469",
+    "original_id": "CWE-142"
+  },
+  {
+    "name": "Improper Neutralization of Variable Name Delimiters",
+    "_id": "cwe/cwe_01482",
+    "original_id": "CWE-154"
+  },
+  {
+    "name": "Improper Neutralization of Whitespace",
+    "_id": "cwe/cwe_01484",
+    "original_id": "CWE-156"
+  },
+  {
+    "name": "Improper Neutralization of Wildcards or Matching Symbols",
+    "_id": "cwe/cwe_01483",
+    "original_id": "CWE-155"
+  },
+  {
+    "name": "Improper Null Termination",
+    "_id": "cwe/cwe_01497",
+    "original_id": "CWE-170"
+  },
+  {
+    "name": "Improper Output Neutralization for Logs",
+    "_id": "cwe/cwe_01312",
+    "original_id": "CWE-117"
+  },
+  {
+    "name": "Improper Ownership Management",
+    "_id": "cwe/cwe_01601",
+    "original_id": "CWE-282"
+  },
+  {
+    "name": "Improper Physical Access Control",
+    "_id": "cwe/cwe_01372",
+    "original_id": "CWE-1263"
+  },
+  {
+    "name": "Improper Preservation of Consistency Between Independent Representations of Shared State",
+    "_id": "cwe/cwe_01358",
+    "original_id": "CWE-1250"
+  },
+  {
+    "name": "Improper Preservation of Permissions",
+    "_id": "cwe/cwe_01600",
+    "original_id": "CWE-281"
+  },
+  {
+    "name": "Improper Prevention of Lock Bit Modification",
+    "_id": "cwe/cwe_01339",
+    "original_id": "CWE-1231"
+  },
+  {
+    "name": "Improper Privilege Management",
+    "_id": "cwe/cwe_01587",
+    "original_id": "CWE-269"
+  },
+  {
+    "name": "Improper Protection Against Voltage and Clock Glitches",
+    "_id": "cwe/cwe_01354",
+    "original_id": "CWE-1247"
+  },
+  {
+    "name": "Improper Protection against Electromagnetic Fault Injection (EM-FI)",
+    "_id": "cwe/cwe_01429",
+    "original_id": "CWE-1319"
+  },
+  {
+    "name": "Improper Protection for Outbound Error Messages and Alert Signals",
+    "_id": "cwe/cwe_01430",
+    "original_id": "CWE-1320"
+  },
+  {
+    "name": "Improper Protection of Alternate Path",
+    "_id": "cwe/cwe_01737",
+    "original_id": "CWE-424"
+  },
+  {
+    "name": "Improper Protection of Physical Side Channels",
+    "_id": "cwe/cwe_01414",
+    "original_id": "CWE-1300"
+  },
+  {
+    "name": "Improper Protections Against Hardware Overheating",
+    "_id": "cwe/cwe_01446",
+    "original_id": "CWE-1338"
+  },
+  {
+    "name": "Improper Removal of Sensitive Information Before Storage or Transfer",
+    "_id": "cwe/cwe_01537",
+    "original_id": "CWE-212"
+  },
+  {
+    "name": "Improper Resolution of Path Equivalence",
+    "_id": "cwe/cwe_01725",
+    "original_id": "CWE-41"
+  },
+  {
+    "name": "Improper Resource Locking",
+    "_id": "cwe/cwe_01728",
+    "original_id": "CWE-413"
+  },
+  {
+    "name": "Improper Resource Shutdown or Release",
+    "_id": "cwe/cwe_01719",
+    "original_id": "CWE-404"
+  },
+  {
+    "name": "Improper Restriction of Communication Channel to Intended Endpoints",
+    "_id": "cwe/cwe_02116",
+    "original_id": "CWE-923"
+  },
+  {
+    "name": "Improper Restriction of Excessive Authentication Attempts",
+    "_id": "cwe/cwe_01627",
+    "original_id": "CWE-307"
+  },
+  {
+    "name": "Improper Restriction of Names for Files and Other Resources",
+    "_id": "cwe/cwe_01940",
+    "original_id": "CWE-641"
+  },
+  {
+    "name": "Improper Restriction of Operations within the Bounds of a Memory Buffer",
+    "_id": "cwe/cwe_01320",
+    "original_id": "CWE-119"
+  },
+  {
+    "name": "Improper Restriction of Power Consumption",
+    "_id": "cwe/cwe_02113",
+    "original_id": "CWE-920"
+  },
+  {
+    "name": "Improper Restriction of Recursive Entity References in DTDs ('XML Entity Expansion')",
+    "_id": "cwe/cwe_02033",
+    "original_id": "CWE-776"
+  },
+  {
+    "name": "Improper Restriction of Rendered UI Layers or Frames",
+    "_id": "cwe/cwe_01202",
+    "original_id": "CWE-1021"
+  },
+  {
+    "name": "Improper Restriction of Security Token Assignment",
+    "_id": "cwe/cwe_01367",
+    "original_id": "CWE-1259"
+  },
+  {
+    "name": "Improper Restriction of Software Interfaces to Hardware Features",
+    "_id": "cwe/cwe_01364",
+    "original_id": "CWE-1256"
+  },
+  {
+    "name": "Improper Restriction of Write-Once Bit Fields",
+    "_id": "cwe/cwe_01335",
+    "original_id": "CWE-1224"
+  },
+  {
+    "name": "Improper Restriction of XML External Entity Reference",
+    "_id": "cwe/cwe_01915",
+    "original_id": "CWE-611"
+  },
+  {
+    "name": "Improper Scrubbing of Sensitive Data from Decommissioned Device",
+    "_id": "cwe/cwe_01375",
+    "original_id": "CWE-1266"
+  },
+  {
+    "name": "Improper Setting of Bus Controlling Capability in Fabric End-point",
+    "_id": "cwe/cwe_01425",
+    "original_id": "CWE-1315"
+  },
+  {
+    "name": "Improper Synchronization",
+    "_id": "cwe/cwe_01959",
+    "original_id": "CWE-662"
+  },
+  {
+    "name": "Improper Translation of Security Attributes by Fabric Bridge",
+    "_id": "cwe/cwe_01421",
+    "original_id": "CWE-1311"
+  },
+  {
+    "name": "Improper Update of Reference Count",
+    "_id": "cwe/cwe_02105",
+    "original_id": "CWE-911"
+  },
+  {
+    "name": "Improper Use of Validation Framework",
+    "_id": "cwe/cwe_01313",
+    "original_id": "CWE-1173"
+  },
+  {
+    "name": "Improper Validation of Array Index",
+    "_id": "cwe/cwe_01401",
+    "original_id": "CWE-129"
+  },
+  {
+    "name": "Improper Validation of Certificate Expiration",
+    "_id": "cwe/cwe_01617",
+    "original_id": "CWE-298"
+  },
+  {
+    "name": "Improper Validation of Certificate with Host Mismatch",
+    "_id": "cwe/cwe_01616",
+    "original_id": "CWE-297"
+  },
+  {
+    "name": "Improper Validation of Consistency within Input",
+    "_id": "cwe/cwe_01399",
+    "original_id": "CWE-1288"
+  },
+  {
+    "name": "Improper Validation of Function Hook Arguments",
+    "_id": "cwe/cwe_01927",
+    "original_id": "CWE-622"
+  },
+  {
+    "name": "Improper Validation of Integrity Check Value",
+    "_id": "cwe/cwe_01677",
+    "original_id": "CWE-354"
+  },
+  {
+    "name": "Improper Validation of Specified Index, Position, or Offset in Input",
+    "_id": "cwe/cwe_01396",
+    "original_id": "CWE-1285"
+  },
+  {
+    "name": "Improper Validation of Specified Quantity in Input",
+    "_id": "cwe/cwe_01395",
+    "original_id": "CWE-1284"
+  },
+  {
+    "name": "Improper Validation of Specified Type of Input",
+    "_id": "cwe/cwe_01398",
+    "original_id": "CWE-1287"
+  },
+  {
+    "name": "Improper Validation of Syntactic Correctness of Input",
+    "_id": "cwe/cwe_01397",
+    "original_id": "CWE-1286"
+  },
+  {
+    "name": "Improper Validation of Unsafe Equivalence in Input",
+    "_id": "cwe/cwe_01400",
+    "original_id": "CWE-1289"
+  },
+  {
+    "name": "Improper Verification of Cryptographic Signature",
+    "_id": "cwe/cwe_01669",
+    "original_id": "CWE-347"
+  },
+  {
+    "name": "Improper Verification of Intent by Broadcast Receiver",
+    "_id": "cwe/cwe_02118",
+    "original_id": "CWE-925"
+  },
+  {
+    "name": "Improper Verification of Source of a Communication Channel",
+    "_id": "cwe/cwe_02124",
+    "original_id": "CWE-940"
+  },
+  {
+    "name": "Improper Write Handling in Limited-write Non-Volatile Memories",
+    "_id": "cwe/cwe_01353",
+    "original_id": "CWE-1246"
+  },
+  {
+    "name": "Improper Zeroization of Hardware Register",
+    "_id": "cwe/cwe_01345",
+    "original_id": "CWE-1239"
+  },
+  {
+    "name": "Improperly Controlled Modification of Dynamically-Determined Object Attributes",
+    "_id": "cwe/cwe_02109",
+    "original_id": "CWE-915"
+  },
+  {
+    "name": "Improperly Controlled Modification of Object Prototype Attributes ('Prototype Pollution')",
+    "_id": "cwe/cwe_01431",
+    "original_id": "CWE-1321"
+  },
+  {
+    "name": "Improperly Controlled Sequential Memory Allocation",
+    "_id": "cwe/cwe_01434",
+    "original_id": "CWE-1325"
+  },
+  {
+    "name": "Improperly Implemented Security Check for Standard",
+    "_id": "cwe/cwe_01680",
+    "original_id": "CWE-358"
+  },
+  {
+    "name": "Improperly Preserved Integrity of Hardware Configuration State During a Power Save/Restore Operation",
+    "_id": "cwe/cwe_01418",
+    "original_id": "CWE-1304"
+  },
+  {
+    "name": "Inaccurate Comments",
+    "_id": "cwe/cwe_01294",
+    "original_id": "CWE-1116"
+  },
+  {
+    "name": "Inadequate Encryption Strength",
+    "_id": "cwe/cwe_01646",
+    "original_id": "CWE-326"
+  },
+  {
+    "name": "Inappropriate Comment Style",
+    "_id": "cwe/cwe_01291",
+    "original_id": "CWE-1113"
+  },
+  {
+    "name": "Inappropriate Encoding for Output Context",
+    "_id": "cwe/cwe_02086",
+    "original_id": "CWE-838"
+  },
+  {
+    "name": "Inappropriate Source Code Style or Formatting",
+    "_id": "cwe/cwe_01252",
+    "original_id": "CWE-1078"
+  },
+  {
+    "name": "Inappropriate Whitespace Style",
+    "_id": "cwe/cwe_01292",
+    "original_id": "CWE-1114"
+  },
+  {
+    "name": "Inclusion of Functionality from Untrusted Control Sphere",
+    "_id": "cwe/cwe_02076",
+    "original_id": "CWE-829"
+  },
+  {
+    "name": "Inclusion of Sensitive Information in Source Code",
+    "_id": "cwe/cwe_01845",
+    "original_id": "CWE-540"
+  },
+  {
+    "name": "Inclusion of Sensitive Information in Source Code Comments",
+    "_id": "cwe/cwe_01919",
+    "original_id": "CWE-615"
+  },
+  {
+    "name": "Inclusion of Sensitive Information in Test Code",
+    "_id": "cwe/cwe_01837",
+    "original_id": "CWE-531"
+  },
+  {
+    "name": "Inclusion of Sensitive Information in an Include File",
+    "_id": "cwe/cwe_01846",
+    "original_id": "CWE-541"
+  },
+  {
+    "name": "Inclusion of Undocumented Features or Chicken Bits",
+    "_id": "cwe/cwe_01349",
+    "original_id": "CWE-1242"
+  },
+  {
+    "name": "Inclusion of Web Functionality from an Untrusted Source",
+    "_id": "cwe/cwe_02078",
+    "original_id": "CWE-830"
+  },
+  {
+    "name": "Incomplete Cleanup",
+    "_id": "cwe/cwe_01768",
+    "original_id": "CWE-459"
+  },
+  {
+    "name": "Incomplete Comparison with Missing Factors",
+    "_id": "cwe/cwe_01204",
+    "original_id": "CWE-1023"
+  },
+  {
+    "name": "Incomplete Denylist to Cross-Site Scripting",
+    "_id": "cwe/cwe_01988",
+    "original_id": "CWE-692"
+  },
+  {
+    "name": "Incomplete Design Documentation",
+    "_id": "cwe/cwe_01288",
+    "original_id": "CWE-1110"
+  },
+  {
+    "name": "Incomplete Documentation of Program Execution",
+    "_id": "cwe/cwe_01290",
+    "original_id": "CWE-1112"
+  },
+  {
+    "name": "Incomplete Filtering of Multiple Instances of Special Elements",
+    "_id": "cwe/cwe_02053",
+    "original_id": "CWE-794"
+  },
+  {
+    "name": "Incomplete Filtering of One or More Instances of Special Elements",
+    "_id": "cwe/cwe_02051",
+    "original_id": "CWE-792"
+  },
+  {
+    "name": "Incomplete Filtering of Special Elements",
+    "_id": "cwe/cwe_02050",
+    "original_id": "CWE-791"
+  },
+  {
+    "name": "Incomplete I/O Documentation",
+    "_id": "cwe/cwe_01289",
+    "original_id": "CWE-1111"
+  },
+  {
+    "name": "Incomplete Identification of Uploaded File Variables (PHP)",
+    "_id": "cwe/cwe_01920",
+    "original_id": "CWE-616"
+  },
+  {
+    "name": "Incomplete Internal State Distinction",
+    "_id": "cwe/cwe_01693",
+    "original_id": "CWE-372"
+  },
+  {
+    "name": "Incomplete List of Disallowed Inputs",
+    "_id": "cwe/cwe_01510",
+    "original_id": "CWE-184"
+  },
+  {
+    "name": "Incomplete Model of Endpoint Features",
+    "_id": "cwe/cwe_01750",
+    "original_id": "CWE-437"
+  },
+  {
+    "name": "Inconsistency Between Implementation and Documented Design",
+    "_id": "cwe/cwe_01241",
+    "original_id": "CWE-1068"
+  },
+  {
+    "name": "Inconsistent Interpretation of HTTP Requests ('HTTP Request/Response Smuggling')",
+    "_id": "cwe/cwe_01755",
+    "original_id": "CWE-444"
+  },
+  {
+    "name": "Inconsistent Naming Conventions for Identifiers",
+    "_id": "cwe/cwe_01274",
+    "original_id": "CWE-1099"
+  },
+  {
+    "name": "Incorrect Access of Indexable Resource ('Range Error')",
+    "_id": "cwe/cwe_01317",
+    "original_id": "CWE-118"
+  },
+  {
+    "name": "Incorrect Authorization",
+    "_id": "cwe/cwe_02095",
+    "original_id": "CWE-863"
+  },
+  {
+    "name": "Incorrect Behavior Order",
+    "_id": "cwe/cwe_01992",
+    "original_id": "CWE-696"
+  },
+  {
+    "name": "Incorrect Behavior Order: Authorization Before Parsing and Canonicalization",
+    "_id": "cwe/cwe_01855",
+    "original_id": "CWE-551"
+  },
+  {
+    "name": "Incorrect Behavior Order: Early Amplification",
+    "_id": "cwe/cwe_01723",
+    "original_id": "CWE-408"
+  },
+  {
+    "name": "Incorrect Behavior Order: Early Validation",
+    "_id": "cwe/cwe_01505",
+    "original_id": "CWE-179"
+  },
+  {
+    "name": "Incorrect Behavior Order: Validate Before Canonicalize",
+    "_id": "cwe/cwe_01506",
+    "original_id": "CWE-180"
+  },
+  {
+    "name": "Incorrect Behavior Order: Validate Before Filter",
+    "_id": "cwe/cwe_01507",
+    "original_id": "CWE-181"
+  },
+  {
+    "name": "Incorrect Bitwise Shift of Integer",
+    "_id": "cwe/cwe_01444",
+    "original_id": "CWE-1335"
+  },
+  {
+    "name": "Incorrect Block Delimitation",
+    "_id": "cwe/cwe_01793",
+    "original_id": "CWE-483"
+  },
+  {
+    "name": "Incorrect Calculation",
+    "_id": "cwe/cwe_01977",
+    "original_id": "CWE-682"
+  },
+  {
+    "name": "Incorrect Calculation of Buffer Size",
+    "_id": "cwe/cwe_01419",
+    "original_id": "CWE-131"
+  },
+  {
+    "name": "Incorrect Calculation of Multi-Byte String Length",
+    "_id": "cwe/cwe_01451",
+    "original_id": "CWE-135"
+  },
+  {
+    "name": "Incorrect Chaining or Granularity of Debug Components",
+    "_id": "cwe/cwe_01408",
+    "original_id": "CWE-1296"
+  },
+  {
+    "name": "Incorrect Check of Function Return Value",
+    "_id": "cwe/cwe_01574",
+    "original_id": "CWE-253"
+  },
+  {
+    "name": "Incorrect Comparison",
+    "_id": "cwe/cwe_01993",
+    "original_id": "CWE-697"
+  },
+  {
+    "name": "Incorrect Comparison Logic Granularity",
+    "_id": "cwe/cwe_01362",
+    "original_id": "CWE-1254"
+  },
+  {
+    "name": "Incorrect Control Flow Scoping",
+    "_id": "cwe/cwe_01998",
+    "original_id": "CWE-705"
+  },
+  {
+    "name": "Incorrect Conversion between Numeric Types",
+    "_id": "cwe/cwe_01976",
+    "original_id": "CWE-681"
+  },
+  {
+    "name": "Incorrect Conversion of Security Identifiers",
+    "_id": "cwe/cwe_01404",
+    "original_id": "CWE-1292"
+  },
+  {
+    "name": "Incorrect Decoding of Security Identifiers ",
+    "_id": "cwe/cwe_01402",
+    "original_id": "CWE-1290"
+  },
+  {
+    "name": "Incorrect Default Permissions",
+    "_id": "cwe/cwe_01594",
+    "original_id": "CWE-276"
+  },
+  {
+    "name": "Incorrect Execution-Assigned Permissions",
+    "_id": "cwe/cwe_01597",
+    "original_id": "CWE-279"
+  },
+  {
+    "name": "Incorrect Implementation of Authentication Algorithm",
+    "_id": "cwe/cwe_01623",
+    "original_id": "CWE-303"
+  },
+  {
+    "name": "Incorrect Initialization of Resource",
+    "_id": "cwe/cwe_01468",
+    "original_id": "CWE-1419"
+  },
+  {
+    "name": "Incorrect Ownership Assignment",
+    "_id": "cwe/cwe_02001",
+    "original_id": "CWE-708"
+  },
+  {
+    "name": "Incorrect Parsing of Numbers with Different Radices",
+    "_id": "cwe/cwe_01458",
+    "original_id": "CWE-1389"
+  },
+  {
+    "name": "Incorrect Permission Assignment for Critical Resource",
+    "_id": "cwe/cwe_02005",
+    "original_id": "CWE-732"
+  },
+  {
+    "name": "Incorrect Pointer Scaling",
+    "_id": "cwe/cwe_01776",
+    "original_id": "CWE-468"
+  },
+  {
+    "name": "Incorrect Privilege Assignment",
+    "_id": "cwe/cwe_01584",
+    "original_id": "CWE-266"
+  },
+  {
+    "name": "Incorrect Provision of Specified Functionality",
+    "_id": "cwe/cwe_01979",
+    "original_id": "CWE-684"
+  },
+  {
+    "name": "Incorrect Register Defaults or Module Parameters",
+    "_id": "cwe/cwe_01332",
+    "original_id": "CWE-1221"
+  },
+  {
+    "name": "Incorrect Regular Expression",
+    "_id": "cwe/cwe_01511",
+    "original_id": "CWE-185"
+  },
+  {
+    "name": "Incorrect Resource Transfer Between Spheres",
+    "_id": "cwe/cwe_01966",
+    "original_id": "CWE-669"
+  },
+  {
+    "name": "Incorrect Selection of Fuse Values",
+    "_id": "cwe/cwe_01361",
+    "original_id": "CWE-1253"
+  },
+  {
+    "name": "Incorrect Short Circuit Evaluation",
+    "_id": "cwe/cwe_02025",
+    "original_id": "CWE-768"
+  },
+  {
+    "name": "Incorrect Synchronization",
+    "_id": "cwe/cwe_02068",
+    "original_id": "CWE-821"
+  },
+  {
+    "name": "Incorrect Type Conversion or Cast",
+    "_id": "cwe/cwe_01997",
+    "original_id": "CWE-704"
+  },
+  {
+    "name": "Incorrect Usage of Seeds in Pseudo-Random Number Generator (PRNG)",
+    "_id": "cwe/cwe_01656",
+    "original_id": "CWE-335"
+  },
+  {
+    "name": "Incorrect Use of Autoboxing and Unboxing for Performance Critical Operations",
+    "_id": "cwe/cwe_01343",
+    "original_id": "CWE-1235"
+  },
+  {
+    "name": "Incorrect Use of Privileged APIs",
+    "_id": "cwe/cwe_01947",
+    "original_id": "CWE-648"
+  },
+  {
+    "name": "Incorrect User Management",
+    "_id": "cwe/cwe_01605",
+    "original_id": "CWE-286"
+  },
+  {
+    "name": "Incorrectly Specified Destination in a Communication Channel",
+    "_id": "cwe/cwe_02125",
+    "original_id": "CWE-941"
+  },
+  {
+    "name": "Inefficient Algorithmic Complexity",
+    "_id": "cwe/cwe_01722",
+    "original_id": "CWE-407"
+  },
+  {
+    "name": "Inefficient CPU Computation",
+    "_id": "cwe/cwe_01315",
+    "original_id": "CWE-1176"
+  },
+  {
+    "name": "Inefficient Regular Expression Complexity",
+    "_id": "cwe/cwe_01442",
+    "original_id": "CWE-1333"
+  },
+  {
+    "name": "Information Exposure through Microarchitectural State after Transient Execution",
+    "_id": "cwe/cwe_01450",
+    "original_id": "CWE-1342"
+  },
+  {
+    "name": "Information Loss or Omission",
+    "_id": "cwe/cwe_01544",
+    "original_id": "CWE-221"
+  },
+  {
+    "name": "Initialization of a Resource with an Insecure Default",
+    "_id": "cwe/cwe_01318",
+    "original_id": "CWE-1188"
+  },
+  {
+    "name": "Initialization with Hard-Coded Network Resource Configuration Data",
+    "_id": "cwe/cwe_01223",
+    "original_id": "CWE-1051"
+  },
+  {
+    "name": "Insecure Automated Optimizations",
+    "_id": "cwe/cwe_01209",
+    "original_id": "CWE-1038"
+  },
+  {
+    "name": "Insecure Default Variable Initialization",
+    "_id": "cwe/cwe_01763",
+    "original_id": "CWE-453"
+  },
+  {
+    "name": "Insecure Inherited Permissions",
+    "_id": "cwe/cwe_01595",
+    "original_id": "CWE-277"
+  },
+  {
+    "name": "Insecure Operation on Windows Junction / Mount Point",
+    "_id": "cwe/cwe_01457",
+    "original_id": "CWE-1386"
+  },
+  {
+    "name": "Insecure Preserved Inherited Permissions",
+    "_id": "cwe/cwe_01596",
+    "original_id": "CWE-278"
+  },
+  {
+    "name": "Insecure Security Identifier Mechanism",
+    "_id": "cwe/cwe_01406",
+    "original_id": "CWE-1294"
+  },
+  {
+    "name": "Insecure Storage of Sensitive Information",
+    "_id": "cwe/cwe_02115",
+    "original_id": "CWE-922"
+  },
+  {
+    "name": "Insecure Temporary File",
+    "_id": "cwe/cwe_01696",
+    "original_id": "CWE-377"
+  },
+  {
+    "name": "Insertion of Sensitive Information Into Debugging Code",
+    "_id": "cwe/cwe_01540",
+    "original_id": "CWE-215"
+  },
+  {
+    "name": "Insertion of Sensitive Information Into Sent Data",
+    "_id": "cwe/cwe_01526",
+    "original_id": "CWE-201"
+  },
+  {
+    "name": "Insertion of Sensitive Information into Externally-Accessible File or Directory",
+    "_id": "cwe/cwe_01842",
+    "original_id": "CWE-538"
+  },
+  {
+    "name": "Insertion of Sensitive Information into Log File",
+    "_id": "cwe/cwe_01838",
+    "original_id": "CWE-532"
+  },
+  {
+    "name": "Insufficient Adherence to Expected Conventions",
+    "_id": "cwe/cwe_01250",
+    "original_id": "CWE-1076"
+  },
+  {
+    "name": "Insufficient Control Flow Management",
+    "_id": "cwe/cwe_01987",
+    "original_id": "CWE-691"
+  },
+  {
+    "name": "Insufficient Control of Network Message Volume (Network Amplification)",
+    "_id": "cwe/cwe_01721",
+    "original_id": "CWE-406"
+  },
+  {
+    "name": "Insufficient Documentation of Error Handling Techniques",
+    "_id": "cwe/cwe_01296",
+    "original_id": "CWE-1118"
+  },
+  {
+    "name": "Insufficient Encapsulation",
+    "_id": "cwe/cwe_01234",
+    "original_id": "CWE-1061"
+  },
+  {
+    "name": "Insufficient Encapsulation of Machine-Dependent Functionality",
+    "_id": "cwe/cwe_01282",
+    "original_id": "CWE-1105"
+  },
+  {
+    "name": "Insufficient Entropy",
+    "_id": "cwe/cwe_01652",
+    "original_id": "CWE-331"
+  },
+  {
+    "name": "Insufficient Entropy in PRNG",
+    "_id": "cwe/cwe_01653",
+    "original_id": "CWE-332"
+  },
+  {
+    "name": "Insufficient Granularity of Access Control",
+    "_id": "cwe/cwe_01331",
+    "original_id": "CWE-1220"
+  },
+  {
+    "name": "Insufficient Granularity of Address Regions Protected by Register Locks",
+    "_id": "cwe/cwe_01333",
+    "original_id": "CWE-1222"
+  },
+  {
+    "name": "Insufficient Isolation of Symbolic Constant Definitions",
+    "_id": "cwe/cwe_01284",
+    "original_id": "CWE-1107"
+  },
+  {
+    "name": "Insufficient Isolation of System-Dependent Functions",
+    "_id": "cwe/cwe_01277",
+    "original_id": "CWE-1100"
+  },
+  {
+    "name": "Insufficient Logging",
+    "_id": "cwe/cwe_02035",
+    "original_id": "CWE-778"
+  },
+  {
+    "name": "Insufficient Precision or Accuracy of a Real Number",
+    "_id": "cwe/cwe_01447",
+    "original_id": "CWE-1339"
+  },
+  {
+    "name": "Insufficient Psychological Acceptability",
+    "_id": "cwe/cwe_01955",
+    "original_id": "CWE-655"
+  },
+  {
+    "name": "Insufficient Resource Pool",
+    "_id": "cwe/cwe_01726",
+    "original_id": "CWE-410"
+  },
+  {
+    "name": "Insufficient Session Expiration",
+    "_id": "cwe/cwe_01917",
+    "original_id": "CWE-613"
+  },
+  {
+    "name": "Insufficient Technical Documentation",
+    "_id": "cwe/cwe_01231",
+    "original_id": "CWE-1059"
+  },
+  {
+    "name": "Insufficient Type Distinction",
+    "_id": "cwe/cwe_01674",
+    "original_id": "CWE-351"
+  },
+  {
+    "name": "Insufficient UI Warning of Dangerous Operations",
+    "_id": "cwe/cwe_01679",
+    "original_id": "CWE-357"
+  },
+  {
+    "name": "Insufficient Use of Symbolic Constants",
+    "_id": "cwe/cwe_01283",
+    "original_id": "CWE-1106"
+  },
+  {
+    "name": "Insufficient Verification of Data Authenticity",
+    "_id": "cwe/cwe_01667",
+    "original_id": "CWE-345"
+  },
+  {
+    "name": "Insufficient Visual Distinction of Homoglyphs Presented to User",
+    "_id": "cwe/cwe_01200",
+    "original_id": "CWE-1007"
+  },
+  {
+    "name": "Insufficient or Incomplete Data Removal within Hardware Component",
+    "_id": "cwe/cwe_01415",
+    "original_id": "CWE-1301"
+  },
+  {
+    "name": "Insufficiently Protected Credentials",
+    "_id": "cwe/cwe_01827",
+    "original_id": "CWE-522"
+  },
+  {
+    "name": "Integer Coercion Error",
+    "_id": "cwe/cwe_01517",
+    "original_id": "CWE-192"
+  },
+  {
+    "name": "Integer Overflow or Wraparound",
+    "_id": "cwe/cwe_01515",
+    "original_id": "CWE-190"
+  },
+  {
+    "name": "Integer Overflow to Buffer Overflow",
+    "_id": "cwe/cwe_01975",
+    "original_id": "CWE-680"
+  },
+  {
+    "name": "Integer Underflow (Wrap or Wraparound)",
+    "_id": "cwe/cwe_01516",
+    "original_id": "CWE-191"
+  },
+  {
+    "name": "Internal Asset Exposed to Unsafe Debug Access Level or State",
+    "_id": "cwe/cwe_01351",
+    "original_id": "CWE-1244"
+  },
+  {
+    "name": "Interpretation Conflict",
+    "_id": "cwe/cwe_01749",
+    "original_id": "CWE-436"
+  },
+  {
+    "name": "Invocation of Process Using Visible Sensitive Information",
+    "_id": "cwe/cwe_01539",
+    "original_id": "CWE-214"
+  },
+  {
+    "name": "Invocation of a Control Element at an Unnecessarily Deep Horizontal Layer",
+    "_id": "cwe/cwe_01226",
+    "original_id": "CWE-1054"
+  },
+  {
+    "name": "Invokable Control Element in Multi-Thread Context with non-Final Static Storable or Member Element",
+    "_id": "cwe/cwe_01230",
+    "original_id": "CWE-1058"
+  },
+  {
+    "name": "Invokable Control Element with Excessive File or Data Access Operations",
+    "_id": "cwe/cwe_01258",
+    "original_id": "CWE-1084"
+  },
+  {
+    "name": "Invokable Control Element with Excessive Volume of Commented-out Code",
+    "_id": "cwe/cwe_01259",
+    "original_id": "CWE-1085"
+  },
+  {
+    "name": "Invokable Control Element with Large Number of Outward Calls",
+    "_id": "cwe/cwe_01219",
+    "original_id": "CWE-1048"
+  },
+  {
+    "name": "Invokable Control Element with Signature Containing an Excessive Number of Parameters",
+    "_id": "cwe/cwe_01237",
+    "original_id": "CWE-1064"
+  },
+  {
+    "name": "Invokable Control Element with Variadic Parameters",
+    "_id": "cwe/cwe_01228",
+    "original_id": "CWE-1056"
+  },
+  {
+    "name": "Irrelevant Code",
+    "_id": "cwe/cwe_01311",
+    "original_id": "CWE-1164"
+  },
+  {
+    "name": "J2EE Bad Practices: Direct Management of Connections",
+    "_id": "cwe/cwe_01568",
+    "original_id": "CWE-245"
+  },
+  {
+    "name": "J2EE Bad Practices: Direct Use of Sockets",
+    "_id": "cwe/cwe_01569",
+    "original_id": "CWE-246"
+  },
+  {
+    "name": "J2EE Bad Practices: Direct Use of Threads",
+    "_id": "cwe/cwe_01701",
+    "original_id": "CWE-383"
+  },
+  {
+    "name": "J2EE Bad Practices: Non-serializable Object Stored in Session",
+    "_id": "cwe/cwe_01882",
+    "original_id": "CWE-579"
+  },
+  {
+    "name": "J2EE Bad Practices: Use of System.exit()",
+    "_id": "cwe/cwe_01700",
+    "original_id": "CWE-382"
+  },
+  {
+    "name": "J2EE Framework: Saving Unserializable Objects to Disk",
+    "_id": "cwe/cwe_01898",
+    "original_id": "CWE-594"
+  },
+  {
+    "name": "J2EE Misconfiguration: Data Transmission Without Encryption",
+    "_id": "cwe/cwe_01809",
+    "original_id": "CWE-5"
+  },
+  {
+    "name": "J2EE Misconfiguration: Entity Bean Declared Remote",
+    "_id": "cwe/cwe_02059",
+    "original_id": "CWE-8"
+  },
+  {
+    "name": "J2EE Misconfiguration: Insufficient Session-ID Length",
+    "_id": "cwe/cwe_01903",
+    "original_id": "CWE-6"
+  },
+  {
+    "name": "J2EE Misconfiguration: Missing Custom Error Page",
+    "_id": "cwe/cwe_01995",
+    "original_id": "CWE-7"
+  },
+  {
+    "name": "J2EE Misconfiguration: Plaintext Password in Configuration File",
+    "_id": "cwe/cwe_01859",
+    "original_id": "CWE-555"
+  },
+  {
+    "name": "J2EE Misconfiguration: Weak Access Permissions for EJB Methods",
+    "_id": "cwe/cwe_02099",
+    "original_id": "CWE-9"
+  },
+  {
+    "name": "Java Runtime Error Message Containing Sensitive Information",
+    "_id": "cwe/cwe_01841",
+    "original_id": "CWE-537"
+  },
+  {
+    "name": "Key Exchange without Entity Authentication",
+    "_id": "cwe/cwe_01642",
+    "original_id": "CWE-322"
+  },
+  {
+    "name": "Lack of Administrator Control over Security",
+    "_id": "cwe/cwe_01969",
+    "original_id": "CWE-671"
+  },
+  {
+    "name": "Large Data Table with Excessive Number of Indices",
+    "_id": "cwe/cwe_01263",
+    "original_id": "CWE-1089"
+  },
+  {
+    "name": "Least Privilege Violation",
+    "_id": "cwe/cwe_01591",
+    "original_id": "CWE-272"
+  },
+  {
+    "name": "Logging of Excessive Data",
+    "_id": "cwe/cwe_02036",
+    "original_id": "CWE-779"
+  },
+  {
+    "name": "Logic/Time Bomb",
+    "_id": "cwe/cwe_01820",
+    "original_id": "CWE-511"
+  },
+  {
+    "name": "Loop Condition Value Update within the Loop",
+    "_id": "cwe/cwe_01270",
+    "original_id": "CWE-1095"
+  },
+  {
+    "name": "Loop with Unreachable Exit Condition ('Infinite Loop')",
+    "_id": "cwe/cwe_02083",
+    "original_id": "CWE-835"
+  },
+  {
+    "name": "Memory Allocation with Excessive Size Value",
+    "_id": "cwe/cwe_02047",
+    "original_id": "CWE-789"
+  },
+  {
+    "name": "Method Containing Access of a Member Element from Another Class",
+    "_id": "cwe/cwe_01265",
+    "original_id": "CWE-1090"
+  },
+  {
+    "name": "Mirrored Regions with Different Values",
+    "_id": "cwe/cwe_01359",
+    "original_id": "CWE-1251"
+  },
+  {
+    "name": "Misinterpretation of Input",
+    "_id": "cwe/cwe_01309",
+    "original_id": "CWE-115"
+  },
+  {
+    "name": "Mismatched Memory Management Routines",
+    "_id": "cwe/cwe_02019",
+    "original_id": "CWE-762"
+  },
+  {
+    "name": "Missing Ability to Patch ROM Code",
+    "_id": "cwe/cwe_01420",
+    "original_id": "CWE-1310"
+  },
+  {
+    "name": "Missing Authentication for Critical Function",
+    "_id": "cwe/cwe_01626",
+    "original_id": "CWE-306"
+  },
+  {
+    "name": "Missing Authorization",
+    "_id": "cwe/cwe_02094",
+    "original_id": "CWE-862"
+  },
+  {
+    "name": "Missing Check for Certificate Revocation after Initial Check",
+    "_id": "cwe/cwe_01692",
+    "original_id": "CWE-370"
+  },
+  {
+    "name": "Missing Critical Step in Authentication",
+    "_id": "cwe/cwe_01624",
+    "original_id": "CWE-304"
+  },
+  {
+    "name": "Missing Cryptographic Step",
+    "_id": "cwe/cwe_01645",
+    "original_id": "CWE-325"
+  },
+  {
+    "name": "Missing Custom Error Page",
+    "_id": "cwe/cwe_02012",
+    "original_id": "CWE-756"
+  },
+  {
+    "name": "Missing Default Case in Multiple Condition Expression",
+    "_id": "cwe/cwe_01787",
+    "original_id": "CWE-478"
+  },
+  {
+    "name": "Missing Documentation for Design",
+    "_id": "cwe/cwe_01225",
+    "original_id": "CWE-1053"
+  },
+  {
+    "name": "Missing Encryption of Sensitive Data",
+    "_id": "cwe/cwe_01631",
+    "original_id": "CWE-311"
+  },
+  {
+    "name": "Missing Handler",
+    "_id": "cwe/cwe_01744",
+    "original_id": "CWE-431"
+  },
+  {
+    "name": "Missing Immutable Root of Trust in Hardware",
+    "_id": "cwe/cwe_01435",
+    "original_id": "CWE-1326"
+  },
+  {
+    "name": "Missing Initialization of Resource",
+    "_id": "cwe/cwe_02102",
+    "original_id": "CWE-909"
+  },
+  {
+    "name": "Missing Initialization of a Variable",
+    "_id": "cwe/cwe_01766",
+    "original_id": "CWE-456"
+  },
+  {
+    "name": "Missing Lock Check",
+    "_id": "cwe/cwe_01729",
+    "original_id": "CWE-414"
+  },
+  {
+    "name": "Missing Origin Validation in WebSockets",
+    "_id": "cwe/cwe_01456",
+    "original_id": "CWE-1385"
+  },
+  {
+    "name": "Missing Password Field Masking",
+    "_id": "cwe/cwe_01852",
+    "original_id": "CWE-549"
+  },
+  {
+    "name": "Missing Protection Against Hardware Reverse Engineering Using Integrated Circuit (IC) Imaging Techniques",
+    "_id": "cwe/cwe_01388",
+    "original_id": "CWE-1278"
+  },
+  {
+    "name": "Missing Protection Mechanism for Alternate Hardware Interface",
+    "_id": "cwe/cwe_01411",
+    "original_id": "CWE-1299"
+  },
+  {
+    "name": "Missing Protection for Mirrored Regions in On-Chip Fabric Firewall",
+    "_id": "cwe/cwe_01422",
+    "original_id": "CWE-1312"
+  },
+  {
+    "name": "Missing Reference to Active Allocated Resource",
+    "_id": "cwe/cwe_02028",
+    "original_id": "CWE-771"
+  },
+  {
+    "name": "Missing Reference to Active File Descriptor or Handle",
+    "_id": "cwe/cwe_02030",
+    "original_id": "CWE-773"
+  },
+  {
+    "name": "Missing Release of File Descriptor or Handle after Effective Lifetime",
+    "_id": "cwe/cwe_02032",
+    "original_id": "CWE-775"
+  },
+  {
+    "name": "Missing Release of Memory after Effective Lifetime",
+    "_id": "cwe/cwe_01716",
+    "original_id": "CWE-401"
+  },
+  {
+    "name": "Missing Release of Resource after Effective Lifetime",
+    "_id": "cwe/cwe_02029",
+    "original_id": "CWE-772"
+  },
+  {
+    "name": "Missing Report of Error Condition",
+    "_id": "cwe/cwe_01708",
+    "original_id": "CWE-392"
+  },
+  {
+    "name": "Missing Security Identifier",
+    "_id": "cwe/cwe_01416",
+    "original_id": "CWE-1302"
+  },
+  {
+    "name": "Missing Serialization Control Element",
+    "_id": "cwe/cwe_01239",
+    "original_id": "CWE-1066"
+  },
+  {
+    "name": "Missing Source Correlation of Multiple Independent Data",
+    "_id": "cwe/cwe_01405",
+    "original_id": "CWE-1293"
+  },
+  {
+    "name": "Missing Standardized Error Handling Mechanism",
+    "_id": "cwe/cwe_01848",
+    "original_id": "CWE-544"
+  },
+  {
+    "name": "Missing Support for Integrity Check",
+    "_id": "cwe/cwe_01676",
+    "original_id": "CWE-353"
+  },
+  {
+    "name": "Missing Support for Security Features in On-chip Fabrics or Buses",
+    "_id": "cwe/cwe_01428",
+    "original_id": "CWE-1318"
+  },
+  {
+    "name": "Missing Synchronization",
+    "_id": "cwe/cwe_02067",
+    "original_id": "CWE-820"
+  },
+  {
+    "name": "Missing Validation of OpenSSL Certificate",
+    "_id": "cwe/cwe_01902",
+    "original_id": "CWE-599"
+  },
+  {
+    "name": "Missing Write Protection for Parametric Data Values",
+    "_id": "cwe/cwe_01424",
+    "original_id": "CWE-1314"
+  },
+  {
+    "name": "Missing XML Validation",
+    "_id": "cwe/cwe_01298",
+    "original_id": "CWE-112"
+  },
+  {
+    "name": "Modification of Assumed-Immutable Data (MAID)",
+    "_id": "cwe/cwe_01780",
+    "original_id": "CWE-471"
+  },
+  {
+    "name": "Modules with Circular Dependencies",
+    "_id": "cwe/cwe_01218",
+    "original_id": "CWE-1047"
+  },
+  {
+    "name": "Multiple Binds to the Same Port",
+    "_id": "cwe/cwe_01908",
+    "original_id": "CWE-605"
+  },
+  {
+    "name": "Multiple Inheritance from Concrete Classes",
+    "_id": "cwe/cwe_01227",
+    "original_id": "CWE-1055"
+  },
+  {
+    "name": "Multiple Interpretations of UI Input",
+    "_id": "cwe/cwe_01761",
+    "original_id": "CWE-450"
+  },
+  {
+    "name": "Multiple Locks of a Critical Resource",
+    "_id": "cwe/cwe_02021",
+    "original_id": "CWE-764"
+  },
+  {
+    "name": "Multiple Operations on Resource in Single-Operation Context",
+    "_id": "cwe/cwe_01973",
+    "original_id": "CWE-675"
+  },
+  {
+    "name": "Multiple Releases of Same Resource or Handle",
+    "_id": "cwe/cwe_01449",
+    "original_id": "CWE-1341"
+  },
+  {
+    "name": "Multiple Unlocks of a Critical Resource",
+    "_id": "cwe/cwe_02022",
+    "original_id": "CWE-765"
+  },
+  {
+    "name": "Mutable Attestation or Measurement Reporting Data",
+    "_id": "cwe/cwe_01394",
+    "original_id": "CWE-1283"
+  },
+  {
+    "name": "NULL Pointer Dereference",
+    "_id": "cwe/cwe_01785",
+    "original_id": "CWE-476"
+  },
+  {
+    "name": "Non-Replicating Malicious Code",
+    "_id": "cwe/cwe_01816",
+    "original_id": "CWE-508"
+  },
+  {
+    "name": "Non-SQL Invokable Control Element with Excessive Number of Data Resource Accesses",
+    "_id": "cwe/cwe_01247",
+    "original_id": "CWE-1073"
+  },
+  {
+    "name": "Non-Transparent Sharing of Microarchitectural Resources",
+    "_id": "cwe/cwe_01417",
+    "original_id": "CWE-1303"
+  },
+  {
+    "name": "Non-exit on Failed Initialization",
+    "_id": "cwe/cwe_01765",
+    "original_id": "CWE-455"
+  },
+  {
+    "name": "Not Failing Securely ('Failing Open')",
+    "_id": "cwe/cwe_01934",
+    "original_id": "CWE-636"
+  },
+  {
+    "name": "Not Using Complete Mediation",
+    "_id": "cwe/cwe_01936",
+    "original_id": "CWE-638"
+  },
+  {
+    "name": "Not Using Password Aging",
+    "_id": "cwe/cwe_01582",
+    "original_id": "CWE-262"
+  },
+  {
+    "name": "Null Byte Interaction Error (Poison Null Byte)",
+    "_id": "cwe/cwe_01931",
+    "original_id": "CWE-626"
+  },
+  {
+    "name": "Numeric Range Comparison Without Minimum Check",
+    "_id": "cwe/cwe_02087",
+    "original_id": "CWE-839"
+  },
+  {
+    "name": "Numeric Truncation Error",
+    "_id": "cwe/cwe_01522",
+    "original_id": "CWE-197"
+  },
+  {
+    "name": "Object Model Violation: Just One of Equals and Hashcode Defined",
+    "_id": "cwe/cwe_01885",
+    "original_id": "CWE-581"
+  },
+  {
+    "name": "Obscured Security-relevant Information by Alternate Name",
+    "_id": "cwe/cwe_01547",
+    "original_id": "CWE-224"
+  },
+  {
+    "name": "Observable Behavioral Discrepancy",
+    "_id": "cwe/cwe_01530",
+    "original_id": "CWE-205"
+  },
+  {
+    "name": "Observable Behavioral Discrepancy With Equivalent Products",
+    "_id": "cwe/cwe_01532",
+    "original_id": "CWE-207"
+  },
+  {
+    "name": "Observable Discrepancy",
+    "_id": "cwe/cwe_01528",
+    "original_id": "CWE-203"
+  },
+  {
+    "name": "Observable Internal Behavioral Discrepancy",
+    "_id": "cwe/cwe_01531",
+    "original_id": "CWE-206"
+  },
+  {
+    "name": "Observable Response Discrepancy",
+    "_id": "cwe/cwe_01529",
+    "original_id": "CWE-204"
+  },
+  {
+    "name": "Observable Timing Discrepancy",
+    "_id": "cwe/cwe_01533",
+    "original_id": "CWE-208"
+  },
+  {
+    "name": "Obsolete Feature in UI",
+    "_id": "cwe/cwe_01758",
+    "original_id": "CWE-448"
+  },
+  {
+    "name": "Off-by-one Error",
+    "_id": "cwe/cwe_01518",
+    "original_id": "CWE-193"
+  },
+  {
+    "name": "Omission of Security-relevant Information",
+    "_id": "cwe/cwe_01546",
+    "original_id": "CWE-223"
+  },
+  {
+    "name": "Omitted Break Statement in Switch",
+    "_id": "cwe/cwe_01794",
+    "original_id": "CWE-484"
+  },
+  {
+    "name": "On-Chip Debug and Test Interface With Improper Access Control",
+    "_id": "cwe/cwe_01322",
+    "original_id": "CWE-1191"
+  },
+  {
+    "name": "Only Filtering One Instance of a Special Element",
+    "_id": "cwe/cwe_02052",
+    "original_id": "CWE-793"
+  },
+  {
+    "name": "Only Filtering Special Elements Relative to a Marker",
+    "_id": "cwe/cwe_02055",
+    "original_id": "CWE-796"
+  },
+  {
+    "name": "Only Filtering Special Elements at a Specified Location",
+    "_id": "cwe/cwe_02054",
+    "original_id": "CWE-795"
+  },
+  {
+    "name": "Only Filtering Special Elements at an Absolute Position",
+    "_id": "cwe/cwe_02056",
+    "original_id": "CWE-797"
+  },
+  {
+    "name": "Operation on Resource in Wrong Phase of Lifetime",
+    "_id": "cwe/cwe_01963",
+    "original_id": "CWE-666"
+  },
+  {
+    "name": "Operation on a Resource after Expiration or Release",
+    "_id": "cwe/cwe_01970",
+    "original_id": "CWE-672"
+  },
+  {
+    "name": "Operator Precedence Logic Error",
+    "_id": "cwe/cwe_02041",
+    "original_id": "CWE-783"
+  },
+  {
+    "name": "Origin Validation Error",
+    "_id": "cwe/cwe_01668",
+    "original_id": "CWE-346"
+  },
+  {
+    "name": "Out-of-bounds Read",
+    "_id": "cwe/cwe_01357",
+    "original_id": "CWE-125"
+  },
+  {
+    "name": "Out-of-bounds Write",
+    "_id": "cwe/cwe_02045",
+    "original_id": "CWE-787"
+  },
+  {
+    "name": "Overly Restrictive Account Lockout Mechanism",
+    "_id": "cwe/cwe_01944",
+    "original_id": "CWE-645"
+  },
+  {
+    "name": "Overly Restrictive Regular Expression",
+    "_id": "cwe/cwe_01512",
+    "original_id": "CWE-186"
+  },
+  {
+    "name": "PHP External Variable Modification",
+    "_id": "cwe/cwe_01782",
+    "original_id": "CWE-473"
+  },
+  {
+    "name": "Parent Class with References to Child Class",
+    "_id": "cwe/cwe_01235",
+    "original_id": "CWE-1062"
+  },
+  {
+    "name": "Parent Class with a Virtual Destructor and a Child Class without a Virtual Destructor",
+    "_id": "cwe/cwe_01216",
+    "original_id": "CWE-1045"
+  },
+  {
+    "name": "Parent Class without Virtual Destructor Method",
+    "_id": "cwe/cwe_01253",
+    "original_id": "CWE-1079"
+  },
+  {
+    "name": "Partial String Comparison",
+    "_id": "cwe/cwe_01513",
+    "original_id": "CWE-187"
+  },
+  {
+    "name": "Passing Mutable Objects to an Untrusted Method",
+    "_id": "cwe/cwe_01694",
+    "original_id": "CWE-374"
+  },
+  {
+    "name": "Password Aging with Long Expiration",
+    "_id": "cwe/cwe_01583",
+    "original_id": "CWE-263"
+  },
+  {
+    "name": "Password in Configuration File",
+    "_id": "cwe/cwe_01580",
+    "original_id": "CWE-260"
+  },
+  {
+    "name": "Path Equivalence: ' filename' (Leading Space)",
+    "_id": "cwe/cwe_01778",
+    "original_id": "CWE-47"
+  },
+  {
+    "name": "Path Equivalence: '/./' (Single Dot Directory)",
+    "_id": "cwe/cwe_01853",
+    "original_id": "CWE-55"
+  },
+  {
+    "name": "Path Equivalence: '//multiple/leading/slash'",
+    "_id": "cwe/cwe_01810",
+    "original_id": "CWE-50"
+  },
+  {
+    "name": "Path Equivalence: '/multiple//internal/slash'",
+    "_id": "cwe/cwe_01818",
+    "original_id": "CWE-51"
+  },
+  {
+    "name": "Path Equivalence: '/multiple/trailing/slash//'",
+    "_id": "cwe/cwe_01824",
+    "original_id": "CWE-52"
+  },
+  {
+    "name": "Path Equivalence: '\\multiple\\\\internal\\backslash'",
+    "_id": "cwe/cwe_01835",
+    "original_id": "CWE-53"
+  },
+  {
+    "name": "Path Equivalence: 'fakedir/../realdir/filename'",
+    "_id": "cwe/cwe_01872",
+    "original_id": "CWE-57"
+  },
+  {
+    "name": "Path Equivalence: 'file name' (Internal Whitespace)",
+    "_id": "cwe/cwe_01789",
+    "original_id": "CWE-48"
+  },
+  {
+    "name": "Path Equivalence: 'file...name' (Multiple Internal Dot)",
+    "_id": "cwe/cwe_01760",
+    "original_id": "CWE-45"
+  },
+  {
+    "name": "Path Equivalence: 'file.name' (Internal Dot)",
+    "_id": "cwe/cwe_01752",
+    "original_id": "CWE-44"
+  },
+  {
+    "name": "Path Equivalence: 'filedir*' (Wildcard)",
+    "_id": "cwe/cwe_01862",
+    "original_id": "CWE-56"
+  },
+  {
+    "name": "Path Equivalence: 'filedir\\' (Trailing Backslash)",
+    "_id": "cwe/cwe_01844",
+    "original_id": "CWE-54"
+  },
+  {
+    "name": "Path Equivalence: 'filename ' (Trailing Space)",
+    "_id": "cwe/cwe_01769",
+    "original_id": "CWE-46"
+  },
+  {
+    "name": "Path Equivalence: 'filename.' (Trailing Dot)",
+    "_id": "cwe/cwe_01733",
+    "original_id": "CWE-42"
+  },
+  {
+    "name": "Path Equivalence: 'filename....' (Multiple Trailing Dot)",
+    "_id": "cwe/cwe_01742",
+    "original_id": "CWE-43"
+  },
+  {
+    "name": "Path Equivalence: 'filename/' (Trailing Slash)",
+    "_id": "cwe/cwe_01799",
+    "original_id": "CWE-49"
+  },
+  {
+    "name": "Path Equivalence: Windows 8.3 Filename",
+    "_id": "cwe/cwe_01883",
+    "original_id": "CWE-58"
+  },
+  {
+    "name": "Path Traversal: '...' (Triple Dot)",
+    "_id": "cwe/cwe_01640",
+    "original_id": "CWE-32"
+  },
+  {
+    "name": "Path Traversal: '....' (Multiple Dot)",
+    "_id": "cwe/cwe_01650",
+    "original_id": "CWE-33"
+  },
+  {
+    "name": "Path Traversal: '....//'",
+    "_id": "cwe/cwe_01661",
+    "original_id": "CWE-34"
+  },
+  {
+    "name": "Path Traversal: '.../...//'",
+    "_id": "cwe/cwe_01672",
+    "original_id": "CWE-35"
+  },
+  {
+    "name": "Path Traversal: '../filedir'",
+    "_id": "cwe/cwe_01562",
+    "original_id": "CWE-24"
+  },
+  {
+    "name": "Path Traversal: '..\\filedir'",
+    "_id": "cwe/cwe_01598",
+    "original_id": "CWE-28"
+  },
+  {
+    "name": "Path Traversal: '/../filedir'",
+    "_id": "cwe/cwe_01571",
+    "original_id": "CWE-25"
+  },
+  {
+    "name": "Path Traversal: '/absolute/pathname/here'",
+    "_id": "cwe/cwe_01691",
+    "original_id": "CWE-37"
+  },
+  {
+    "name": "Path Traversal: '/dir/../filename'",
+    "_id": "cwe/cwe_01579",
+    "original_id": "CWE-26"
+  },
+  {
+    "name": "Path Traversal: 'C:dirname'",
+    "_id": "cwe/cwe_01705",
+    "original_id": "CWE-39"
+  },
+  {
+    "name": "Path Traversal: '\\..\\filename'",
+    "_id": "cwe/cwe_01609",
+    "original_id": "CWE-29"
+  },
+  {
+    "name": "Path Traversal: '\\\\UNC\\share\\name\\' (Windows UNC Share)",
+    "_id": "cwe/cwe_01714",
+    "original_id": "CWE-40"
+  },
+  {
+    "name": "Path Traversal: '\\absolute\\pathname\\here'",
+    "_id": "cwe/cwe_01699",
+    "original_id": "CWE-38"
+  },
+  {
+    "name": "Path Traversal: '\\dir\\..\\filename'",
+    "_id": "cwe/cwe_01619",
+    "original_id": "CWE-30"
+  },
+  {
+    "name": "Path Traversal: 'dir/../../filename'",
+    "_id": "cwe/cwe_01588",
+    "original_id": "CWE-27"
+  },
+  {
+    "name": "Path Traversal: 'dir\\..\\..\\filename'",
+    "_id": "cwe/cwe_01630",
+    "original_id": "CWE-31"
+  },
+  {
+    "name": "Permission Race Condition During Resource Copy",
+    "_id": "cwe/cwe_01984",
+    "original_id": "CWE-689"
+  },
+  {
+    "name": "Permissive Cross-domain Policy with Untrusted Domains",
+    "_id": "cwe/cwe_02126",
+    "original_id": "CWE-942"
+  },
+  {
+    "name": "Permissive List of Allowed Inputs",
+    "_id": "cwe/cwe_01509",
+    "original_id": "CWE-183"
+  },
+  {
+    "name": "Permissive Regular Expression",
+    "_id": "cwe/cwe_01930",
+    "original_id": "CWE-625"
+  },
+  {
+    "name": "Persistent Storable Data Element without Associated Comparison Control Element",
+    "_id": "cwe/cwe_01272",
+    "original_id": "CWE-1097"
+  },
+  {
+    "name": "Placement of User into Incorrect Group",
+    "_id": "cwe/cwe_02090",
+    "original_id": "CWE-842"
+  },
+  {
+    "name": "Plaintext Storage of a Password",
+    "_id": "cwe/cwe_01575",
+    "original_id": "CWE-256"
+  },
+  {
+    "name": "Policy Privileges are not Assigned Consistently Between Control and Data Agents",
+    "_id": "cwe/cwe_01377",
+    "original_id": "CWE-1268"
+  },
+  {
+    "name": "Policy Uses Obsolete Encoding",
+    "_id": "cwe/cwe_01376",
+    "original_id": "CWE-1267"
+  },
+  {
+    "name": "Power-On of Untrusted Execution Core Before Enabling Fabric Access Control",
+    "_id": "cwe/cwe_01324",
+    "original_id": "CWE-1193"
+  },
+  {
+    "name": "Predictable Exact Value from Previous Values",
+    "_id": "cwe/cwe_01664",
+    "original_id": "CWE-342"
+  },
+  {
+    "name": "Predictable Seed in Pseudo-Random Number Generator (PRNG)",
+    "_id": "cwe/cwe_01658",
+    "original_id": "CWE-337"
+  },
+  {
+    "name": "Predictable Value Range from Previous Values",
+    "_id": "cwe/cwe_01665",
+    "original_id": "CWE-343"
+  },
+  {
+    "name": "Predictable from Observable State",
+    "_id": "cwe/cwe_01663",
+    "original_id": "CWE-341"
+  },
+  {
+    "name": "Premature Release of Resource During Expected Lifetime",
+    "_id": "cwe/cwe_02073",
+    "original_id": "CWE-826"
+  },
+  {
+    "name": "Private Data Structure Returned From A Public Method",
+    "_id": "cwe/cwe_01804",
+    "original_id": "CWE-495"
+  },
+  {
+    "name": "Privilege Chaining",
+    "_id": "cwe/cwe_01586",
+    "original_id": "CWE-268"
+  },
+  {
+    "name": "Privilege Context Switching Error",
+    "_id": "cwe/cwe_01589",
+    "original_id": "CWE-270"
+  },
+  {
+    "name": "Privilege Defined With Unsafe Actions",
+    "_id": "cwe/cwe_01585",
+    "original_id": "CWE-267"
+  },
+  {
+    "name": "Privilege Dropping / Lowering Errors",
+    "_id": "cwe/cwe_01590",
+    "original_id": "CWE-271"
+  },
+  {
+    "name": "Process Control",
+    "_id": "cwe/cwe_01308",
+    "original_id": "CWE-114"
+  },
+  {
+    "name": "Processor Optimization Removal or Modification of Security-critical Code",
+    "_id": "cwe/cwe_01208",
+    "original_id": "CWE-1037"
+  },
+  {
+    "name": "Product Released in Non-Release Configuration",
+    "_id": "cwe/cwe_01378",
+    "original_id": "CWE-1269"
+  },
+  {
+    "name": "Product UI does not Warn User of Unsafe Actions",
+    "_id": "cwe/cwe_01678",
+    "original_id": "CWE-356"
+  },
+  {
+    "name": "Protection Mechanism Failure",
+    "_id": "cwe/cwe_01989",
+    "original_id": "CWE-693"
+  },
+  {
+    "name": "Public Data Assigned to Private Array-Typed Field",
+    "_id": "cwe/cwe_01805",
+    "original_id": "CWE-496"
+  },
+  {
+    "name": "Public Key Re-Use for Signing both Debug and Production Code",
+    "_id": "cwe/cwe_01403",
+    "original_id": "CWE-1291"
+  },
+  {
+    "name": "Public Static Field Not Marked Final",
+    "_id": "cwe/cwe_01811",
+    "original_id": "CWE-500"
+  },
+  {
+    "name": "Public Static Final Field References Mutable Object",
+    "_id": "cwe/cwe_01910",
+    "original_id": "CWE-607"
+  },
+  {
+    "name": "Public cloneable() Method Without Final ('Object Hijack')",
+    "_id": "cwe/cwe_01800",
+    "original_id": "CWE-491"
+  },
+  {
+    "name": "Race Condition During Access to Alternate Channel",
+    "_id": "cwe/cwe_01735",
+    "original_id": "CWE-421"
+  },
+  {
+    "name": "Race Condition Enabling Link Following",
+    "_id": "cwe/cwe_01685",
+    "original_id": "CWE-363"
+  },
+  {
+    "name": "Race Condition for Write-Once Attributes",
+    "_id": "cwe/cwe_01334",
+    "original_id": "CWE-1223"
+  },
+  {
+    "name": "Race Condition within a Thread",
+    "_id": "cwe/cwe_01687",
+    "original_id": "CWE-366"
+  },
+  {
+    "name": "Reachable Assertion",
+    "_id": "cwe/cwe_01921",
+    "original_id": "CWE-617"
+  },
+  {
+    "name": "Reflection Attack in an Authentication Protocol",
+    "_id": "cwe/cwe_01621",
+    "original_id": "CWE-301"
+  },
+  {
+    "name": "Regular Expression without Anchors",
+    "_id": "cwe/cwe_02034",
+    "original_id": "CWE-777"
+  },
+  {
+    "name": "Relative Path Traversal",
+    "_id": "cwe/cwe_01551",
+    "original_id": "CWE-23"
+  },
+  {
+    "name": "Release of Invalid Pointer or Reference",
+    "_id": "cwe/cwe_02020",
+    "original_id": "CWE-763"
+  },
+  {
+    "name": "Reliance on Component That is Not Updateable",
+    "_id": "cwe/cwe_01438",
+    "original_id": "CWE-1329"
+  },
+  {
+    "name": "Reliance on Cookies without Validation and Integrity Checking",
+    "_id": "cwe/cwe_01868",
+    "original_id": "CWE-565"
+  },
+  {
+    "name": "Reliance on Cookies without Validation and Integrity Checking in a Security Decision",
+    "_id": "cwe/cwe_02042",
+    "original_id": "CWE-784"
+  },
+  {
+    "name": "Reliance on Data/Memory Layout",
+    "_id": "cwe/cwe_01514",
+    "original_id": "CWE-188"
+  },
+  {
+    "name": "Reliance on File Name or Extension of Externally-Supplied File",
+    "_id": "cwe/cwe_01945",
+    "original_id": "CWE-646"
+  },
+  {
+    "name": "Reliance on IP Address for Authentication",
+    "_id": "cwe/cwe_01611",
+    "original_id": "CWE-291"
+  },
+  {
+    "name": "Reliance on Insufficiently Trustworthy Component",
+    "_id": "cwe/cwe_01453",
+    "original_id": "CWE-1357"
+  },
+  {
+    "name": "Reliance on Machine-Dependent Data Representation",
+    "_id": "cwe/cwe_01279",
+    "original_id": "CWE-1102"
+  },
+  {
+    "name": "Reliance on Obfuscation or Encryption of Security-Relevant Inputs without Integrity Checking",
+    "_id": "cwe/cwe_01948",
+    "original_id": "CWE-649"
+  },
+  {
+    "name": "Reliance on Package-level Scope",
+    "_id": "cwe/cwe_01796",
+    "original_id": "CWE-487"
+  },
+  {
+    "name": "Reliance on Reverse DNS Resolution for a Security-Critical Action",
+    "_id": "cwe/cwe_01673",
+    "original_id": "CWE-350"
+  },
+  {
+    "name": "Reliance on Runtime Component in Generated Code",
+    "_id": "cwe/cwe_01278",
+    "original_id": "CWE-1101"
+  },
+  {
+    "name": "Reliance on Security Through Obscurity",
+    "_id": "cwe/cwe_01956",
+    "original_id": "CWE-656"
+  },
+  {
+    "name": "Reliance on Undefined, Unspecified, or Implementation-Defined Behavior",
+    "_id": "cwe/cwe_02014",
+    "original_id": "CWE-758"
+  },
+  {
+    "name": "Reliance on Untrusted Inputs in a Security Decision",
+    "_id": "cwe/cwe_02064",
+    "original_id": "CWE-807"
+  },
+  {
+    "name": "Reliance on a Single Factor in a Security Decision",
+    "_id": "cwe/cwe_01954",
+    "original_id": "CWE-654"
+  },
+  {
+    "name": "Remanent Data Readable after Memory Erase",
+    "_id": "cwe/cwe_01439",
+    "original_id": "CWE-1330"
+  },
+  {
+    "name": "Replicating Malicious Code (Virus or Worm)",
+    "_id": "cwe/cwe_01817",
+    "original_id": "CWE-509"
+  },
+  {
+    "name": "Return Inside Finally Block",
+    "_id": "cwe/cwe_01888",
+    "original_id": "CWE-584"
+  },
+  {
+    "name": "Return of Pointer Value Outside of Expected Range",
+    "_id": "cwe/cwe_01774",
+    "original_id": "CWE-466"
+  },
+  {
+    "name": "Return of Stack Variable Address",
+    "_id": "cwe/cwe_01865",
+    "original_id": "CWE-562"
+  },
+  {
+    "name": "Return of Wrong Status Code",
+    "_id": "cwe/cwe_01709",
+    "original_id": "CWE-393"
+  },
+  {
+    "name": "Returning a Mutable Object to an Untrusted Caller",
+    "_id": "cwe/cwe_01695",
+    "original_id": "CWE-375"
+  },
+  {
+    "name": "Reusing a Nonce, Key Pair in Encryption",
+    "_id": "cwe/cwe_01643",
+    "original_id": "CWE-323"
+  },
+  {
+    "name": "Runtime Resource Management Control Element in a Component Built to Run on Application Servers",
+    "_id": "cwe/cwe_01238",
+    "original_id": "CWE-1065"
+  },
+  {
+    "name": "SQL Injection: Hibernate",
+    "_id": "cwe/cwe_01867",
+    "original_id": "CWE-564"
+  },
+  {
+    "name": "Same Seed in Pseudo-Random Number Generator (PRNG)",
+    "_id": "cwe/cwe_01657",
+    "original_id": "CWE-336"
+  },
+  {
+    "name": "Security Version Number Mutable to Older Versions",
+    "_id": "cwe/cwe_01437",
+    "original_id": "CWE-1328"
+  },
+  {
+    "name": "Security-Sensitive Hardware Controls with Missing Lock Bit Protection",
+    "_id": "cwe/cwe_01341",
+    "original_id": "CWE-1233"
+  },
+  {
+    "name": "Selection of Less-Secure Algorithm During Negotiation ('Algorithm Downgrade')",
+    "_id": "cwe/cwe_02013",
+    "original_id": "CWE-757"
+  },
+  {
+    "name": "Self-generated Error Message Containing Sensitive Information",
+    "_id": "cwe/cwe_01535",
+    "original_id": "CWE-210"
+  },
+  {
+    "name": "Semiconductor Defects in Hardware Logic with Security-Sensitive Implications",
+    "_id": "cwe/cwe_01355",
+    "original_id": "CWE-1248"
+  },
+  {
+    "name": "Sensitive Cookie Without 'HttpOnly' Flag",
+    "_id": "cwe/cwe_01199",
+    "original_id": "CWE-1004"
+  },
+  {
+    "name": "Sensitive Cookie in HTTPS Session Without 'Secure' Attribute",
+    "_id": "cwe/cwe_01918",
+    "original_id": "CWE-614"
+  },
+  {
+    "name": "Sensitive Cookie with Improper SameSite Attribute",
+    "_id": "cwe/cwe_01385",
+    "original_id": "CWE-1275"
+  },
+  {
+    "name": "Sensitive Data Storage in Improperly Locked Memory",
+    "_id": "cwe/cwe_01896",
+    "original_id": "CWE-591"
+  },
+  {
+    "name": "Sensitive Information Uncleared Before Debug/Power State Transition",
+    "_id": "cwe/cwe_01382",
+    "original_id": "CWE-1272"
+  },
+  {
+    "name": "Sensitive Information in Resource Not Removed Before Reuse",
+    "_id": "cwe/cwe_01548",
+    "original_id": "CWE-226"
+  },
+  {
+    "name": "Sensitive Non-Volatile Information Not Protected During Debug",
+    "_id": "cwe/cwe_01350",
+    "original_id": "CWE-1243"
+  },
+  {
+    "name": "Sequence of Processor Instructions Leads to Unexpected Behavior",
+    "_id": "cwe/cwe_01392",
+    "original_id": "CWE-1281"
+  },
+  {
+    "name": "Serializable Class Containing Sensitive Data",
+    "_id": "cwe/cwe_01808",
+    "original_id": "CWE-499"
+  },
+  {
+    "name": "Serializable Data Element Containing non-Serializable Item Elements",
+    "_id": "cwe/cwe_01244",
+    "original_id": "CWE-1070"
+  },
+  {
+    "name": "Server-Side Request Forgery (SSRF)",
+    "_id": "cwe/cwe_02112",
+    "original_id": "CWE-918"
+  },
+  {
+    "name": "Server-generated Error Message Containing Sensitive Information",
+    "_id": "cwe/cwe_01854",
+    "original_id": "CWE-550"
+  },
+  {
+    "name": "Servlet Runtime Error Message Containing Sensitive Information",
+    "_id": "cwe/cwe_01840",
+    "original_id": "CWE-536"
+  },
+  {
+    "name": "Session Fixation",
+    "_id": "cwe/cwe_01702",
+    "original_id": "CWE-384"
+  },
+  {
+    "name": "Signal Handler Function Associated with Multiple Signals",
+    "_id": "cwe/cwe_02079",
+    "original_id": "CWE-831"
+  },
+  {
+    "name": "Signal Handler Race Condition",
+    "_id": "cwe/cwe_01686",
+    "original_id": "CWE-364"
+  },
+  {
+    "name": "Signal Handler Use of a Non-reentrant Function",
+    "_id": "cwe/cwe_01788",
+    "original_id": "CWE-479"
+  },
+  {
+    "name": "Signal Handler with Functionality that is not Asynchronous-Safe",
+    "_id": "cwe/cwe_02075",
+    "original_id": "CWE-828"
+  },
+  {
+    "name": "Signed to Unsigned Conversion Error",
+    "_id": "cwe/cwe_01520",
+    "original_id": "CWE-195"
+  },
+  {
+    "name": "Singleton Class Instance Creation without Proper Locking or Synchronization",
+    "_id": "cwe/cwe_01271",
+    "original_id": "CWE-1096"
+  },
+  {
+    "name": "Small Seed Space in PRNG",
+    "_id": "cwe/cwe_01660",
+    "original_id": "CWE-339"
+  },
+  {
+    "name": "Small Space of Random Values",
+    "_id": "cwe/cwe_01655",
+    "original_id": "CWE-334"
+  },
+  {
+    "name": "Source Code Element without Standard Prologue",
+    "_id": "cwe/cwe_01293",
+    "original_id": "CWE-1115"
+  },
+  {
+    "name": "Source Code File with Excessive Number of Lines of Code",
+    "_id": "cwe/cwe_01255",
+    "original_id": "CWE-1080"
+  },
+  {
+    "name": "Spyware",
+    "_id": "cwe/cwe_01821",
+    "original_id": "CWE-512"
+  },
+  {
+    "name": "Stack-based Buffer Overflow",
+    "_id": "cwe/cwe_01329",
+    "original_id": "CWE-121"
+  },
+  {
+    "name": "Static Member Data Element outside of a Singleton Class Element",
+    "_id": "cwe/cwe_01213",
+    "original_id": "CWE-1042"
+  },
+  {
+    "name": "Storage of File With Sensitive Data Under FTP Root",
+    "_id": "cwe/cwe_01543",
+    "original_id": "CWE-220"
+  },
+  {
+    "name": "Storage of File with Sensitive Data Under Web Root",
+    "_id": "cwe/cwe_01541",
+    "original_id": "CWE-219"
+  },
+  {
+    "name": "Storage of Sensitive Data in a Mechanism without Access Control",
+    "_id": "cwe/cwe_02114",
+    "original_id": "CWE-921"
+  },
+  {
+    "name": "Storing Passwords in a Recoverable Format",
+    "_id": "cwe/cwe_01576",
+    "original_id": "CWE-257"
+  },
+  {
+    "name": "Struts: Duplicate Validation Forms",
+    "_id": "cwe/cwe_01201",
+    "original_id": "CWE-102"
+  },
+  {
+    "name": "Struts: Form Bean Does Not Extend Validation Class",
+    "_id": "cwe/cwe_01211",
+    "original_id": "CWE-104"
+  },
+  {
+    "name": "Struts: Form Field Without Validator",
+    "_id": "cwe/cwe_01221",
+    "original_id": "CWE-105"
+  },
+  {
+    "name": "Struts: Incomplete validate() Method Definition",
+    "_id": "cwe/cwe_01207",
+    "original_id": "CWE-103"
+  },
+  {
+    "name": "Struts: Non-private Field in ActionForm Class",
+    "_id": "cwe/cwe_01911",
+    "original_id": "CWE-608"
+  },
+  {
+    "name": "Struts: Plug-in Framework not in Use",
+    "_id": "cwe/cwe_01232",
+    "original_id": "CWE-106"
+  },
+  {
+    "name": "Struts: Unused Validation Form",
+    "_id": "cwe/cwe_01243",
+    "original_id": "CWE-107"
+  },
+  {
+    "name": "Struts: Unvalidated Action Form",
+    "_id": "cwe/cwe_01254",
+    "original_id": "CWE-108"
+  },
+  {
+    "name": "Struts: Validator Turned Off",
+    "_id": "cwe/cwe_01264",
+    "original_id": "CWE-109"
+  },
+  {
+    "name": "Struts: Validator Without Form Field",
+    "_id": "cwe/cwe_01276",
+    "original_id": "CWE-110"
+  },
+  {
+    "name": "Suspicious Comment",
+    "_id": "cwe/cwe_01849",
+    "original_id": "CWE-546"
+  },
+  {
+    "name": "Symbolic Name not Mapping to Correct Object",
+    "_id": "cwe/cwe_01704",
+    "original_id": "CWE-386"
+  },
+  {
+    "name": "Synchronous Access of Remote Resource without Timeout",
+    "_id": "cwe/cwe_01262",
+    "original_id": "CWE-1088"
+  },
+  {
+    "name": "System-on-Chip (SoC) Using Components without Unique, Immutable Identifiers",
+    "_id": "cwe/cwe_01323",
+    "original_id": "CWE-1192"
+  },
+  {
+    "name": "The UI Performs the Wrong Action",
+    "_id": "cwe/cwe_01759",
+    "original_id": "CWE-449"
+  },
+  {
+    "name": "Time-of-check Time-of-use (TOCTOU) Race Condition",
+    "_id": "cwe/cwe_01688",
+    "original_id": "CWE-367"
+  },
+  {
+    "name": "Transmission of Private Resources into a New Sphere ('Resource Leak')",
+    "_id": "cwe/cwe_01717",
+    "original_id": "CWE-402"
+  },
+  {
+    "name": "Trapdoor",
+    "_id": "cwe/cwe_01819",
+    "original_id": "CWE-510"
+  },
+  {
+    "name": "Trojan Horse",
+    "_id": "cwe/cwe_01815",
+    "original_id": "CWE-507"
+  },
+  {
+    "name": "Truncation of Security-relevant Information",
+    "_id": "cwe/cwe_01545",
+    "original_id": "CWE-222"
+  },
+  {
+    "name": "Trust Boundary Violation",
+    "_id": "cwe/cwe_01812",
+    "original_id": "CWE-501"
+  },
+  {
+    "name": "Trust of System Event Data",
+    "_id": "cwe/cwe_01683",
+    "original_id": "CWE-360"
+  },
+  {
+    "name": "Trusting HTTP Permission Methods on the Server Side",
+    "_id": "cwe/cwe_01950",
+    "original_id": "CWE-650"
+  },
+  {
+    "name": "UI Discrepancy for Security Feature",
+    "_id": "cwe/cwe_01756",
+    "original_id": "CWE-446"
+  },
+  {
+    "name": "UNIX Hard Link",
+    "_id": "cwe/cwe_01924",
+    "original_id": "CWE-62"
+  },
+  {
+    "name": "UNIX Symbolic Link (Symlink) Following",
+    "_id": "cwe/cwe_01913",
+    "original_id": "CWE-61"
+  },
+  {
+    "name": "URL Redirection to Untrusted Site ('Open Redirect')",
+    "_id": "cwe/cwe_01905",
+    "original_id": "CWE-601"
+  },
+  {
+    "name": "Unauthorized Error Injection Can Degrade Hardware Redundancy",
+    "_id": "cwe/cwe_01443",
+    "original_id": "CWE-1334"
+  },
+  {
+    "name": "Uncaught Exception",
+    "_id": "cwe/cwe_01570",
+    "original_id": "CWE-248"
+  },
+  {
+    "name": "Uncaught Exception in Servlet ",
+    "_id": "cwe/cwe_01904",
+    "original_id": "CWE-600"
+  },
+  {
+    "name": "Unchecked Error Condition",
+    "_id": "cwe/cwe_01707",
+    "original_id": "CWE-391"
+  },
+  {
+    "name": "Unchecked Input for Loop Condition",
+    "_id": "cwe/cwe_01909",
+    "original_id": "CWE-606"
+  },
+  {
+    "name": "Unchecked Return Value",
+    "_id": "cwe/cwe_01573",
+    "original_id": "CWE-252"
+  },
+  {
+    "name": "Unchecked Return Value to NULL Pointer Dereference",
+    "_id": "cwe/cwe_01986",
+    "original_id": "CWE-690"
+  },
+  {
+    "name": "Unconditional Control Flow Transfer outside of Switch Block",
+    "_id": "cwe/cwe_01249",
+    "original_id": "CWE-1075"
+  },
+  {
+    "name": "Uncontrolled Recursion",
+    "_id": "cwe/cwe_01972",
+    "original_id": "CWE-674"
+  },
+  {
+    "name": "Uncontrolled Resource Consumption",
+    "_id": "cwe/cwe_01715",
+    "original_id": "CWE-400"
+  },
+  {
+    "name": "Uncontrolled Search Path Element",
+    "_id": "cwe/cwe_01740",
+    "original_id": "CWE-427"
+  },
+  {
+    "name": "Undefined Behavior for Input to API",
+    "_id": "cwe/cwe_01784",
+    "original_id": "CWE-475"
+  },
+  {
+    "name": "Unexpected Sign Extension",
+    "_id": "cwe/cwe_01519",
+    "original_id": "CWE-194"
+  },
+  {
+    "name": "Unexpected Status Code or Return Value",
+    "_id": "cwe/cwe_01710",
+    "original_id": "CWE-394"
+  },
+  {
+    "name": "Unimplemented or Unsupported Feature in UI",
+    "_id": "cwe/cwe_01757",
+    "original_id": "CWE-447"
+  },
+  {
+    "name": "Uninitialized Value on Reset for Registers Holding Security Settings",
+    "_id": "cwe/cwe_01381",
+    "original_id": "CWE-1271"
+  },
+  {
+    "name": "Unintended Proxy or Intermediary ('Confused Deputy')",
+    "_id": "cwe/cwe_01754",
+    "original_id": "CWE-441"
+  },
+  {
+    "name": "Unintended Reentrant Invocation of Non-reentrant Code Via Nested Calls",
+    "_id": "cwe/cwe_01374",
+    "original_id": "CWE-1265"
+  },
+  {
+    "name": "Unlock of a Resource that is not Locked",
+    "_id": "cwe/cwe_02080",
+    "original_id": "CWE-832"
+  },
+  {
+    "name": "Unnecessary Complexity in Protection Mechanism (Not Using 'Economy of Mechanism')",
+    "_id": "cwe/cwe_01935",
+    "original_id": "CWE-637"
+  },
+  {
+    "name": "Unparsed Raw Web Content Delivery",
+    "_id": "cwe/cwe_01746",
+    "original_id": "CWE-433"
+  },
+  {
+    "name": "Unprotected Alternate Channel",
+    "_id": "cwe/cwe_01734",
+    "original_id": "CWE-420"
+  },
+  {
+    "name": "Unprotected Confidential Information on Device is Accessible by OSAT Vendors",
+    "_id": "cwe/cwe_01409",
+    "original_id": "CWE-1297"
+  },
+  {
+    "name": "Unprotected Primary Channel",
+    "_id": "cwe/cwe_01732",
+    "original_id": "CWE-419"
+  },
+  {
+    "name": "Unprotected Transport of Credentials",
+    "_id": "cwe/cwe_01828",
+    "original_id": "CWE-523"
+  },
+  {
+    "name": "Unprotected Windows Messaging Channel ('Shatter')",
+    "_id": "cwe/cwe_01736",
+    "original_id": "CWE-422"
+  },
+  {
+    "name": "Unquoted Search Path or Element",
+    "_id": "cwe/cwe_01741",
+    "original_id": "CWE-428"
+  },
+  {
+    "name": "Unrestricted Externally Accessible Lock",
+    "_id": "cwe/cwe_01727",
+    "original_id": "CWE-412"
+  },
+  {
+    "name": "Unrestricted Upload of File with Dangerous Type",
+    "_id": "cwe/cwe_01747",
+    "original_id": "CWE-434"
+  },
+  {
+    "name": "Unsafe ActiveX Control Marked Safe For Scripting",
+    "_id": "cwe/cwe_01928",
+    "original_id": "CWE-623"
+  },
+  {
+    "name": "Unsigned to Signed Conversion Error",
+    "_id": "cwe/cwe_01521",
+    "original_id": "CWE-196"
+  },
+  {
+    "name": "Unsynchronized Access to Shared Data in a Multithreaded Context",
+    "_id": "cwe/cwe_01870",
+    "original_id": "CWE-567"
+  },
+  {
+    "name": "Untrusted Pointer Dereference",
+    "_id": "cwe/cwe_02069",
+    "original_id": "CWE-822"
+  },
+  {
+    "name": "Untrusted Search Path",
+    "_id": "cwe/cwe_01739",
+    "original_id": "CWE-426"
+  },
+  {
+    "name": "Unverified Ownership",
+    "_id": "cwe/cwe_01602",
+    "original_id": "CWE-283"
+  },
+  {
+    "name": "Unverified Password Change",
+    "_id": "cwe/cwe_01925",
+    "original_id": "CWE-620"
+  },
+  {
+    "name": "Use After Free",
+    "_id": "cwe/cwe_01731",
+    "original_id": "CWE-416"
+  },
+  {
+    "name": "Use of Blocking Code in Single-threaded, Non-blocking Context",
+    "_id": "cwe/cwe_01432",
+    "original_id": "CWE-1322"
+  },
+  {
+    "name": "Use of Cache Containing Sensitive Information",
+    "_id": "cwe/cwe_01829",
+    "original_id": "CWE-524"
+  },
+  {
+    "name": "Use of Client-Side Authentication",
+    "_id": "cwe/cwe_01907",
+    "original_id": "CWE-603"
+  },
+  {
+    "name": "Use of Cryptographically Weak Pseudo-Random Number Generator (PRNG)",
+    "_id": "cwe/cwe_01659",
+    "original_id": "CWE-338"
+  },
+  {
+    "name": "Use of Default Credentials",
+    "_id": "cwe/cwe_01461",
+    "original_id": "CWE-1392"
+  },
+  {
+    "name": "Use of Default Cryptographic Key",
+    "_id": "cwe/cwe_01463",
+    "original_id": "CWE-1394"
+  },
+  {
+    "name": "Use of Default Password",
+    "_id": "cwe/cwe_01462",
+    "original_id": "CWE-1393"
+  },
+  {
+    "name": "Use of Expired File Descriptor",
+    "_id": "cwe/cwe_02104",
+    "original_id": "CWE-910"
+  },
+  {
+    "name": "Use of Externally-Controlled Format String",
+    "_id": "cwe/cwe_01448",
+    "original_id": "CWE-134"
+  },
+  {
+    "name": "Use of Externally-Controlled Input to Select Classes or Code ('Unsafe Reflection')",
+    "_id": "cwe/cwe_01779",
+    "original_id": "CWE-470"
+  },
+  {
+    "name": "Use of Function with Inconsistent Implementations",
+    "_id": "cwe/cwe_01783",
+    "original_id": "CWE-474"
+  },
+  {
+    "name": "Use of GET Request Method With Sensitive Query Strings",
+    "_id": "cwe/cwe_01901",
+    "original_id": "CWE-598"
+  },
+  {
+    "name": "Use of Hard-coded Credentials",
+    "_id": "cwe/cwe_02057",
+    "original_id": "CWE-798"
+  },
+  {
+    "name": "Use of Hard-coded Cryptographic Key",
+    "_id": "cwe/cwe_01641",
+    "original_id": "CWE-321"
+  },
+  {
+    "name": "Use of Hard-coded Password",
+    "_id": "cwe/cwe_01578",
+    "original_id": "CWE-259"
+  },
+  {
+    "name": "Use of Hard-coded, Security-relevant Constants",
+    "_id": "cwe/cwe_01850",
+    "original_id": "CWE-547"
+  },
+  {
+    "name": "Use of Implicit Intent for Sensitive Communication",
+    "_id": "cwe/cwe_02120",
+    "original_id": "CWE-927"
+  },
+  {
+    "name": "Use of Incorrect Byte Ordering",
+    "_id": "cwe/cwe_01523",
+    "original_id": "CWE-198"
+  },
+  {
+    "name": "Use of Incorrect Operator",
+    "_id": "cwe/cwe_01790",
+    "original_id": "CWE-480"
+  },
+  {
+    "name": "Use of Incorrectly-Resolved Name or Reference",
+    "_id": "cwe/cwe_01999",
+    "original_id": "CWE-706"
+  },
+  {
+    "name": "Use of Inherently Dangerous Function",
+    "_id": "cwe/cwe_01565",
+    "original_id": "CWE-242"
+  },
+  {
+    "name": "Use of Inner Class Containing Sensitive Data",
+    "_id": "cwe/cwe_01801",
+    "original_id": "CWE-492"
+  },
+  {
+    "name": "Use of Insufficiently Random Values",
+    "_id": "cwe/cwe_01651",
+    "original_id": "CWE-330"
+  },
+  {
+    "name": "Use of Invariant Value in Dynamically Changing Context",
+    "_id": "cwe/cwe_01666",
+    "original_id": "CWE-344"
+  },
+  {
+    "name": "Use of Less Trusted Source",
+    "_id": "cwe/cwe_01670",
+    "original_id": "CWE-348"
+  },
+  {
+    "name": "Use of Low-Level Functionality",
+    "_id": "cwe/cwe_01991",
+    "original_id": "CWE-695"
+  },
+  {
+    "name": "Use of Multiple Resources with Duplicate Identifier",
+    "_id": "cwe/cwe_01990",
+    "original_id": "CWE-694"
+  },
+  {
+    "name": "Use of Non-Canonical URL Paths for Authorization Decisions",
+    "_id": "cwe/cwe_01946",
+    "original_id": "CWE-647"
+  },
+  {
+    "name": "Use of NullPointerException Catch to Detect NULL Pointer Dereference",
+    "_id": "cwe/cwe_01711",
+    "original_id": "CWE-395"
+  },
+  {
+    "name": "Use of Object without Invoking Destructor Method",
+    "_id": "cwe/cwe_01266",
+    "original_id": "CWE-1091"
+  },
+  {
+    "name": "Use of Obsolete Function",
+    "_id": "cwe/cwe_01786",
+    "original_id": "CWE-477"
+  },
+  {
+    "name": "Use of Out-of-range Pointer Offset",
+    "_id": "cwe/cwe_02070",
+    "original_id": "CWE-823"
+  },
+  {
+    "name": "Use of Password Hash Instead of Password for Authentication",
+    "_id": "cwe/cwe_02084",
+    "original_id": "CWE-836"
+  },
+  {
+    "name": "Use of Password Hash With Insufficient Computational Effort",
+    "_id": "cwe/cwe_02110",
+    "original_id": "CWE-916"
+  },
+  {
+    "name": "Use of Password System for Primary Authentication",
+    "_id": "cwe/cwe_01629",
+    "original_id": "CWE-309"
+  },
+  {
+    "name": "Use of Path Manipulation Function without Maximum-sized Buffer",
+    "_id": "cwe/cwe_02043",
+    "original_id": "CWE-785"
+  },
+  {
+    "name": "Use of Persistent Cookies Containing Sensitive Information",
+    "_id": "cwe/cwe_01843",
+    "original_id": "CWE-539"
+  },
+  {
+    "name": "Use of Platform-Dependent Third Party Components",
+    "_id": "cwe/cwe_01280",
+    "original_id": "CWE-1103"
+  },
+  {
+    "name": "Use of Pointer Subtraction to Determine Size",
+    "_id": "cwe/cwe_01777",
+    "original_id": "CWE-469"
+  },
+  {
+    "name": "Use of Potentially Dangerous Function",
+    "_id": "cwe/cwe_01974",
+    "original_id": "CWE-676"
+  },
+  {
+    "name": "Use of Predictable Algorithm in Random Number Generator",
+    "_id": "cwe/cwe_01348",
+    "original_id": "CWE-1241"
+  },
+  {
+    "name": "Use of Prohibited Code",
+    "_id": "cwe/cwe_01316",
+    "original_id": "CWE-1177"
+  },
+  {
+    "name": "Use of RSA Algorithm without OAEP",
+    "_id": "cwe/cwe_02038",
+    "original_id": "CWE-780"
+  },
+  {
+    "name": "Use of Redundant Code",
+    "_id": "cwe/cwe_01212",
+    "original_id": "CWE-1041"
+  },
+  {
+    "name": "Use of Same Invokable Control Element in Multiple Architectural Layers",
+    "_id": "cwe/cwe_01267",
+    "original_id": "CWE-1092"
+  },
+  {
+    "name": "Use of Same Variable for Multiple Purposes",
+    "_id": "cwe/cwe_01286",
+    "original_id": "CWE-1109"
+  },
+  {
+    "name": "Use of Single-factor Authentication",
+    "_id": "cwe/cwe_01628",
+    "original_id": "CWE-308"
+  },
+  {
+    "name": "Use of Singleton Pattern Without Synchronization in a Multithreaded Context",
+    "_id": "cwe/cwe_01847",
+    "original_id": "CWE-543"
+  },
+  {
+    "name": "Use of Uninitialized Resource",
+    "_id": "cwe/cwe_02101",
+    "original_id": "CWE-908"
+  },
+  {
+    "name": "Use of Uninitialized Variable",
+    "_id": "cwe/cwe_01767",
+    "original_id": "CWE-457"
+  },
+  {
+    "name": "Use of Unmaintained Third Party Components",
+    "_id": "cwe/cwe_01281",
+    "original_id": "CWE-1104"
+  },
+  {
+    "name": "Use of Weak Credentials",
+    "_id": "cwe/cwe_01460",
+    "original_id": "CWE-1391"
+  },
+  {
+    "name": "Use of Weak Hash",
+    "_id": "cwe/cwe_01648",
+    "original_id": "CWE-328"
+  },
+  {
+    "name": "Use of Web Browser Cache Containing Sensitive Information",
+    "_id": "cwe/cwe_01830",
+    "original_id": "CWE-525"
+  },
+  {
+    "name": "Use of Web Link to Untrusted Target with window.opener Access",
+    "_id": "cwe/cwe_01203",
+    "original_id": "CWE-1022"
+  },
+  {
+    "name": "Use of Wrong Operator in String Comparison",
+    "_id": "cwe/cwe_01900",
+    "original_id": "CWE-597"
+  },
+  {
+    "name": "Use of a Broken or Risky Cryptographic Algorithm",
+    "_id": "cwe/cwe_01647",
+    "original_id": "CWE-327"
+  },
+  {
+    "name": "Use of a Cryptographic Primitive with a Risky Implementation",
+    "_id": "cwe/cwe_01347",
+    "original_id": "CWE-1240"
+  },
+  {
+    "name": "Use of a Key Past its Expiration Date",
+    "_id": "cwe/cwe_01644",
+    "original_id": "CWE-324"
+  },
+  {
+    "name": "Use of a Non-reentrant Function in a Concurrent Context",
+    "_id": "cwe/cwe_01960",
+    "original_id": "CWE-663"
+  },
+  {
+    "name": "Use of a One-Way Hash with a Predictable Salt",
+    "_id": "cwe/cwe_02017",
+    "original_id": "CWE-760"
+  },
+  {
+    "name": "Use of a One-Way Hash without a Salt",
+    "_id": "cwe/cwe_02015",
+    "original_id": "CWE-759"
+  },
+  {
+    "name": "Use of getlogin() in Multithreaded Application",
+    "_id": "cwe/cwe_01861",
+    "original_id": "CWE-558"
+  },
+  {
+    "name": "Use of sizeof() on a Pointer Type",
+    "_id": "cwe/cwe_01775",
+    "original_id": "CWE-467"
+  },
+  {
+    "name": "Use of umask() with chmod-style Argument",
+    "_id": "cwe/cwe_01863",
+    "original_id": "CWE-560"
+  },
+  {
+    "name": "User Interface (UI) Misrepresentation of Critical Information",
+    "_id": "cwe/cwe_01762",
+    "original_id": "CWE-451"
+  },
+  {
+    "name": "Using Referer Field for Authentication",
+    "_id": "cwe/cwe_01612",
+    "original_id": "CWE-293"
+  },
+  {
+    "name": "Variable Extraction Error",
+    "_id": "cwe/cwe_01926",
+    "original_id": "CWE-621"
+  },
+  {
+    "name": "Violation of Secure Design Principles",
+    "_id": "cwe/cwe_01957",
+    "original_id": "CWE-657"
+  },
+  {
+    "name": "Weak Authentication",
+    "_id": "cwe/cwe_01459",
+    "original_id": "CWE-1390"
+  },
+  {
+    "name": "Weak Encoding for Password",
+    "_id": "cwe/cwe_01581",
+    "original_id": "CWE-261"
+  },
+  {
+    "name": "Weak Password Recovery Mechanism for Forgotten Password",
+    "_id": "cwe/cwe_01939",
+    "original_id": "CWE-640"
+  },
+  {
+    "name": "Weak Password Requirements",
+    "_id": "cwe/cwe_01826",
+    "original_id": "CWE-521"
+  },
+  {
+    "name": "Windows Hard Link",
+    "_id": "cwe/cwe_01949",
+    "original_id": "CWE-65"
+  },
+  {
+    "name": "Windows Shortcut Following (.LNK)",
+    "_id": "cwe/cwe_01938",
+    "original_id": "CWE-64"
+  },
+  {
+    "name": "Wrap-around Error",
+    "_id": "cwe/cwe_01390",
+    "original_id": "CWE-128"
+  },
+  {
+    "name": "Write-what-where Condition",
+    "_id": "cwe/cwe_01337",
+    "original_id": "CWE-123"
+  },
+  {
+    "name": "XML Injection (aka Blind XPath Injection)",
+    "_id": "cwe/cwe_02103",
+    "original_id": "CWE-91"
+  },
+  {
+    "name": "clone() Method Without super.clone()",
+    "_id": "cwe/cwe_01884",
+    "original_id": "CWE-580"
+  },
+  {
+    "name": "finalize() Method Declared Public",
+    "_id": "cwe/cwe_01887",
+    "original_id": "CWE-583"
+  },
+  {
+    "name": "finalize() Method Without super.finalize()",
+    "_id": "cwe/cwe_01871",
+    "original_id": "CWE-568"
+  }
+]

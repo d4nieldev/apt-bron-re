@@ -1,3 +1,6 @@
+#This script analyzes tactic mentions in text documents,
+# then computes and saves statistical scores for how significant each tactic is in each document compared to others.
+
 import json
 import re
 from pathlib import Path
@@ -5,10 +8,12 @@ from collections import defaultdict
 from statistics import mean
 
 # === Paths ===
-text_dir = Path("data/converted_reports/texts")
-layer_file = Path("data/layers_nodes/tactic.json")
-output_path = Path("data/statistical_entity_scores")
+text_dir = Path("../data/texts")
+layer_file = Path("../layers_nodes/tactic.json")
+output_path = Path("../data/statistical_entity_scores")
 output_path.mkdir(parents=True, exist_ok=True)
+
+
 
 # === Load only "tactic" layer
 if not layer_file.exists():

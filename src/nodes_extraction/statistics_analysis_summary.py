@@ -4,8 +4,8 @@ from collections import defaultdict
 from statistics import mean, stdev
 
 # Choose directory for stats output (combined or basic)
-input_dir = Path("data/statistical_combined_entity_scores")
-summary_file = Path("data/statistical_summary.json")
+input_dir = Path("../data/statistical_combined_entity_scores")
+summary_file = Path("../data/statistical_summary.json")
 
 summary = {
     "global_tactic_stats": {},

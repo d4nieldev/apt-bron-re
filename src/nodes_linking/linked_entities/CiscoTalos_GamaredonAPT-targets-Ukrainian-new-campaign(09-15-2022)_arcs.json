@@ -1,0 +1,12 @@
+[
+  {
+    "from": "T1566",
+    "to": "CAPEC-98",
+    "from_name": "Phishing",
+    "to_name": "Phishing",
+    "from_layer": "technique",
+    "to_layer": "capec",
+    "justification": "Both entities appear in the same sentence: 'The adversary is using phishing documents containing lures related to the Russian invasion of Ukraine.' which indicates a potential connection between a technique and a capec.",
+    "context": "The adversary is using phishing documents containing lures related to the Russian invasion of Ukraine."
+  }
+]
