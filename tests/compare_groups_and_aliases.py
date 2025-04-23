@@ -1,19 +1,17 @@
 import json
-import re
 from pathlib import Path
 import ahocorasick
 
-# === Constants ===
 text_dir = Path("data/converted_reports/texts")
 alias_file = Path("data/test_results/group_aliases.json")
 output_file = Path("data/test_results/group_alias_summary.json")
 output_file.parent.mkdir(parents=True, exist_ok=True)
 
-# === Load aliases ===
+# load aliases
 with open(alias_file, encoding="utf-8") as f:
     group_aliases = json.load(f)
 
-# === Variant Generator (exactly as in basic.py) ===
+
 def generate_variants(text):
     base = text.lower()
     variants = {
@@ -29,20 +27,19 @@ def generate_variants(text):
             plural_forms.add(v + "'s")
     return variants.union(plural_forms)
 
-# === Build Aho-Corasick Automatons ===
+
+# Aho-Corasick Automatons
 group_auto = ahocorasick.Automaton()
 alias_auto = ahocorasick.Automaton()
 group_variant_map = {}
 alias_variant_map = {}
 
 for group_name, aliases in group_aliases.items():
-    # Variants for group name
     for variant in generate_variants(group_name):
         if variant not in group_variant_map:
             group_variant_map[variant] = group_name
             group_auto.add_word(variant, variant)
 
-    # Variants for each alias
     for alias in aliases:
         for variant in generate_variants(alias):
             if variant not in alias_variant_map:
@@ -52,7 +49,7 @@ for group_name, aliases in group_aliases.items():
 group_auto.make_automaton()
 alias_auto.make_automaton()
 
-# === Match Function (same filtering as basic.py) ===
+
 def match_variants(text, automaton, variant_map):
     text_lower = text.lower()
     found = set()
@@ -68,7 +65,7 @@ def match_variants(text, automaton, variant_map):
                 results.append(variant_map[variant_str])
     return sorted(set(results))
 
-# === Scan Reports ===
+
 summary = {}
 
 for file in text_dir.glob("*.txt"):
@@ -85,7 +82,6 @@ for file in text_dir.glob("*.txt"):
     except Exception as e:
         summary[file.stem] = {"error": str(e)}
 
-# === Save Result ===
 with open(output_file, "w", encoding="utf-8") as f:
     json.dump(summary, f, indent=2, ensure_ascii=False)
 
@@ -95,7 +91,6 @@ with open(output_file, encoding="utf-8") as f:
 with open(alias_file, encoding="utf-8") as f:
     group_aliases = json.load(f)
 
-# === Add alias_without_group_hit flag ===
 for report, data in summary.items():
     if "error" in data:
         continue  # skip errored reports
@@ -113,8 +108,7 @@ for report, data in summary.items():
 
     data["alias_without_group_hit"] = alias_without_group
 
-# === Save the updated summary ===
 with open(output_file, "w", encoding="utf-8") as f:
     json.dump(summary, f, indent=2, ensure_ascii=False)
 
-print(f"✅ alias_without_group_hit added and saved to: {output_file}")
+print(f"alias_without_group_hit added and saved to: {output_file}")
