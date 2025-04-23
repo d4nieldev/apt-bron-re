@@ -26,12 +26,20 @@ def generate_variants(text):
     in more manners
     """
     base = text.lower()
-    return {
+    variants = {
         base,
         base.replace("-", " "),
         base.replace(" ", ""),
         base.replace(" ", "-")
     }
+
+    plural_forms = set()
+    for v in variants:
+        if not v.endswith("s"):
+            plural_forms.add(v + "s")
+            plural_forms.add(v + "'s")
+
+    return variants.union(plural_forms)
 
 
 """ building automatas, one for each layer type (besides CVE and CPE) to be later
@@ -52,7 +60,7 @@ for label, nodes in layer_map.items():
     node_map = {}
 
     for node in nodes:
-        if label == "technique":
+        if label == "technique":  # adds only the names of the techniques, not ids, to the automaton
             for variant in generate_variants(node["name"]):
                 if variant not in node_map:
                     node_map[variant] = node
@@ -77,8 +85,9 @@ cpe_pattern = re.compile(r"\bcpe:(?:2\.3:|/)[aoh]:[^\s:]+:[^\s:]+(?::[^\s:]*){0,
 
 def match_variants(text, category, automaton):
     """
-    uses the automaton built on label (node type),
+    uses the automaton built on category (node type),
     to match the entities in the text (converted report)
+    also saving the index of where it was found in the text
     """
     text_lower = text.lower()
     found = set()
@@ -91,7 +100,12 @@ def match_variants(text, category, automaton):
         if not before.isalnum() and not after.isalnum():
             if variant_str not in found:
                 found.add(variant_str)
-                results.append(variant_to_node[category][variant_str])
+                node = variant_to_node[category][variant_str]
+                results.append({
+                    "name": node["name"],
+                    "original_id": node["original_id"],
+                    "index": start_idx
+                })
     return results
 
 
@@ -100,13 +114,16 @@ def match_technique_ids(text):
     Uses regex to find technique IDs (T#### or T####.###)
     and maps them to their node objects.
     """
-    matched_ids = set()
     results = []
-    for match in technique_id_pattern.findall(text):
-        tid = match.lower()
-        if tid not in matched_ids and tid in technique_id_to_node:
-            matched_ids.add(tid)
-            results.append(technique_id_to_node[tid])
+    for match in technique_id_pattern.finditer(text):
+        tid = match.group().lower()
+        if tid in technique_id_to_node:
+            node_found = technique_id_to_node[tid]
+            results.append({
+                "name": node_found["name"],
+                "original_id": node_found["original_id"],
+                "index": match.start()
+            })
     return results
 
 
@@ -116,7 +133,10 @@ def match_cve(text):
     finds matches using regex on the structure of cves
     and returns the nodes in uppercase (how it appears in BRON, e.g. CVE-2007-4240)
     """
-    return [{"value": m.upper()} for m in cve_pattern.findall(text.lower())]
+    return [
+        {"value": m.group().upper(), "index": m.start()}
+        for m in cve_pattern.finditer(text.lower())
+    ]
 
 
 def match_cpe(text):
@@ -124,7 +144,10 @@ def match_cpe(text):
     finds matches using regex on the structure of cpe
     and returns the nodes in lowercase (how it appears in BRON, e.g. cpe:2.3:a:bmc:patrol_agent)
     """
-    return [{"value": m.lower()} for m in cpe_pattern.findall(text.lower())]
+    return [
+        {"value": m.group().lower(), "index": m.start()}
+        for m in cpe_pattern.finditer(text.lower())
+    ]
 
 
 def process_folder(folder, suffix):
@@ -220,6 +243,60 @@ def write_summary_counts(report_dir: Path):
     return summary
 
 
+def add_context_sentences_to_hits():
+    """
+    For each entity in txt.json/md.json files in entity_hits_v3,
+    adds a 'sentence' field that shows up to n words before/after
+    the match (or bounded by periods).
+    """
+    n = 15
+    for report_dir in output_dir.iterdir():
+        if not report_dir.is_dir():
+            continue
+
+        for suffix in ["txt", "md"]:
+            json_path = report_dir / f"{suffix}.json"
+            source_path = (text_dir if suffix == "txt" else md_dir) / f"{report_dir.name}.{suffix}"
+            if not json_path.exists() or not source_path.exists():
+                continue
+
+            try:
+                text = source_path.read_text(encoding="utf-8")
+                with open(json_path, encoding="utf-8") as output_file:
+                    data = json.load(output_file)
+
+                for category, entries in data.items():
+                    for entry in entries:
+                        idx = entry.get("index")
+                        if idx is None:
+                            continue
+
+                        before = text[:idx]
+                        after = text[idx:]
+
+                        before_words = re.findall(r"\b\w+\b", before)
+                        before_limit = max(0, len(before_words) - n)
+                        before_snippet = " ".join(before_words[before_limit:])
+
+                        if "." in before_snippet:
+                            before_snippet = before_snippet.split(".")[-1].strip()
+
+                        after_words = re.findall(r"\b\w+\b", after)
+                        after_limit = min(n, len(after_words))
+                        after_snippet = " ".join(after_words[:after_limit])
+
+                        if "." in after_snippet:
+                            after_snippet = after_snippet.split(".")[0].strip()
+
+                        entry["sentence"] = f"{before_snippet} {after_snippet}".strip()
+
+                with open(json_path, "w", encoding="utf-8") as out_file:
+                    json.dump(data, out_file, indent=2)
+
+            except Exception as e:
+                print(f"Failed to add sentence to {json_path.name}: {e}")
+
+
 def write_global_summary(base_dir: Path):
     """
     writes a timestamped global summary of the nodes extraction, to compare with previous attempts
@@ -268,3 +345,6 @@ if __name__ == "__main__":
     print("Finished extracting nodes from the reports, results are in: data/entity_hits_v3 ")
     write_global_summary(output_dir)
     print(f"Global and timestamped summary written to entity_hits_v3/summaries")
+    add_context_sentences_to_hits()
+    print("Sentence context added to entity hits")
+
