@@ -25,7 +25,10 @@ for row in rows:
 
     group_name = cols[1].text.strip()
     aliases_raw = cols[2].text.strip()
-    aliases = [alias.strip() for alias in aliases_raw.split(",")] if aliases_raw else []
+    aliases = [
+        alias.strip() for alias in aliases_raw.split(",")
+        if alias.strip().lower() != "tick"
+    ] if aliases_raw else []
     group_aliases[group_name] = aliases
 
 # Save to data/group_aliases.json

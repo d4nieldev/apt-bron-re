@@ -89,10 +89,6 @@ for file in text_dir.glob("*.txt"):
 with open(output_file, "w", encoding="utf-8") as f:
     json.dump(summary, f, indent=2, ensure_ascii=False)
 
-output_file.name
-
-summary_path = Path("data/test_results/group_alias_summary.json")
-
 with open(output_file, encoding="utf-8") as f:
     summary = json.load(f)
 
