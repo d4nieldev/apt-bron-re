@@ -300,7 +300,7 @@ def add_context_sentences_to_hits():
                 print(f"Failed to add sentence to {json_path.name}: {e}")
 
 
-def write_global_summary(base_dir: Path):
+def write_summary_for_entity_hits_v3(base_dir: Path):
     """
     writes a timestamped global summary of the nodes extraction, to compare with previous attempts
     to be inserted to entity_hits_v3/summaries, and also a summary/comparison between the number of entities
@@ -341,13 +341,64 @@ def write_global_summary(base_dir: Path):
         json.dump(global_summary, global_file, indent=2)
 
 
+def compare_differences(tables_json_path: Path, reports_json_path: Path, output_comparison_path: Path):
+    """
+    Compares entities between tables-only and full-reports, finding nodes
+    that exist only in one of them (by original_id, regardless of name/index).
+    Saves the differences to output_comparison_path as JSON.
+    """
+    try:
+        with open(tables_json_path, encoding="utf-8") as f:
+            tables_data = json.load(f)
+        with open(reports_json_path, encoding="utf-8") as f:
+            reports_data = json.load(f)
+    except Exception as e:
+        print(f"Failed to load input JSONs: {e}")
+        return
+
+    comparison = {}
+    all_report_names = set(tables_data.keys()).union(reports_data.keys())
+
+    for report_name in all_report_names:
+        tables_report = tables_data.get(report_name, {})
+        reports_report = reports_data.get(report_name, {})
+
+        only_table = {}
+        only_report = {}
+
+        all_categories = set(tables_report.keys()).union(reports_report.keys())
+
+        for category in all_categories:
+            tables_nodes = tables_report.get(category, [])
+            reports_nodes = reports_report.get(category, [])
+
+            tables_ids = {entry.get("original_id", entry.get("value", "")).lower() for entry in tables_nodes}
+            reports_ids = {entry.get("original_id", entry.get("value", "")).lower() for entry in reports_nodes}
+
+            table_extras = tables_ids - reports_ids
+            report_extras = reports_ids - tables_ids
+
+            if table_extras:
+                only_table[category] = sorted(list(table_extras))
+            if report_extras:
+                only_report[category] = sorted(list(report_extras))
+
+        if only_table or only_report:
+            comparison[report_name] = {
+                "only table": only_table,
+                "only report": only_report
+            }
+
+    output_comparison_path.write_text(json.dumps(comparison, indent=2), encoding="utf-8")
+    print(f"Differences saved to {output_comparison_path}")
+
+
 if __name__ == "__main__":
     process_folder(text_dir, "txt")
     process_folder(md_dir, "md")
     deduplicate_entity_hits("data/entity_hits_v3")
     print("Finished extracting nodes from the reports, results are in: data/entity_hits_v3 ")
-    write_global_summary(output_dir)
+    write_summary_for_entity_hits_v3(output_dir)
     print(f"Global and timestamped summary written to entity_hits_v3/summaries")
     add_context_sentences_to_hits()
     print("Sentence context added to entity hits")
-
