@@ -1,204 +1,180 @@
 import re
 import json
 from pathlib import Path
-
+import ahocorasick
+from datetime import datetime
 
 # === Paths ===
-text_dir = Path("../data/texts")
-md_dir = Path("../data/markdown")
-output_base_dir = Path("../data/entity_hits_v2")
-layer_dir = Path("../layers_nodes")
+text_dir = Path("data/converted_reports/texts")
+md_dir = Path("data/converted_reports/markdown")
+layer_dir = Path("data/layers_nodes")
+output_dir = Path("data/entity_hits_v3")
+output_dir.mkdir(parents=True, exist_ok=True)
 
-
-# === Load all layers except cve/cpe ===
-excluded_layers = {"cve", "cpe"}
+# === Load all layers ===
 layer_map = {}
 
 for layer_file in layer_dir.glob("*.json"):
     label = layer_file.stem
-    if label not in excluded_layers:
-        with open(layer_file, encoding="utf-8") as f:
-            layer_map[label] = json.load(f)
+    with open(layer_file, encoding="utf-8") as f:
+        layer_map[label] = json.load(f)
 
-# === Regex patterns ===
+# === Generate variants ===
+def generate_variants(text):
+    base = text.lower()
+    return {
+        base,
+        base.replace("-", " "),
+        base.replace(" ", ""),
+        base.replace(" ", "-")
+    }
+
+# === Build automata for each layer except CVE/CPE ===
+automata_map = {}
+variant_to_node = {}
+
+for label, nodes in layer_map.items():
+    if label in {"cve", "cpe"}:
+        continue
+    A = ahocorasick.Automaton()
+    node_map = {}
+    for node in nodes:
+        name_variants = generate_variants(node["name"])
+        id_variants = generate_variants(node["original_id"])
+        for variant in name_variants.union(id_variants):
+            if variant not in node_map:
+                node_map[variant] = node
+                A.add_word(variant, variant)
+    A.make_automaton()
+    automata_map[label] = A
+    variant_to_node[label] = node_map
+
+# === Regex patterns for CVE and CPE ===
 cve_pattern = re.compile(r"\bcve-\d{4}-\d+\b", re.IGNORECASE)
 cpe_pattern = re.compile(r"\bcpe:(?:2\.3:|/)[aoh]:[^\s:]+:[^\s:]+(?::[^\s:]*){0,10}", re.IGNORECASE)
 
 
-def read_file(file_path: Path):
-    try:
-        return file_path.read_text(encoding="utf-8")
-    except Exception as e:
-        print(f"[!] Failed to read {file_path.name}: {e}")
-        return ""
+def match_cpe(text):
+    return [{"value": m.lower()} for m in cpe_pattern.findall(text)]
 
+# === Process a folder (.txt or .md) ===
+def process_folder(folder, suffix):
+    for file in folder.glob(f"*.{suffix}"):
+        base_name = file.stem
+        report_dir = output_dir / base_name
+        report_dir.mkdir(parents=True, exist_ok=True)
+        try:
+            text = file.read_text(encoding="utf-8")
+            results = {}
 
-def normalize_name(name: str) -> list:
-    base = name.lower()
-    variants = {base, base.replace("-", " "), base.replace(" ", ""), base.replace(" ", "-")}
+            for label, automaton in automata_map.items():
+                hits = match_variants(text, label, automaton)
+                if hits:
+                    results[label] = hits
 
-    if base.endswith("s"):
-        singular = base[:-1]
-        variants.update({
-            singular,
-            singular.replace("-", " "),
-            singular.replace(" ", ""),
-            singular.replace(" ", "-")
-        })
+            cves = match_cve(text.lower())
+            cpes = match_cpe(text.lower())
+            if cves:
+                results["cve"] = cves
+            if cpes:
+                results["cpe"] = cpes
 
-    return list(variants)
+            out_path = report_dir / f"{suffix}.json"
+            out_path.write_text(json.dumps(results, indent=2), encoding="utf-8")
+        except Exception as e:
+            print(f"[!] Failed to process {file.name}: {e}")
 
+# === Deduplicate entries in JSONs ===
+def deduplicate_entity_hits(base_dir_path: str):
+    base_dir = Path(base_dir_path)
 
-def split_sentences(text):
-    # Avoid splitting on common abbreviations and inside parentheses
-    pattern = r"""
-        (?<!\w\.\w.)           # Ignore abbreviations like e.g.
-        (?<![A-Z][a-z]\.)      # Ignore Dr. Mr. etc.
-        (?<!\bvs\.)            # vs.
-        (?<!\bfig\.)           # fig.
-        (?<!\bet\ al\.)        # et al.
-        (?<!\bNo\.)            # No.
-        (?<=\.|\?|!)           # Split at ., ?, or !
-        \s+(?=[A-Z(])          # Followed by a capital letter or open parenthesis
-    """
-    return re.split(pattern, text, flags=re.VERBOSE)
+    for report_dir in base_dir.iterdir():
+        if not report_dir.is_dir():
+            continue
 
+        for file_name in ["txt.json", "md.json"]:
+            file_path = report_dir / file_name
+            if not file_path.exists():
+                continue
 
-def has_missing_context(results: dict) -> bool:
-    for entities in results.values():
-        if isinstance(entities, list):
-            for item in entities:
-                if isinstance(item, dict):
-                    if item.get("line") is None or item.get("sentence") is None:
-                        return True
-    return False
+            try:
+                with open(file_path, encoding="utf-8") as f:
+                    data = json.load(f)
+            except Exception as e:
+                print(f"[!] Failed to read {file_path}: {e}")
+                continue
 
+            deduped = {}
+            for label, entries in data.items():
+                seen = set()
+                deduped[label] = []
+                for entry in entries:
+                    key = json.dumps(entry, sort_keys=True)
+                    if key not in seen:
+                        seen.add(key)
+                        deduped[label].append(entry)
 
-def extract_context(text: str, entity_name: str, original_id: str = "", is_markdown=False):
-    lines = text.splitlines()
-    flat_text = " ".join(lines)
+            with open(file_path, "w", encoding="utf-8") as f:
+                json.dump(deduped, f, indent=2)
 
-    variants = normalize_name(entity_name)
-    if original_id:
-        variants.append(original_id.lower())
+    print(f"[✓] Deduplication completed in: {base_dir_path}")
 
-    # Also check bag-of-words match
-    name_words = set(entity_name.lower().replace("-", " ").split())
+# === Add per-report summary_counts.json and global timestamped summary ===
+def write_summary_counts(report_dir: Path):
+    summary = {}
+    for json_file in ["txt.json", "md.json"]:
+        path = report_dir / json_file
+        if path.exists():
+            with open(path, encoding="utf-8") as f:
+                data = json.load(f)
+            summary_key = "txt_counts" if "txt" in json_file else "md_counts"
+            summary[summary_key] = {label: len(entries) for label, entries in data.items()}
+    if summary:
+        with open(report_dir / "summary_counts.json", "w", encoding="utf-8") as f:
+            json.dump(summary, f, indent=2)
+    return summary
 
-    line_number = None
-    table_row = None
+def write_global_summary(base_dir: Path):
+    global_summary = {}
+    for report_dir in base_dir.iterdir():
+        if report_dir.is_dir():
+            summary = write_summary_counts(report_dir)
+            if summary:
+                global_summary[report_dir.name] = summary
 
-    for i in range(len(lines)):
-        chunk_lines = lines[i:i+5]
-        chunk_text = " ".join(chunk_lines).lower()
-        chunk_words = set(chunk_text.split())
+    summary_dir = base_dir / "summaries"
+    summary_dir.mkdir(exist_ok=True)
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M")
+    summary_txt = ["=== Total Entity Counts Across All Reports ===\n"]
+    txt_totals = {}
+    md_totals = {}
 
-        # Match by word bag or ID or name variant
-        if (
-            name_words.issubset(chunk_words)
-            or any(variant in chunk_text for variant in variants)
-        ):
-            line_number = i
-            if is_markdown and lines[i].strip().startswith("|") and lines[i].strip().endswith("|"):
-                table_row = lines[i].strip()
-            break
+    for report in global_summary.values():
+        for label, count in report.get("txt_counts", {}).items():
+            txt_totals[label] = txt_totals.get(label, 0) + count
+        for label, count in report.get("md_counts", {}).items():
+            md_totals[label] = md_totals.get(label, 0) + count
 
-    # Sentence extraction
-    text_for_sentences = re.sub(r'\n+', ' ', text)
-    sentences = split_sentences(text_for_sentences)
-    sentence = None
-    for s in sentences:
-        if any(variant in s.lower() for variant in variants):
-            sentence = s.strip()
-            break
+    summary_txt.append("[TXT]")
+    for label, count in sorted(txt_totals.items()):
+        summary_txt.append(f"{label}: {count}")
+    summary_txt.append("\n[MD]")
+    for label, count in sorted(md_totals.items()):
+        summary_txt.append(f"{label}: {count}")
 
-    result = {"line": line_number, "sentence": sentence}
-    if table_row:
-        result["table_row"] = table_row
-    return result
+    summary_path = summary_dir / f"{timestamp}_summary.txt"
+    summary_path.write_text("\n".join(summary_txt), encoding="utf-8")
 
+    global_summary_path = base_dir / "global_summary.json"
+    with open(global_summary_path, "w", encoding="utf-8") as f:
+        json.dump(global_summary, f, indent=2)
 
-def match_nodes(text: str, nodes: list[dict], is_markdown=False, raw_text=""):
-    seen = set()
-    hits = []
-    for node in nodes:
-        name = node.get("name", "").lower()
-        original_id = node.get("original_id", "").lower()
-        suffix = node.get("_id", "").split("/")[-1].lower()
+    print(f"[✓] Global summary written to: {summary_path.name}")
 
-        name_variants = normalize_name(name)
-
-        if any(n in text for n in name_variants) or original_id in text or suffix in text:
-            key = json.dumps(node, sort_keys=True)
-            if key not in seen:
-                seen.add(key)
-
-                # Extract context from raw_text
-                ctx = extract_context(raw_text, name, original_id, is_markdown)
-                enriched_node = dict(node)
-                enriched_node.update(ctx)
-
-                hits.append(enriched_node)
-    return hits
-
-
-# === Process all .txt and .md files
-for txt_file in text_dir.glob("*.txt"):
-    base_name = txt_file.stem
-    md_file = md_dir / f"{base_name}.md"
-    if not md_file.exists():
-        print(f"[!] Missing Markdown for: {base_name}")
-        continue
-
-    report_output_dir = output_base_dir / base_name
-    report_output_dir.mkdir(parents=True, exist_ok=True)
-
-    txt_raw = read_file(txt_file)
-    md_raw = read_file(md_file)
-
-    txt_text = txt_raw.lower()
-    md_text = md_raw.lower()
-
-    txt_results = {}
-    md_results = {}
-
-    # === Extract hits from all layers (except CVE/CPE)
-    for label, nodes in layer_map.items():
-        txt_hits = match_nodes(txt_text, nodes, is_markdown=False, raw_text=txt_raw)
-        md_hits = match_nodes(md_text, nodes, is_markdown=True, raw_text=md_raw)
-        if txt_hits:
-            txt_results[label] = txt_hits
-        if md_hits:
-            md_results[label] = md_hits
-
-    # === Extract CVEs
-    txt_cves = sorted(set(cve_pattern.findall(txt_text)))
-    md_cves = sorted(set(cve_pattern.findall(md_text)))
-    if txt_cves:
-        txt_results["cve"] = [{"value": cve.upper(), **extract_context(txt_raw, cve)} for cve in txt_cves]
-    if md_cves:
-        md_results["cve"] = [{"value": cve.upper(), **extract_context(md_raw, cve, is_markdown=True)} for cve in md_cves]
-
-    # === Extract CPEs
-    txt_cpes = sorted(set(cpe_pattern.findall(txt_text)))
-    md_cpes = sorted(set(cpe_pattern.findall(md_text)))
-    if txt_cpes:
-        print("found in txt")
-        txt_results["cpe"] = [{"value": cpe.lower(), **extract_context(txt_raw, cpe)} for cpe in txt_cpes]
-    if md_cpes:
-        print("found in md")
-        md_results["cpe"] = [{"value": cpe.lower(), **extract_context(md_raw, cpe, is_markdown=True)} for cpe in md_cpes]
-
-    # === Write results
-    with open(report_output_dir / "txt.json", "w", encoding="utf-8") as f:
-        json.dump(txt_results, f, indent=2)
-
-    with open(report_output_dir / "md.json", "w", encoding="utf-8") as f:
-        json.dump(md_results, f, indent=2)
-
-    if has_missing_context(txt_results):
-        print(f"[!] Missing context in TXT JSON: {base_name}")
-    if has_missing_context(md_results):
-        print(f"[!] Missing context in MD JSON: {base_name}")
-
-    print(f"[✓] Processed: {base_name}")
+# === MAIN ENTRY POINT ===
+if __name__ == "__main__":
+    process_folder(text_dir, "txt")
+    process_folder(md_dir, "md")
+    deduplicate_entity_hits("data/entity_hits_v3")
+    print("✓ All reports processed and saved to data/entity_hits_v3 with CVE/CPE and node hits.")
+    write_global_summary(output_dir)

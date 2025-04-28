@@ -5,10 +5,10 @@ from docling.document_converter import DocumentConverter
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 # === Paths ===
-base_dir = Path(__file__).resolve().parents[1]
-pdf_root = base_dir / "data" / "pdfs"
-text_dir = base_dir / "data" / "texts"
-markdown_dir = base_dir / "data" / "markdown"
+base_dir = Path(__file__).resolve().parents[2]
+pdf_root = base_dir / "data" / "pdf_reports"
+text_dir = base_dir / "data" / "converted_reports" / "texts"
+markdown_dir = base_dir / "data" / "converted_reports" / "markdown"
 
 text_dir.mkdir(parents=True, exist_ok=True)
 markdown_dir.mkdir(parents=True, exist_ok=True)
