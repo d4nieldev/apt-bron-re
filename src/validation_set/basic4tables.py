@@ -280,7 +280,7 @@ def write_global_summary(json_path: Path, output_summary_dir: Path):
 
 
 if __name__ == "__main__":
-    output_json = output_dir / "all_reports_output.json"
+    output_json = output_dir / "summaries/all_reports_output.json"
     process_folder(md_dir, "md", output_json)
     deduplicate_entity_hits(output_json)
     write_global_summary(output_json, output_dir / "summaries")
