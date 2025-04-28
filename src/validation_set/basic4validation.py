@@ -5,10 +5,15 @@ import ahocorasick
 from datetime import datetime
 
 # paths
-md_dir = Path("data/validation_set/only_tables_from_reports")
+tables_md = Path("data/validation_set/only_tables_from_reports")
 layer_dir = Path("data/layers_nodes")
-output_dir = Path("data/validation_set/only_tables_from_reports")
-output_dir.mkdir(parents=True, exist_ok=True)
+output_tables_dir = Path("data/validation_set/only_tables_from_reports")
+output_tables_dir.mkdir(parents=True, exist_ok=True)
+
+reports_md = Path("data/validation_set/md_reports_without_the_tables")
+output_reports_dir = Path("data/validation_set/md_reports_without_the_tables")
+output_reports_dir.mkdir(parents=True, exist_ok=True)
+
 
 """ create a dictionary with keys as layer type (group, tactic, etc.) 
 and values as lists of the relevant entities """
@@ -223,8 +228,6 @@ def deduplicate_entity_hits(json_path: Path):
     with open(json_path, "w", encoding="utf-8") as f:
         json.dump(deduped_data, f, indent=2)
 
-    print(f"Deduplication finished for {json_path}")
-
 
 def write_summary_counts(report_dir: Path):
     """
@@ -245,42 +248,110 @@ def write_summary_counts(report_dir: Path):
     return summary
 
 
-def write_global_summary(json_path: Path, output_summary_dir: Path):
+def write_global_summary(json_path: Path, dataset_name: str):
     """
-    writes a timestamped global summary of the nodes extraction, to compare with previous attempts
-    to be inserted to entity_hits_v3/summaries, and also a summary/comparison between the number of entities
-    in the reports, stored in entity_hits_v3/global_summary.json
+    Summarizes total entity counts for a dataset,
+    returns the summary text as a list of lines.
     """
     try:
         with open(json_path, encoding="utf-8") as f:
             data = json.load(f)
     except Exception as e:
         print(f"Failed to read {json_path}: {e}")
-        return
+        return []
 
-    txt_totals = {}
-    md_totals = {}  # In your new setup, no real txt/md split, but I keep both for compatibility.
+    totals = {}
 
     for report_data in data.values():
         for category, entries in report_data.items():
-            txt_totals[category] = txt_totals.get(category, 0) + len(entries)
-            md_totals[category] = md_totals.get(category, 0) + len(entries)  # same values now
+            totals[category] = totals.get(category, 0) + len(entries)
 
-    # Timestamped text summary
-    output_summary_dir.mkdir(exist_ok=True)
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M")
-    summary_txt = ["=== Total Entity Counts Across All Reports ===\n"]
+    summary_txt = [f"=== {dataset_name} ===\n"]
 
-    summary_txt.append("[TOTAL]")
-    for category, count in sorted(txt_totals.items()):
+    for category, count in sorted(totals.items()):
         summary_txt.append(f"{category}: {count}")
 
-    summary_path = output_summary_dir / f"{timestamp}_summary.txt"
-    summary_path.write_text("\n".join(summary_txt), encoding="utf-8")
+    return summary_txt
+
+
+def compare_differences(tables_json_path: Path, reports_json_path: Path, output_comparison_path: Path):
+    """
+    Compares entities between tables-only and full-reports, finding nodes
+    that exist only in one of them (by original_id, regardless of name/index).
+    Saves the differences to output_comparison_path as JSON.
+    """
+    try:
+        with open(tables_json_path, encoding="utf-8") as f:
+            tables_data = json.load(f)
+        with open(reports_json_path, encoding="utf-8") as f:
+            reports_data = json.load(f)
+    except Exception as e:
+        print(f"Failed to load input JSONs: {e}")
+        return
+
+    comparison = {}
+
+    all_report_names = set(tables_data.keys()).union(reports_data.keys())
+
+    for report_name in all_report_names:
+        tables_report = tables_data.get(report_name, {})
+        reports_report = reports_data.get(report_name, {})
+
+        only_table = {}
+        only_report = {}
+
+        all_categories = set(tables_report.keys()).union(reports_report.keys())
+
+        for category in all_categories:
+            tables_nodes = tables_report.get(category, [])
+            reports_nodes = reports_report.get(category, [])
+
+            tables_ids = {entry.get("original_id", entry.get("value", "")).lower() for entry in tables_nodes}
+            reports_ids = {entry.get("original_id", entry.get("value", "")).lower() for entry in reports_nodes}
+
+            table_extras = tables_ids - reports_ids
+            report_extras = reports_ids - tables_ids
+
+            if table_extras:
+                only_table[category] = sorted(list(table_extras))
+            if report_extras:
+                only_report[category] = sorted(list(report_extras))
+
+        if only_table or only_report:
+            comparison[report_name] = {
+                "only table": only_table,
+                "only report": only_report
+            }
+
+    output_comparison_path.write_text(json.dumps(comparison, indent=2), encoding="utf-8")
+    print(f"Differences saved to {output_comparison_path}")
 
 
 if __name__ == "__main__":
-    output_json = output_dir / "summaries/all_reports_output.json"
-    process_folder(md_dir, "md", output_json)
-    deduplicate_entity_hits(output_json)
-    write_global_summary(output_json, output_dir / "summaries")
+    comparisons_dir = Path("data/validation_set/comparisons")
+    comparisons_dir.mkdir(parents=True, exist_ok=True)
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M")
+    combined_summary_path = comparisons_dir / f"{timestamp}_summary.txt"
+
+    # Process reports with only tables
+    output_tables_json = output_tables_dir / "zzz_all_reports_output.json"
+    process_folder(tables_md, "md", output_tables_json)
+    deduplicate_entity_hits(output_tables_json)
+    tables_summary = write_global_summary(output_tables_json, "Only Tables Reports")
+
+    # Process full reports without tables
+    output_reports_json = output_reports_dir / "zzz_all_reports_output.json"
+    process_folder(reports_md, "md", output_reports_json)
+    deduplicate_entity_hits(output_reports_json)
+    reports_summary = write_global_summary(output_reports_json, "Full Reports Without Tables")
+
+    # Save combined text summary
+    combined_summary = ["=== Global Summary ===", ""] + tables_summary + [""] + reports_summary
+    combined_summary_text = "\n".join(combined_summary)
+    combined_summary_path.write_text(combined_summary_text, encoding="utf-8")
+
+    # Compare differences between the two datasets
+    diffs_output_path = comparisons_dir / f"differences.json"
+    compare_differences(output_tables_json, output_reports_json, diffs_output_path)
+
+    print(f"Combined summary saved to {combined_summary_path}")
