@@ -101,11 +101,14 @@ def match_variants(text, category, automaton):
             if variant_str not in found:
                 found.add(variant_str)
                 node = variant_to_node[category][variant_str]
-                results.append({
+                hit = {
                     "name": node["name"],
                     "original_id": node["original_id"],
                     "index": start_idx
-                })
+                }
+                if category == "software" and "software_type" in node:
+                    hit["software_type"] = node["software_type"]
+                results.append(hit)
     return results
 
 

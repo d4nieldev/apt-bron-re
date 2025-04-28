@@ -19,7 +19,7 @@ NODE_TYPES = {
     "cwe": ["name", "original_id"],
     "group": ["name", "original_id"],
     "technique": ["name", "original_id"],
-    "software": ["name", "original_id"]
+    "software": ["name", "original_id", "software_type"]
 }
 
 # === Save to: data/layer_nodes (one level outside /src/)
