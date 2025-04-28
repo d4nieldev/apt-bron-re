@@ -1,0 +1,82 @@
+[
+  {
+    "from": "T1053.002",
+    "to": "CAPEC-98",
+    "from_name": "At",
+    "to_name": "Phishing",
+    "from_layer": "technique",
+    "to_layer": "capec",
+    "justification": "Both entities appear in the same sentence: '1/13 December 20, 2022 Russia\u2019s Trident Ursa (aka Gamaredon APT) Cyber Conflict Operations Unwavering Since Invasion of Ukraine unit42.paloaltonetworks.com/trident-ursa By Unit 42 December 20, 2022 at 3:00 AM Category: Government, Malware Tags: APTs, Cortex XDR, DNS security, Gamaredon, next-generation firewall, Phishing, primitive bear, Russia, Shuckworm, threat prevention, Trident Ursa, UAC-0010, Ukraine, URL filtering, WildFire Executive Summary Since our last blog in early February covering the advanced persistent threat (APT) group Trident Ursa (aka Gamaredon, UAC-0010, Primitive Bear, Shuckworm), Ukraine and its cyber domain has faced ever-increasing threats from Russia.' which indicates a potential connection between a technique and a capec.",
+    "context": "1/13 December 20, 2022 Russia\u2019s Trident Ursa (aka Gamaredon APT) Cyber Conflict Operations Unwavering Since Invasion of Ukraine unit42.paloaltonetworks.com/trident-ursa By Unit 42 December 20, 2022 at 3:00 AM Category: Government, Malware Tags: APTs, Cortex XDR, DNS security, Gamaredon, next-generation firewall, Phishing, primitive bear, Russia, Shuckworm, threat prevention, Trident Ursa, UAC-0010, Ukraine, URL filtering, WildFire Executive Summary Since our last blog in early February covering the advanced persistent threat (APT) group Trident Ursa (aka Gamaredon, UAC-0010, Primitive Bear, Shuckworm), Ukraine and its cyber domain has faced ever-increasing threats from Russia."
+  },
+  {
+    "from": "T1590.002",
+    "to": "CAPEC-98",
+    "from_name": "DNS",
+    "to_name": "Phishing",
+    "from_layer": "technique",
+    "to_layer": "capec",
+    "justification": "Both entities appear in the same sentence: '1/13 December 20, 2022 Russia\u2019s Trident Ursa (aka Gamaredon APT) Cyber Conflict Operations Unwavering Since Invasion of Ukraine unit42.paloaltonetworks.com/trident-ursa By Unit 42 December 20, 2022 at 3:00 AM Category: Government, Malware Tags: APTs, Cortex XDR, DNS security, Gamaredon, next-generation firewall, Phishing, primitive bear, Russia, Shuckworm, threat prevention, Trident Ursa, UAC-0010, Ukraine, URL filtering, WildFire Executive Summary Since our last blog in early February covering the advanced persistent threat (APT) group Trident Ursa (aka Gamaredon, UAC-0010, Primitive Bear, Shuckworm), Ukraine and its cyber domain has faced ever-increasing threats from Russia.' which indicates a potential connection between a technique and a capec.",
+    "context": "1/13 December 20, 2022 Russia\u2019s Trident Ursa (aka Gamaredon APT) Cyber Conflict Operations Unwavering Since Invasion of Ukraine unit42.paloaltonetworks.com/trident-ursa By Unit 42 December 20, 2022 at 3:00 AM Category: Government, Malware Tags: APTs, Cortex XDR, DNS security, Gamaredon, next-generation firewall, Phishing, primitive bear, Russia, Shuckworm, threat prevention, Trident Ursa, UAC-0010, Ukraine, URL filtering, WildFire Executive Summary Since our last blog in early February covering the advanced persistent threat (APT) group Trident Ursa (aka Gamaredon, UAC-0010, Primitive Bear, Shuckworm), Ukraine and its cyber domain has faced ever-increasing threats from Russia."
+  },
+  {
+    "from": "T1071.004",
+    "to": "CAPEC-98",
+    "from_name": "DNS",
+    "to_name": "Phishing",
+    "from_layer": "technique",
+    "to_layer": "capec",
+    "justification": "Both entities appear in the same sentence: '1/13 December 20, 2022 Russia\u2019s Trident Ursa (aka Gamaredon APT) Cyber Conflict Operations Unwavering Since Invasion of Ukraine unit42.paloaltonetworks.com/trident-ursa By Unit 42 December 20, 2022 at 3:00 AM Category: Government, Malware Tags: APTs, Cortex XDR, DNS security, Gamaredon, next-generation firewall, Phishing, primitive bear, Russia, Shuckworm, threat prevention, Trident Ursa, UAC-0010, Ukraine, URL filtering, WildFire Executive Summary Since our last blog in early February covering the advanced persistent threat (APT) group Trident Ursa (aka Gamaredon, UAC-0010, Primitive Bear, Shuckworm), Ukraine and its cyber domain has faced ever-increasing threats from Russia.' which indicates a potential connection between a technique and a capec.",
+    "context": "1/13 December 20, 2022 Russia\u2019s Trident Ursa (aka Gamaredon APT) Cyber Conflict Operations Unwavering Since Invasion of Ukraine unit42.paloaltonetworks.com/trident-ursa By Unit 42 December 20, 2022 at 3:00 AM Category: Government, Malware Tags: APTs, Cortex XDR, DNS security, Gamaredon, next-generation firewall, Phishing, primitive bear, Russia, Shuckworm, threat prevention, Trident Ursa, UAC-0010, Ukraine, URL filtering, WildFire Executive Summary Since our last blog in early February covering the advanced persistent threat (APT) group Trident Ursa (aka Gamaredon, UAC-0010, Primitive Bear, Shuckworm), Ukraine and its cyber domain has faced ever-increasing threats from Russia."
+  },
+  {
+    "from": "T1583.001",
+    "to": "CAPEC-98",
+    "from_name": "Domains",
+    "to_name": "Phishing",
+    "from_layer": "technique",
+    "to_layer": "capec",
+    "justification": "Both entities appear in the same sentence: '1/13 December 20, 2022 Russia\u2019s Trident Ursa (aka Gamaredon APT) Cyber Conflict Operations Unwavering Since Invasion of Ukraine unit42.paloaltonetworks.com/trident-ursa By Unit 42 December 20, 2022 at 3:00 AM Category: Government, Malware Tags: APTs, Cortex XDR, DNS security, Gamaredon, next-generation firewall, Phishing, primitive bear, Russia, Shuckworm, threat prevention, Trident Ursa, UAC-0010, Ukraine, URL filtering, WildFire Executive Summary Since our last blog in early February covering the advanced persistent threat (APT) group Trident Ursa (aka Gamaredon, UAC-0010, Primitive Bear, Shuckworm), Ukraine and its cyber domain has faced ever-increasing threats from Russia.' which indicates a potential connection between a technique and a capec.",
+    "context": "1/13 December 20, 2022 Russia\u2019s Trident Ursa (aka Gamaredon APT) Cyber Conflict Operations Unwavering Since Invasion of Ukraine unit42.paloaltonetworks.com/trident-ursa By Unit 42 December 20, 2022 at 3:00 AM Category: Government, Malware Tags: APTs, Cortex XDR, DNS security, Gamaredon, next-generation firewall, Phishing, primitive bear, Russia, Shuckworm, threat prevention, Trident Ursa, UAC-0010, Ukraine, URL filtering, WildFire Executive Summary Since our last blog in early February covering the advanced persistent threat (APT) group Trident Ursa (aka Gamaredon, UAC-0010, Primitive Bear, Shuckworm), Ukraine and its cyber domain has faced ever-increasing threats from Russia."
+  },
+  {
+    "from": "T1584.001",
+    "to": "CAPEC-98",
+    "from_name": "Domains",
+    "to_name": "Phishing",
+    "from_layer": "technique",
+    "to_layer": "capec",
+    "justification": "Both entities appear in the same sentence: '1/13 December 20, 2022 Russia\u2019s Trident Ursa (aka Gamaredon APT) Cyber Conflict Operations Unwavering Since Invasion of Ukraine unit42.paloaltonetworks.com/trident-ursa By Unit 42 December 20, 2022 at 3:00 AM Category: Government, Malware Tags: APTs, Cortex XDR, DNS security, Gamaredon, next-generation firewall, Phishing, primitive bear, Russia, Shuckworm, threat prevention, Trident Ursa, UAC-0010, Ukraine, URL filtering, WildFire Executive Summary Since our last blog in early February covering the advanced persistent threat (APT) group Trident Ursa (aka Gamaredon, UAC-0010, Primitive Bear, Shuckworm), Ukraine and its cyber domain has faced ever-increasing threats from Russia.' which indicates a potential connection between a technique and a capec.",
+    "context": "1/13 December 20, 2022 Russia\u2019s Trident Ursa (aka Gamaredon APT) Cyber Conflict Operations Unwavering Since Invasion of Ukraine unit42.paloaltonetworks.com/trident-ursa By Unit 42 December 20, 2022 at 3:00 AM Category: Government, Malware Tags: APTs, Cortex XDR, DNS security, Gamaredon, next-generation firewall, Phishing, primitive bear, Russia, Shuckworm, threat prevention, Trident Ursa, UAC-0010, Ukraine, URL filtering, WildFire Executive Summary Since our last blog in early February covering the advanced persistent threat (APT) group Trident Ursa (aka Gamaredon, UAC-0010, Primitive Bear, Shuckworm), Ukraine and its cyber domain has faced ever-increasing threats from Russia."
+  },
+  {
+    "from": "T1587.001",
+    "to": "CAPEC-98",
+    "from_name": "Malware",
+    "to_name": "Phishing",
+    "from_layer": "technique",
+    "to_layer": "capec",
+    "justification": "Both entities appear in the same sentence: '1/13 December 20, 2022 Russia\u2019s Trident Ursa (aka Gamaredon APT) Cyber Conflict Operations Unwavering Since Invasion of Ukraine unit42.paloaltonetworks.com/trident-ursa By Unit 42 December 20, 2022 at 3:00 AM Category: Government, Malware Tags: APTs, Cortex XDR, DNS security, Gamaredon, next-generation firewall, Phishing, primitive bear, Russia, Shuckworm, threat prevention, Trident Ursa, UAC-0010, Ukraine, URL filtering, WildFire Executive Summary Since our last blog in early February covering the advanced persistent threat (APT) group Trident Ursa (aka Gamaredon, UAC-0010, Primitive Bear, Shuckworm), Ukraine and its cyber domain has faced ever-increasing threats from Russia.' which indicates a potential connection between a technique and a capec.",
+    "context": "1/13 December 20, 2022 Russia\u2019s Trident Ursa (aka Gamaredon APT) Cyber Conflict Operations Unwavering Since Invasion of Ukraine unit42.paloaltonetworks.com/trident-ursa By Unit 42 December 20, 2022 at 3:00 AM Category: Government, Malware Tags: APTs, Cortex XDR, DNS security, Gamaredon, next-generation firewall, Phishing, primitive bear, Russia, Shuckworm, threat prevention, Trident Ursa, UAC-0010, Ukraine, URL filtering, WildFire Executive Summary Since our last blog in early February covering the advanced persistent threat (APT) group Trident Ursa (aka Gamaredon, UAC-0010, Primitive Bear, Shuckworm), Ukraine and its cyber domain has faced ever-increasing threats from Russia."
+  },
+  {
+    "from": "T1588.001",
+    "to": "CAPEC-98",
+    "from_name": "Malware",
+    "to_name": "Phishing",
+    "from_layer": "technique",
+    "to_layer": "capec",
+    "justification": "Both entities appear in the same sentence: '1/13 December 20, 2022 Russia\u2019s Trident Ursa (aka Gamaredon APT) Cyber Conflict Operations Unwavering Since Invasion of Ukraine unit42.paloaltonetworks.com/trident-ursa By Unit 42 December 20, 2022 at 3:00 AM Category: Government, Malware Tags: APTs, Cortex XDR, DNS security, Gamaredon, next-generation firewall, Phishing, primitive bear, Russia, Shuckworm, threat prevention, Trident Ursa, UAC-0010, Ukraine, URL filtering, WildFire Executive Summary Since our last blog in early February covering the advanced persistent threat (APT) group Trident Ursa (aka Gamaredon, UAC-0010, Primitive Bear, Shuckworm), Ukraine and its cyber domain has faced ever-increasing threats from Russia.' which indicates a potential connection between a technique and a capec.",
+    "context": "1/13 December 20, 2022 Russia\u2019s Trident Ursa (aka Gamaredon APT) Cyber Conflict Operations Unwavering Since Invasion of Ukraine unit42.paloaltonetworks.com/trident-ursa By Unit 42 December 20, 2022 at 3:00 AM Category: Government, Malware Tags: APTs, Cortex XDR, DNS security, Gamaredon, next-generation firewall, Phishing, primitive bear, Russia, Shuckworm, threat prevention, Trident Ursa, UAC-0010, Ukraine, URL filtering, WildFire Executive Summary Since our last blog in early February covering the advanced persistent threat (APT) group Trident Ursa (aka Gamaredon, UAC-0010, Primitive Bear, Shuckworm), Ukraine and its cyber domain has faced ever-increasing threats from Russia."
+  },
+  {
+    "from": "T1566",
+    "to": "CAPEC-98",
+    "from_name": "Phishing",
+    "to_name": "Phishing",
+    "from_layer": "technique",
+    "to_layer": "capec",
+    "justification": "Both entities appear in the same sentence: '1/13 December 20, 2022 Russia\u2019s Trident Ursa (aka Gamaredon APT) Cyber Conflict Operations Unwavering Since Invasion of Ukraine unit42.paloaltonetworks.com/trident-ursa By Unit 42 December 20, 2022 at 3:00 AM Category: Government, Malware Tags: APTs, Cortex XDR, DNS security, Gamaredon, next-generation firewall, Phishing, primitive bear, Russia, Shuckworm, threat prevention, Trident Ursa, UAC-0010, Ukraine, URL filtering, WildFire Executive Summary Since our last blog in early February covering the advanced persistent threat (APT) group Trident Ursa (aka Gamaredon, UAC-0010, Primitive Bear, Shuckworm), Ukraine and its cyber domain has faced ever-increasing threats from Russia.' which indicates a potential connection between a technique and a capec.",
+    "context": "1/13 December 20, 2022 Russia\u2019s Trident Ursa (aka Gamaredon APT) Cyber Conflict Operations Unwavering Since Invasion of Ukraine unit42.paloaltonetworks.com/trident-ursa By Unit 42 December 20, 2022 at 3:00 AM Category: Government, Malware Tags: APTs, Cortex XDR, DNS security, Gamaredon, next-generation firewall, Phishing, primitive bear, Russia, Shuckworm, threat prevention, Trident Ursa, UAC-0010, Ukraine, URL filtering, WildFire Executive Summary Since our last blog in early February covering the advanced persistent threat (APT) group Trident Ursa (aka Gamaredon, UAC-0010, Primitive Bear, Shuckworm), Ukraine and its cyber domain has faced ever-increasing threats from Russia."
+  }
+]

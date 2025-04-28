@@ -1,0 +1,32 @@
+[
+  {
+    "from": "TA0009",
+    "to": "G0022",
+    "from_name": "collection",
+    "to_name": "APT3",
+    "from_layer": "tactic",
+    "to_layer": "group",
+    "justification": "Both entities appear in the same sentence: '1/14 Analysis of APT-C-56 (Transparent Tribe) camouflage resume attack campaign mp.weixin.qq.com/s/xU7b3m-L2OlAi2bU7nBj0A Included in the collection #APT 87 piece #\u5357\u4e9a\u5730\u533a 26 piece #APT-C-56 Transparent Tribe 7 piece APT-C-56 \u00a0 Transparent Tribe APT-C-56 (Transparent Tribe), also known as Transparent Tribe, APT36, ProjectM, C-Major, is an APT organization with a South Asian background, which has long targeted attacks on the politics and military of neighboring countries and regions (especially India), and has developed its own exclusive Trojan horse CrimsonRAT, and has also been found to widely spread USB worms.' which indicates a potential connection between a tactic and a group.",
+    "context": "1/14 Analysis of APT-C-56 (Transparent Tribe) camouflage resume attack campaign mp.weixin.qq.com/s/xU7b3m-L2OlAi2bU7nBj0A Included in the collection #APT 87 piece #\u5357\u4e9a\u5730\u533a 26 piece #APT-C-56 Transparent Tribe 7 piece APT-C-56 \u00a0 Transparent Tribe APT-C-56 (Transparent Tribe), also known as Transparent Tribe, APT36, ProjectM, C-Major, is an APT organization with a South Asian background, which has long targeted attacks on the politics and military of neighboring countries and regions (especially India), and has developed its own exclusive Trojan horse CrimsonRAT, and has also been found to widely spread USB worms."
+  },
+  {
+    "from": "TA0009",
+    "to": "G0134",
+    "from_name": "collection",
+    "to_name": "Transparent Tribe",
+    "from_layer": "tactic",
+    "to_layer": "group",
+    "justification": "Both entities appear in the same sentence: '1/14 Analysis of APT-C-56 (Transparent Tribe) camouflage resume attack campaign mp.weixin.qq.com/s/xU7b3m-L2OlAi2bU7nBj0A Included in the collection #APT 87 piece #\u5357\u4e9a\u5730\u533a 26 piece #APT-C-56 Transparent Tribe 7 piece APT-C-56 \u00a0 Transparent Tribe APT-C-56 (Transparent Tribe), also known as Transparent Tribe, APT36, ProjectM, C-Major, is an APT organization with a South Asian background, which has long targeted attacks on the politics and military of neighboring countries and regions (especially India), and has developed its own exclusive Trojan horse CrimsonRAT, and has also been found to widely spread USB worms.' which indicates a potential connection between a tactic and a group.",
+    "context": "1/14 Analysis of APT-C-56 (Transparent Tribe) camouflage resume attack campaign mp.weixin.qq.com/s/xU7b3m-L2OlAi2bU7nBj0A Included in the collection #APT 87 piece #\u5357\u4e9a\u5730\u533a 26 piece #APT-C-56 Transparent Tribe 7 piece APT-C-56 \u00a0 Transparent Tribe APT-C-56 (Transparent Tribe), also known as Transparent Tribe, APT36, ProjectM, C-Major, is an APT organization with a South Asian background, which has long targeted attacks on the politics and military of neighboring countries and regions (especially India), and has developed its own exclusive Trojan horse CrimsonRAT, and has also been found to widely spread USB worms."
+  },
+  {
+    "from": "TA0007",
+    "to": "G0048",
+    "from_name": "discovery",
+    "to_name": "RTM",
+    "from_layer": "tactic",
+    "to_layer": "group",
+    "justification": "Both entities appear in the same sentence: 'Appendix IOC fdb9fe902ef9e9cb893c688c737e4cc7 ccc33eff063e44fad0fc3e6057b1bcd9 0f9f34e3e872e57446ffdcfa90a7b954 35e481dec398f206d0be12bc98ccc17a 33ea133da15dc060b7709558c97209d2 860da5abde63a42b3fbd8202d0cff6d2 8e642dd589e53347555a7b2596512ed7 23.254.119.234\uff1a6178 360 Advanced Threat Institute 360 Advanced Threat Institute is the core capability support department of 360 Digital Security Group, composed of 360 senior security experts, focusing on the discovery, defense, disposal and research of advanced threats, and has taken the lead in capturing many well- known 0-day attacks in the world, such as double killing, double star, nightmare formula, etc., exclusively disclosing the advanced actions of many national APT organizations, winning wide recognition inside and outside the industry, and providing strong support for 360 to ensure national network security.' which indicates a potential connection between a tactic and a group.",
+    "context": "Appendix IOC fdb9fe902ef9e9cb893c688c737e4cc7 ccc33eff063e44fad0fc3e6057b1bcd9 0f9f34e3e872e57446ffdcfa90a7b954 35e481dec398f206d0be12bc98ccc17a 33ea133da15dc060b7709558c97209d2 860da5abde63a42b3fbd8202d0cff6d2 8e642dd589e53347555a7b2596512ed7 23.254.119.234\uff1a6178 360 Advanced Threat Institute 360 Advanced Threat Institute is the core capability support department of 360 Digital Security Group, composed of 360 senior security experts, focusing on the discovery, defense, disposal and research of advanced threats, and has taken the lead in capturing many well- known 0-day attacks in the world, such as double killing, double star, nightmare formula, etc., exclusively disclosing the advanced actions of many national APT organizations, winning wide recognition inside and outside the industry, and providing strong support for 360 to ensure national network security."
+  }
+]

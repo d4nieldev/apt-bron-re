@@ -1,0 +1,42 @@
+[
+  {
+    "from": "T1053.002",
+    "to": "CAPEC-98",
+    "from_name": "At",
+    "to_name": "Phishing",
+    "from_layer": "technique",
+    "to_layer": "capec",
+    "justification": "Both entities appear in the same sentence: '1/7 November 1, 2023 MuddyWater eN-Able spear-phishing with new TTPs deepinstinct.com/blog/muddywater-en-able-spear-phishing-with-new-ttps Announcing Deep Instinct Prevention for Storage for cloud storage and NAS environments Learn more Executive summary: Deep Instinct\u2019s Threat Research team has identified a new campaign from the \u201cMuddyWater\u201d group The campaign has been observed attacking two Israeli targets The campaign exhibits updated TTPs to previously reported MuddyWater activity Figure 1: Campaign overview Introduction 2/7 Previous research showed that MuddyWater has sent spear-phishing emails, starting back in 2020, with direct links, as well as PDF, RTF, and HTML attachments containing links to archives hosted on various file-sharing platforms.' which indicates a potential connection between a technique and a capec.",
+    "context": "1/7 November 1, 2023 MuddyWater eN-Able spear-phishing with new TTPs deepinstinct.com/blog/muddywater-en-able-spear-phishing-with-new-ttps Announcing Deep Instinct Prevention for Storage for cloud storage and NAS environments Learn more Executive summary: Deep Instinct\u2019s Threat Research team has identified a new campaign from the \u201cMuddyWater\u201d group The campaign has been observed attacking two Israeli targets The campaign exhibits updated TTPs to previously reported MuddyWater activity Figure 1: Campaign overview Introduction 2/7 Previous research showed that MuddyWater has sent spear-phishing emails, starting back in 2020, with direct links, as well as PDF, RTF, and HTML attachments containing links to archives hosted on various file-sharing platforms."
+  },
+  {
+    "from": "T1053.002",
+    "to": "CAPEC-163",
+    "from_name": "At",
+    "to_name": "Spear Phishing",
+    "from_layer": "technique",
+    "to_layer": "capec",
+    "justification": "Both entities appear in the same sentence: '1/7 November 1, 2023 MuddyWater eN-Able spear-phishing with new TTPs deepinstinct.com/blog/muddywater-en-able-spear-phishing-with-new-ttps Announcing Deep Instinct Prevention for Storage for cloud storage and NAS environments Learn more Executive summary: Deep Instinct\u2019s Threat Research team has identified a new campaign from the \u201cMuddyWater\u201d group The campaign has been observed attacking two Israeli targets The campaign exhibits updated TTPs to previously reported MuddyWater activity Figure 1: Campaign overview Introduction 2/7 Previous research showed that MuddyWater has sent spear-phishing emails, starting back in 2020, with direct links, as well as PDF, RTF, and HTML attachments containing links to archives hosted on various file-sharing platforms.' which indicates a potential connection between a technique and a capec.",
+    "context": "1/7 November 1, 2023 MuddyWater eN-Able spear-phishing with new TTPs deepinstinct.com/blog/muddywater-en-able-spear-phishing-with-new-ttps Announcing Deep Instinct Prevention for Storage for cloud storage and NAS environments Learn more Executive summary: Deep Instinct\u2019s Threat Research team has identified a new campaign from the \u201cMuddyWater\u201d group The campaign has been observed attacking two Israeli targets The campaign exhibits updated TTPs to previously reported MuddyWater activity Figure 1: Campaign overview Introduction 2/7 Previous research showed that MuddyWater has sent spear-phishing emails, starting back in 2020, with direct links, as well as PDF, RTF, and HTML attachments containing links to archives hosted on various file-sharing platforms."
+  },
+  {
+    "from": "T1566",
+    "to": "CAPEC-98",
+    "from_name": "Phishing",
+    "to_name": "Phishing",
+    "from_layer": "technique",
+    "to_layer": "capec",
+    "justification": "Both entities appear in the same sentence: '1/7 November 1, 2023 MuddyWater eN-Able spear-phishing with new TTPs deepinstinct.com/blog/muddywater-en-able-spear-phishing-with-new-ttps Announcing Deep Instinct Prevention for Storage for cloud storage and NAS environments Learn more Executive summary: Deep Instinct\u2019s Threat Research team has identified a new campaign from the \u201cMuddyWater\u201d group The campaign has been observed attacking two Israeli targets The campaign exhibits updated TTPs to previously reported MuddyWater activity Figure 1: Campaign overview Introduction 2/7 Previous research showed that MuddyWater has sent spear-phishing emails, starting back in 2020, with direct links, as well as PDF, RTF, and HTML attachments containing links to archives hosted on various file-sharing platforms.' which indicates a potential connection between a technique and a capec.",
+    "context": "1/7 November 1, 2023 MuddyWater eN-Able spear-phishing with new TTPs deepinstinct.com/blog/muddywater-en-able-spear-phishing-with-new-ttps Announcing Deep Instinct Prevention for Storage for cloud storage and NAS environments Learn more Executive summary: Deep Instinct\u2019s Threat Research team has identified a new campaign from the \u201cMuddyWater\u201d group The campaign has been observed attacking two Israeli targets The campaign exhibits updated TTPs to previously reported MuddyWater activity Figure 1: Campaign overview Introduction 2/7 Previous research showed that MuddyWater has sent spear-phishing emails, starting back in 2020, with direct links, as well as PDF, RTF, and HTML attachments containing links to archives hosted on various file-sharing platforms."
+  },
+  {
+    "from": "T1566",
+    "to": "CAPEC-163",
+    "from_name": "Phishing",
+    "to_name": "Spear Phishing",
+    "from_layer": "technique",
+    "to_layer": "capec",
+    "justification": "Both entities appear in the same sentence: '1/7 November 1, 2023 MuddyWater eN-Able spear-phishing with new TTPs deepinstinct.com/blog/muddywater-en-able-spear-phishing-with-new-ttps Announcing Deep Instinct Prevention for Storage for cloud storage and NAS environments Learn more Executive summary: Deep Instinct\u2019s Threat Research team has identified a new campaign from the \u201cMuddyWater\u201d group The campaign has been observed attacking two Israeli targets The campaign exhibits updated TTPs to previously reported MuddyWater activity Figure 1: Campaign overview Introduction 2/7 Previous research showed that MuddyWater has sent spear-phishing emails, starting back in 2020, with direct links, as well as PDF, RTF, and HTML attachments containing links to archives hosted on various file-sharing platforms.' which indicates a potential connection between a technique and a capec.",
+    "context": "1/7 November 1, 2023 MuddyWater eN-Able spear-phishing with new TTPs deepinstinct.com/blog/muddywater-en-able-spear-phishing-with-new-ttps Announcing Deep Instinct Prevention for Storage for cloud storage and NAS environments Learn more Executive summary: Deep Instinct\u2019s Threat Research team has identified a new campaign from the \u201cMuddyWater\u201d group The campaign has been observed attacking two Israeli targets The campaign exhibits updated TTPs to previously reported MuddyWater activity Figure 1: Campaign overview Introduction 2/7 Previous research showed that MuddyWater has sent spear-phishing emails, starting back in 2020, with direct links, as well as PDF, RTF, and HTML attachments containing links to archives hosted on various file-sharing platforms."
+  }
+]

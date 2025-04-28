@@ -1,0 +1,42 @@
+[
+  {
+    "from": "T1110",
+    "to": "CAPEC-112",
+    "from_name": "Brute Force",
+    "to_name": "Brute Force",
+    "from_layer": "technique",
+    "to_layer": "capec",
+    "justification": "Both entities appear in the same sentence: 'The actors also use Python 3 scripts on multiple servers to perform a variety of operations such as: searching and deleting all information about connections to webdav.opendrive.com from the logs of the Squid proxy server; copying correspondence from Telegram clients, saved passwords and browser history; and brute force of Microtik routers.' which indicates a potential connection between a technique and a capec.",
+    "context": "The actors also use Python 3 scripts on multiple servers to perform a variety of operations such as: searching and deleting all information about connections to webdav.opendrive.com from the logs of the Squid proxy server; copying correspondence from Telegram clients, saved passwords and browser history; and brute force of Microtik routers."
+  },
+  {
+    "from": "T1059.006",
+    "to": "CAPEC-112",
+    "from_name": "Python",
+    "to_name": "Brute Force",
+    "from_layer": "technique",
+    "to_layer": "capec",
+    "justification": "Both entities appear in the same sentence: 'The actors also use Python 3 scripts on multiple servers to perform a variety of operations such as: searching and deleting all information about connections to webdav.opendrive.com from the logs of the Squid proxy server; copying correspondence from Telegram clients, saved passwords and browser history; and brute force of Microtik routers.' which indicates a potential connection between a technique and a capec.",
+    "context": "The actors also use Python 3 scripts on multiple servers to perform a variety of operations such as: searching and deleting all information about connections to webdav.opendrive.com from the logs of the Squid proxy server; copying correspondence from Telegram clients, saved passwords and browser history; and brute force of Microtik routers."
+  },
+  {
+    "from": "T1566",
+    "to": "CAPEC-98",
+    "from_name": "Phishing",
+    "to_name": "Phishing",
+    "from_layer": "technique",
+    "to_layer": "capec",
+    "justification": "Both entities appear in the same sentence: 'Initial infection Cloud Atlas has used spear-phishing emails containing malicious attachments as their initial attack vector for many years.' which indicates a potential connection between a technique and a capec.",
+    "context": "Initial infection Cloud Atlas has used spear-phishing emails containing malicious attachments as their initial attack vector for many years."
+  },
+  {
+    "from": "T1566",
+    "to": "CAPEC-163",
+    "from_name": "Phishing",
+    "to_name": "Spear Phishing",
+    "from_layer": "technique",
+    "to_layer": "capec",
+    "justification": "Both entities appear in the same sentence: 'Initial infection Cloud Atlas has used spear-phishing emails containing malicious attachments as their initial attack vector for many years.' which indicates a potential connection between a technique and a capec.",
+    "context": "Initial infection Cloud Atlas has used spear-phishing emails containing malicious attachments as their initial attack vector for many years."
+  }
+]

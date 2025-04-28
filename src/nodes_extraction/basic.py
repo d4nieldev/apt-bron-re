@@ -13,6 +13,7 @@ output_dir.mkdir(parents=True, exist_ok=True)
 
 # === Load all layers ===
 layer_map = {}
+
 for layer_file in layer_dir.glob("*.json"):
     label = layer_file.stem
     with open(layer_file, encoding="utf-8") as f:
@@ -52,24 +53,6 @@ for label, nodes in layer_map.items():
 cve_pattern = re.compile(r"\bcve-\d{4}-\d+\b", re.IGNORECASE)
 cpe_pattern = re.compile(r"\bcpe:(?:2\.3:|/)[aoh]:[^\s:]+:[^\s:]+(?::[^\s:]*){0,10}", re.IGNORECASE)
 
-# === Matching function with strict boundaries ===
-def match_variants(text, label, automaton):
-    found = set()
-    results = []
-    text_lower = text.lower()
-    for end_idx, variant in automaton.iter(text_lower):
-        start_idx = end_idx - len(variant) + 1
-        before = text_lower[start_idx - 1] if start_idx > 0 else " "
-        after = text_lower[end_idx + 1] if end_idx + 1 < len(text_lower) else " "
-        if not before.isalnum() and not after.isalnum():
-            if variant not in found:
-                found.add(variant)
-                results.append(variant_to_node[label][variant])
-    return results
-
-# === CVE and CPE matchers ===
-def match_cve(text):
-    return [{"value": m.upper()} for m in cve_pattern.findall(text)]
 
 def match_cpe(text):
     return [{"value": m.lower()} for m in cpe_pattern.findall(text)]

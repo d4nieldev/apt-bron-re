@@ -1,0 +1,32 @@
+[
+  {
+    "from": "T1566",
+    "to": "CAPEC-98",
+    "from_name": "Phishing",
+    "to_name": "Phishing",
+    "from_layer": "technique",
+    "to_layer": "capec",
+    "justification": "Both entities appear in the same sentence: 'June 2021 In July 2021, Qurium Media reported that several prominent human rights and political activists in Azerbaijan received targeted phishing emails that lured them to download malware from the Google Drive link.' which indicates a potential connection between a technique and a capec.",
+    "context": "June 2021 In July 2021, Qurium Media reported that several prominent human rights and political activists in Azerbaijan received targeted phishing emails that lured them to download malware from the Google Drive link."
+  },
+  {
+    "from": "T1021.005",
+    "to": "CAPEC-300",
+    "from_name": "VNC",
+    "to_name": "Port Scanning",
+    "from_layer": "technique",
+    "to_layer": "capec",
+    "justification": "Both entities appear in the same sentence: 'The tool capabilities include searching for and exfiltrating files from the infected machine, recording the video from the web camera and desktop, remotely controlling the compromised machine with TightVNC, installing a web shell, performing port scanning, and more.' which indicates a potential connection between a technique and a capec.",
+    "context": "The tool capabilities include searching for and exfiltrating files from the infected machine, recording the video from the web camera and desktop, remotely controlling the compromised machine with TightVNC, installing a web shell, performing port scanning, and more."
+  },
+  {
+    "from": "T1505.003",
+    "to": "CAPEC-300",
+    "from_name": "Web Shell",
+    "to_name": "Port Scanning",
+    "from_layer": "technique",
+    "to_layer": "capec",
+    "justification": "Both entities appear in the same sentence: 'The tool capabilities include searching for and exfiltrating files from the infected machine, recording the video from the web camera and desktop, remotely controlling the compromised machine with TightVNC, installing a web shell, performing port scanning, and more.' which indicates a potential connection between a technique and a capec.",
+    "context": "The tool capabilities include searching for and exfiltrating files from the infected machine, recording the video from the web camera and desktop, remotely controlling the compromised machine with TightVNC, installing a web shell, performing port scanning, and more."
+  }
+]

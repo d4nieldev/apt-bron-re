@@ -1,0 +1,32 @@
+[
+  {
+    "from": "T1566",
+    "to": "CAPEC-98",
+    "from_name": "Phishing",
+    "to_name": "Phishing",
+    "from_layer": "technique",
+    "to_layer": "capec",
+    "justification": "Both entities appear in the same sentence: 'Analysis of attack activities \u00a0 In daily hunting activities, we discovered that the APT-C-36 organization recently attempted to add the Amadey botnet Trojan to its usual PDF spear phishing attack flow.' which indicates a potential connection between a technique and a capec.",
+    "context": "Analysis of attack activities \u00a0 In daily hunting activities, we discovered that the APT-C-36 organization recently attempted to add the Amadey botnet Trojan to its usual PDF spear phishing attack flow."
+  },
+  {
+    "from": "T1566",
+    "to": "CAPEC-163",
+    "from_name": "Phishing",
+    "to_name": "Spear Phishing",
+    "from_layer": "technique",
+    "to_layer": "capec",
+    "justification": "Both entities appear in the same sentence: 'Analysis of attack activities \u00a0 In daily hunting activities, we discovered that the APT-C-36 organization recently attempted to add the Amadey botnet Trojan to its usual PDF spear phishing attack flow.' which indicates a potential connection between a technique and a capec.",
+    "context": "Analysis of attack activities \u00a0 In daily hunting activities, we discovered that the APT-C-36 organization recently attempted to add the Amadey botnet Trojan to its usual PDF spear phishing attack flow."
+  },
+  {
+    "from": "TA0007",
+    "to": "G0048",
+    "from_name": "discovery",
+    "to_name": "RTM",
+    "from_layer": "tactic",
+    "to_layer": "group",
+    "justification": "Both entities appear in the same sentence: 'Since its discovery in 2018, the organization has continued to launch targeted attacks against government departments, finance, insurance and other industries as well as large companies in Colombia.' which indicates a potential connection between a tactic and a group.",
+    "context": "Since its discovery in 2018, the organization has continued to launch targeted attacks against government departments, finance, insurance and other industries as well as large companies in Colombia."
+  }
+]
