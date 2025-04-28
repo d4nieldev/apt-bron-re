@@ -6,7 +6,7 @@ from pathlib import Path
 """
 This script creates a mapping between groups and their aliases
 as disclosed in https://attack.mitre.org/groups/
-it stores the output under data/test_results/group_to_aliases_mapping.json
+it stores the output under data/group_aliases_results/group_to_aliases_mapping.json
 """
 
 url = "https://attack.mitre.org/groups/"
@@ -32,7 +32,7 @@ for row in rows:
     group_aliases[group_name] = aliases
 
 # Save to data/group_to_aliases_mapping.json
-output_path = Path("data/test_results/group_to_aliases_mapping.json")
+output_path = Path("data/group_aliases_results/group_to_aliases_mapping.json")
 output_path.parent.mkdir(parents=True, exist_ok=True)
 
 with open(output_path, "w", encoding="utf-8") as f:

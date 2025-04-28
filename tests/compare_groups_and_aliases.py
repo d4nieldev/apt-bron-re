@@ -3,8 +3,8 @@ from pathlib import Path
 import ahocorasick
 
 text_dir = Path("data/converted_reports/texts")
-alias_file = Path("data/test_results/group_to_aliases_mapping.json")
-output_file = Path("data/test_results/group_alias_extraction_comparison_summary.json")
+alias_file = Path("data/group_aliases_results/group_to_aliases_mapping.json")
+output_file = Path("data/group_aliases_results/group_alias_extraction_comparison_summary.json")
 output_file.parent.mkdir(parents=True, exist_ok=True)
 
 # load aliases
