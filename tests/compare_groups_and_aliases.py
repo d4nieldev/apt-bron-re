@@ -114,5 +114,3 @@ with output_json.open("w", encoding="utf-8") as f:
 with output_txt.open("w", encoding="utf-8") as f:
     for field in ["group name hits", "mitre aliases hits", "malpedia aliases hits"]:
         f.write(f"{field}: {global_hit_counter[field]}\n")
-
-output_json, output_txt
