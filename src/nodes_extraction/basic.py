@@ -66,12 +66,31 @@ for label, nodes in layer_map.items():
                     node_map[variant] = node
                     A.add_word(variant, variant)
             technique_id_to_node[node["original_id"].lower()] = node
+        elif label == "group":
+            name_variants = generate_variants(node["name"])
+            id_variants = generate_variants(node["original_id"])
+            alias_variants = set()
+
+            for alias_field in ["MITRE_aliases", "malpedia_aliases"]:
+                for alias in node.get(alias_field, []):
+                    alias_variants.update(generate_variants(alias))
+
+            for variant in name_variants.union(id_variants):
+                if variant not in node_map:
+                    node_map[variant] = {"node": node, "hit_by": "group"}
+                    A.add_word(variant, variant)
+
+            for variant in alias_variants:
+                if variant not in node_map:
+                    node_map[variant] = {"node": node, "hit_by": "alias"}
+                    A.add_word(variant, variant)
+
         else:
             name_variants = generate_variants(node["name"])
             id_variants = generate_variants(node["original_id"])
             for variant in name_variants.union(id_variants):
                 if variant not in node_map:
-                    node_map[variant] = node
+                    node_map[variant] = {"node": node, "hit_by": label}
                     A.add_word(variant, variant)
 
     A.make_automaton()
@@ -100,14 +119,21 @@ def match_variants(text, category, automaton):
         if not before.isalnum() and not after.isalnum():
             if variant_str not in found:
                 found.add(variant_str)
-                node = variant_to_node[category][variant_str]
+                node_info = variant_to_node[category][variant_str]
+                node = node_info["node"] if isinstance(node_info, dict) and "node" in node_info else node_info
+
                 hit = {
                     "name": node["name"],
                     "original_id": node["original_id"],
                     "index": start_idx
                 }
+
+                if category == "group" and isinstance(node_info, dict) and "hit_by" in node_info:
+                    hit["hit by"] = node_info["hit_by"]
+
                 if category == "software" and "software_type" in node:
                     hit["software_type"] = node["software_type"]
+
                 results.append(hit)
     return results
 
