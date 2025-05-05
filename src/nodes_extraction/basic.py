@@ -4,6 +4,18 @@ from pathlib import Path
 import ahocorasick
 from datetime import datetime
 
+#  imports for NER
+import requests
+from requests.auth import HTTPBasicAuth
+from dotenv import load_dotenv
+import os
+import urllib3
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+load_dotenv(Path(__file__).resolve().parents[1] / ".env")
+_NER_USER = os.getenv("ner_username")
+_NER_PASS = os.getenv("ner_password")
+
 # paths
 text_dir = Path("data/converted_reports/texts")
 md_dir = Path("data/converted_reports/markdown")
@@ -40,6 +52,65 @@ def generate_variants(text):
             plural_forms.add(v + "'s")
 
     return variants.union(plural_forms)
+
+
+group_id_to_alias_variants = {}
+for g in layer_map.get("group", []):
+    alias_vars = set()
+    for alias_field in ("MITRE_aliases", "malpedia_aliases"):
+        for a in g.get(alias_field, []):
+            alias_vars.update(generate_variants(a))
+    group_id_to_alias_variants[g["original_id"].lower()] = alias_vars
+
+
+def _find_entities(text: str) -> dict:
+    """
+    Call the local NER API exactly like `ner_test.py` does and return the raw JSON.
+    """
+    resp = requests.post(
+        url="https://127.0.0.1:8890/tagging/get_tags_from_text",
+        json={"text": text, "search_mode": "Combined"},
+        auth=HTTPBasicAuth(_NER_USER, _NER_PASS),
+        verify=False,                    # same self-signed cert warning suppression
+        timeout=60,
+    )
+    resp.raise_for_status()
+    return resp.json()
+
+
+def _variants_for_entry(category: str, entry: dict) -> set[str]:
+    """
+    Given an extracted node, return all of the textual variants that should
+    be searched for inside the NER output.
+    """
+    vars_set = set()
+
+    if category in {"cve", "cpe"}:
+        token = entry.get("value", "")
+        vars_set.update(generate_variants(token))
+        return vars_set
+
+    # name + id
+    vars_set.update(generate_variants(entry.get("name", "")))
+    vars_set.update(generate_variants(entry.get("original_id", "")))
+
+    # aliases for groups
+    if category == "group":
+        oid = entry.get("original_id", "").lower()
+        vars_set.update(group_id_to_alias_variants.get(oid, set()))
+
+    return vars_set
+
+
+def _flat_ner_terms(ner_json: dict) -> set[str]:
+    """
+    Flatten the NER output to a single lower-cased set of strings so look-ups
+    are O(1).  (We don’t print it any more.)
+    """
+    flat: set[str] = set()
+    for terms in ner_json.values():
+        flat.update(t.lower() for t in terms)
+    return flat
 
 
 """ building automatas, one for each layer type (besides CVE and CPE) to be later
@@ -179,24 +250,38 @@ def match_cpe(text):
     ]
 
 
-def process_folder(folder, suffix):
+def process_folder(folder: Path, suffix: str):
     """
-    runs the automata and regex matches on the folders of converted reports,
-    stores the entity hits in data/entity_hits_v3
+    Iterate over *folder* (txt or md). For every report:
+    1. run NER once and flatten its terms
+    2. run the old extraction logic
+    3. for every extracted node add `"NER_hit": True/False`
+    4. write results to entity_hits_v3/<report>/<suffix>.json
     """
     for file in folder.glob(f"*.{suffix}"):
         base_name = file.stem
         report_dir = output_dir / base_name
         report_dir.mkdir(parents=True, exist_ok=True)
+
         try:
             text = file.read_text(encoding="utf-8")
-            results = {}
+
+            # ---------- 1. NER (silent) ---------------------------------
+            try:
+                ner_json = _find_entities(text)
+                ner_terms_flat = _flat_ner_terms(ner_json)
+            except Exception as ner_err:                    # NER failed – continue without it
+                print(f"NER call failed for {file.name}: {ner_err}")
+                ner_terms_flat = set()
+
+            # ---------- 2. original extraction --------------------------
+            results: dict[str, list[dict]] = {}
 
             for layer_type, automaton in automata_map.items():
                 if layer_type == "technique":
                     name_hits = match_variants(text, layer_type, automaton)
                     id_hits = match_technique_ids(text)
-                    combined = {json.dumps(hit, sort_keys=True): hit for hit in name_hits + id_hits}
+                    combined = {json.dumps(h, sort_keys=True): h for h in (*name_hits, *id_hits)}
                     if combined:
                         results["technique"] = list(combined.values())
                 else:
@@ -211,8 +296,16 @@ def process_folder(folder, suffix):
             if cpes:
                 results["cpe"] = cpes
 
+            # ---------- 3. add NER_hit ---------------------------------
+            for category, entries in results.items():
+                for entry in entries:
+                    variants = _variants_for_entry(category, entry)
+                    entry["NER_hit"] = any(v in ner_terms_flat for v in variants)
+
+            # ---------- 4. save ----------------------------------------
             out_path = report_dir / f"{suffix}.json"
             out_path.write_text(json.dumps(results, indent=2), encoding="utf-8")
+
         except Exception as e:
             print(f"Failed to process {file.name}: {e}")
 
