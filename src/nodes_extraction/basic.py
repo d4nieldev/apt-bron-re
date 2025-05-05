@@ -140,21 +140,20 @@ for label, nodes in layer_map.items():
         elif label == "group":
             name_variants = generate_variants(node["name"])
             id_variants = generate_variants(node["original_id"])
-            alias_variants = set()
 
-            for alias_field in ["MITRE_aliases", "malpedia_aliases"]:
+            # ---- NEW: capture which alias produced the hit ----
+            for alias_field in ("MITRE_aliases", "malpedia_aliases"):
                 for alias in node.get(alias_field, []):
-                    alias_variants.update(generate_variants(alias))
+                    for v in generate_variants(alias):
+                        if v not in node_map:
+                            node_map[v] = {"node": node, "alias": alias}  # ← keep alias
+                            A.add_word(v, v)
 
-            for variant in name_variants.union(id_variants):
-                if variant not in node_map:
-                    node_map[variant] = {"node": node, "hit_by": "group"}
-                    A.add_word(variant, variant)
-
-            for variant in alias_variants:
-                if variant not in node_map:
-                    node_map[variant] = {"node": node, "hit_by": "alias"}
-                    A.add_word(variant, variant)
+            # names / IDs behave as before, but we tag them with alias=None
+            for v in name_variants.union(id_variants):
+                if v not in node_map:
+                    node_map[v] = {"node": node, "alias": None}
+                    A.add_word(v, v)
 
         else:
             name_variants = generate_variants(node["name"])
@@ -199,8 +198,8 @@ def match_variants(text, category, automaton):
                     "index": start_idx
                 }
 
-                if category == "group" and isinstance(node_info, dict) and "hit_by" in node_info:
-                    hit["hit by"] = node_info["hit_by"]
+                if category == "group":
+                    hit["alias"] = node_info.get("alias")
 
                 if category == "software" and "software_type" in node:
                     hit["software_type"] = node["software_type"]
@@ -296,13 +295,6 @@ def process_folder(folder: Path, suffix: str):
             if cpes:
                 results["cpe"] = cpes
 
-            # ---------- 3. add NER_hit ---------------------------------
-            for category, entries in results.items():
-                for entry in entries:
-                    variants = _variants_for_entry(category, entry)
-                    entry["NER_hit"] = any(v in ner_terms_flat for v in variants)
-
-            # ---------- 4. save ----------------------------------------
             out_path = report_dir / f"{suffix}.json"
             out_path.write_text(json.dumps(results, indent=2), encoding="utf-8")
 
