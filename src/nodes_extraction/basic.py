@@ -2,7 +2,8 @@ import re
 import json
 from pathlib import Path
 import ahocorasick
-from datetime import datetime
+from collections import defaultdict
+from math import log
 
 from ner import (
     _find_entities,
@@ -10,9 +11,12 @@ from ner import (
     _build_ner_lookup,
     ner_score
 )
+from summary_funcs import write_summary_counts, write_summary_for_entity_hits_v3
 
-# boolean to run or not the NER score, contributes a field to output jsons, but worsens the runtime of the program
+""" booleans to run or not the NER score, and bm25 score 
+add_NER_score greatly worsens the runtime of the program, add_bm25_score doesn't have a great affect"""
 add_NER_score = True
+add_bm25_score = True
 
 text_dir = Path("data/converted_reports/texts")
 md_dir = Path("data/converted_reports/markdown")
@@ -310,23 +314,7 @@ def deduplicate_entity_hits(base_dir_path: str):
                 json.dump(deduped, output_f, indent=2)
 
 
-def write_summary_counts(report_dir: Path):
-    """
-    compares between the outputs originating from both types of filetypes to which the report was converted,
-    inserts the summary of that comparison into summary_counts.json, on the same report_dir (dir named after the report)
-    """
-    summary = {}
-    for json_file in ["txt.json", "md.json"]:
-        path = report_dir / json_file
-        if path.exists():
-            with open(path, encoding="utf-8") as j_file:
-                data = json.load(j_file)
-            summary_key = "txt_counts" if "txt" in json_file else "md_counts"
-            summary[summary_key] = {category: len(entries) for category, entries in data.items()}
-    if summary:
-        with open(report_dir / "summary_counts.json", "w", encoding="utf-8") as sum_file:
-            json.dump(summary, sum_file, indent=2)
-    return summary
+
 
 
 def add_context_sentences_to_hits():
@@ -383,45 +371,75 @@ def add_context_sentences_to_hits():
                 print(f"Failed to add sentence to {json_path.name}: {e}")
 
 
-def write_summary_for_entity_hits_v3(base_dir: Path):
+def add_bm25_score(base_dir: Path, k1=1.5, b=0.75):
     """
-    writes a timestamped global summary of the nodes extraction, to compare with previous attempts
-    to be inserted to entity_hits_v3/summaries, and also a summary/comparison between the number of entities
-    in the reports, stored in entity_hits_v3/global_summary.json
+    Adds a BM25-based score to each entity hit in entity_hits_v3,
+    scoring: group, tactic, technique, software, capec, cwe.
     """
-    global_summary = {}
+
+    print("[*] Calculating BM25 scores...")
+
+    doc_lengths = {}
+    freq_map = defaultdict(lambda: defaultdict(int))     # (label → (report, key) → freq)
+    doc_freq = defaultdict(lambda: defaultdict(int))     # (label → key → doc_count)
+
     for report_dir in base_dir.iterdir():
-        if report_dir.is_dir():
-            summary = write_summary_counts(report_dir)
-            if summary:
-                global_summary[report_dir.name] = summary
+        if not report_dir.is_dir():
+            continue
+        text_path = text_dir / f"{report_dir.name}.txt"
+        if not text_path.exists():
+            continue
+        try:
+            tokens = re.findall(r"\b\w+\b", text_path.read_text(encoding="utf-8").lower())
+            doc_lengths[report_dir.name] = len(tokens)
+            for file_type in ["txt", "md"]:
+                json_path = report_dir / f"{file_type}.json"
+                if not json_path.exists():
+                    continue
+                with open(json_path, encoding="utf-8") as f:
+                    data = json.load(f)
+                for label in ["group", "tactic", "technique", "software", "capec", "cwe"]:
+                    for entry in data.get(label, []):
+                        key = entry.get("original_id", entry.get("name", "")).lower()
+                        freq_map[label][(report_dir.name, key)] += 1
+        except Exception as e:
+            print(f"[!] Failed to process {report_dir.name}: {e}")
 
-    summary_dir = base_dir / "summaries"
-    summary_dir.mkdir(exist_ok=True)
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M")
-    summary_txt = ["=== Total Entity Counts Across All Reports ===\n"]
-    txt_totals = {}
-    md_totals = {}
+    N = len(doc_lengths)
+    avgdl = sum(doc_lengths.values()) / N if N else 1
 
-    for report in global_summary.values():
-        for category, count in report.get("txt_counts", {}).items():
-            txt_totals[category] = txt_totals.get(category, 0) + count
-        for category, count in report.get("md_counts", {}).items():
-            md_totals[category] = md_totals.get(category, 0) + count
+    for label, entity_freqs in freq_map.items():
+        seen_docs = defaultdict(set)
+        for (doc_name, key), _ in entity_freqs.items():
+            seen_docs[key].add(doc_name)
+        for key, docset in seen_docs.items():
+            doc_freq[label][key] = len(docset)
 
-    summary_txt.append("[TXT]")
-    for category, count in sorted(txt_totals.items()):
-        summary_txt.append(f"{category}: {count}")
-    summary_txt.append("\n[MD]")
-    for category, count in sorted(md_totals.items()):
-        summary_txt.append(f"{category}: {count}")
-
-    summary_path = summary_dir / f"{timestamp}_summary.txt"
-    summary_path.write_text("\n".join(summary_txt), encoding="utf-8")
-
-    global_summary_path = base_dir / "global_summary.json"
-    with open(global_summary_path, "w", encoding="utf-8") as global_file:
-        json.dump(global_summary, global_file, indent=2)
+    for report_dir in base_dir.iterdir():
+        if not report_dir.is_dir():
+            continue
+        for file_type in ["txt", "md"]:
+            json_path = report_dir / f"{file_type}.json"
+            if not json_path.exists():
+                continue
+            try:
+                with open(json_path, encoding="utf-8") as f:
+                    data = json.load(f)
+                dl = doc_lengths.get(report_dir.name, avgdl)
+                for label in ["group", "tactic", "technique", "software", "capec", "cwe"]:
+                    for entry in data.get(label, []):
+                        key = entry.get("original_id", entry.get("name", "")).lower()
+                        f_ij = freq_map[label].get((report_dir.name, key), 0)
+                        n = doc_freq[label].get(key, 0)
+                        idf = log((N - n + 0.5) / (n + 0.5) + 1)
+                        denom = f_ij + k1 * (1 - b + b * (dl / avgdl))
+                        entry["bm25_score"] = round(idf * ((f_ij * (k1 + 1)) / denom), 4) if denom else 0
+                    if label in data:
+                        data[label].sort(key=lambda x: x.get("bm25_score", 0), reverse=True)
+                with open(json_path, "w", encoding="utf-8") as f:
+                    json.dump(data, f, indent=2)
+            except Exception as e:
+                print(f"[!] Failed to update {json_path.name}: {e}")
 
 
 def compare_differences(tables_json_path: Path, reports_json_path: Path, output_comparison_path: Path):
@@ -485,3 +503,6 @@ if __name__ == "__main__":
     print(f"Global and timestamped summary written to entity_hits_v3/summaries")
     add_context_sentences_to_hits()
     print("Sentence context added to entity hits")
+    if add_bm25_score:
+        add_bm25_score(output_dir)
+        print("BM25 scores added to entities.")
