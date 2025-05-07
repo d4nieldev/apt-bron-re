@@ -189,7 +189,8 @@ def process_folder(folder: Path, suffix: str):
     Iterate over *folder* (txt or md). For every report:
     1. run NER once and flatten its terms
     2. run the old extraction logic
-    3. for every extracted node add `"NER_score": exact_match_score / different_category_score / untrained_categories_score / 0`
+    3. for every extracted node add
+       `"NER_score": exact_match_score / different_category_score / untrained_categories_score / 0`
     4. write results to entity_hits_v3/<report>/<suffix>.json
     """
     for file in folder.glob(f"*.{suffix}"):
@@ -217,9 +218,8 @@ def process_folder(folder: Path, suffix: str):
             for layer_type, automaton in automata_map.items():
                 if layer_type == "technique":
                     name_hits = match_variants(text, layer_type, automaton)
-                    id_hits   = match_technique_ids(text)
-                    combined  = {json.dumps(h, sort_keys=True): h
-                                 for h in (*name_hits, *id_hits)}
+                    id_hits = match_technique_ids(text)
+                    combined = {json.dumps(h, sort_keys=True): h for h in (*name_hits, *id_hits)}
                     if combined:
                         results["technique"] = list(combined.values())
                 else:
@@ -408,10 +408,10 @@ def compare_differences(tables_json_path: Path, reports_json_path: Path, output_
     Saves the differences to output_comparison_path as JSON.
     """
     try:
-        with open(tables_json_path, encoding="utf-8") as f:
-            tables_data = json.load(f)
-        with open(reports_json_path, encoding="utf-8") as f:
-            reports_data = json.load(f)
+        with open(tables_json_path, encoding="utf-8") as fil:
+            tables_data = json.load(fil)
+        with open(reports_json_path, encoding="utf-8") as g:
+            reports_data = json.load(g)
     except Exception as e:
         print(f"Failed to load input JSONs: {e}")
         return
