@@ -4,6 +4,7 @@ from pathlib import Path
 import ahocorasick
 from collections import defaultdict
 from math import log
+from datetime import datetime
 
 from ner import (
     _find_entities,
@@ -11,12 +12,26 @@ from ner import (
     _build_ner_lookup,
     ner_score
 )
-from summary_funcs import write_summary_counts, write_summary_for_entity_hits_v3
+from summary_funcs import (
+    write_summary_for_entity_hits_v3,
+    summarize_problematic_names,
+    generate_bm25_statistics_and_histograms
+)
 
 """ booleans to run or not the NER score, and bm25 score 
 add_NER_score greatly worsens the runtime of the program, add_bm25_score doesn't have a great affect"""
 add_NER_score = True
 add_bm25_score = True
+
+""" booleans to run specific comparison and summary functions """
+run_write_summary = True
+run_problematic_summary = True
+run_generate_histograms = True
+
+summary_root = Path("data/summaries")
+summary_root.mkdir(parents=True, exist_ok=True)
+timestamp_dir = summary_root / datetime.now().strftime("%Y%m%d_%H%M")
+timestamp_dir.mkdir(exist_ok=True)
 
 text_dir = Path("data/converted_reports/texts")
 md_dir = Path("data/converted_reports/markdown")
@@ -314,9 +329,6 @@ def deduplicate_entity_hits(base_dir_path: str):
                 json.dump(deduped, output_f, indent=2)
 
 
-
-
-
 def add_context_sentences_to_hits():
     """
     For each entity in txt.json/md.json files in entity_hits_v3,
@@ -405,8 +417,8 @@ def add_bm25_score(base_dir: Path, k1=1.5, b=0.75):
         except Exception as e:
             print(f"[!] Failed to process {report_dir.name}: {e}")
 
-    N = len(doc_lengths)
-    avgdl = sum(doc_lengths.values()) / N if N else 1
+    m = len(doc_lengths)
+    avgdl = sum(doc_lengths.values()) / m if m else 1
 
     for label, entity_freqs in freq_map.items():
         seen_docs = defaultdict(set)
@@ -431,7 +443,7 @@ def add_bm25_score(base_dir: Path, k1=1.5, b=0.75):
                         key = entry.get("original_id", entry.get("name", "")).lower()
                         f_ij = freq_map[label].get((report_dir.name, key), 0)
                         n = doc_freq[label].get(key, 0)
-                        idf = log((N - n + 0.5) / (n + 0.5) + 1)
+                        idf = log((m - n + 0.5) / (n + 0.5) + 1)
                         denom = f_ij + k1 * (1 - b + b * (dl / avgdl))
                         entry["bm25_score"] = round(idf * ((f_ij * (k1 + 1)) / denom), 4) if denom else 0
                     if label in data:
@@ -442,67 +454,27 @@ def add_bm25_score(base_dir: Path, k1=1.5, b=0.75):
                 print(f"[!] Failed to update {json_path.name}: {e}")
 
 
-def compare_differences(tables_json_path: Path, reports_json_path: Path, output_comparison_path: Path):
-    """
-    Compares entities between tables-only and full-reports, finding nodes
-    that exist only in one of them (by original_id, regardless of name/index).
-    Saves the differences to output_comparison_path as JSON.
-    """
-    try:
-        with open(tables_json_path, encoding="utf-8") as fil:
-            tables_data = json.load(fil)
-        with open(reports_json_path, encoding="utf-8") as g:
-            reports_data = json.load(g)
-    except Exception as e:
-        print(f"Failed to load input JSONs: {e}")
-        return
-
-    comparison = {}
-    all_report_names = set(tables_data.keys()).union(reports_data.keys())
-
-    for report_name in all_report_names:
-        tables_report = tables_data.get(report_name, {})
-        reports_report = reports_data.get(report_name, {})
-
-        only_table = {}
-        only_report = {}
-
-        all_categories = set(tables_report.keys()).union(reports_report.keys())
-
-        for category in all_categories:
-            tables_nodes = tables_report.get(category, [])
-            reports_nodes = reports_report.get(category, [])
-
-            tables_ids = {entry.get("original_id", entry.get("value", "")).lower() for entry in tables_nodes}
-            reports_ids = {entry.get("original_id", entry.get("value", "")).lower() for entry in reports_nodes}
-
-            table_extras = tables_ids - reports_ids
-            report_extras = reports_ids - tables_ids
-
-            if table_extras:
-                only_table[category] = sorted(list(table_extras))
-            if report_extras:
-                only_report[category] = sorted(list(report_extras))
-
-        if only_table or only_report:
-            comparison[report_name] = {
-                "only table": only_table,
-                "only report": only_report
-            }
-
-    output_comparison_path.write_text(json.dumps(comparison, indent=2), encoding="utf-8")
-    print(f"Differences saved to {output_comparison_path}")
-
-
 if __name__ == "__main__":
     process_folder(text_dir, "txt")
     process_folder(md_dir, "md")
     deduplicate_entity_hits("data/entity_hits_v3")
     print("Finished extracting nodes from the reports, results are in: data/entity_hits_v3 ")
-    write_summary_for_entity_hits_v3(output_dir)
-    print(f"Global and timestamped summary written to entity_hits_v3/summaries")
+
     add_context_sentences_to_hits()
     print("Sentence context added to entity hits")
+
     if add_bm25_score:
         add_bm25_score(output_dir)
         print("BM25 scores added to entities.")
+
+    if run_write_summary:
+        write_summary_for_entity_hits_v3(output_dir, timestamp_dir)
+        print(f"[✓] Global and per-report summaries written to: {timestamp_dir}")
+
+    if run_problematic_summary:
+        summarize_problematic_names(output_dir, output_dir=timestamp_dir / "bm25_problematic_names_summary.txt")
+
+    if run_generate_histograms:
+        generate_bm25_statistics_and_histograms(output_dir,
+                                                output_txt_path=timestamp_dir / "bm25_statistics_summary.txt",
+                                                output_hist_dir=timestamp_dir / "bm25_histograms")
