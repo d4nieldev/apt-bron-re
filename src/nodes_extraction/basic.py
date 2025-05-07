@@ -11,6 +11,7 @@ from ner import (
     ner_score
 )
 
+# boolean to run or not the NER score, contributes a field to output jsons, but worsens the runtime of the program
 add_NER_score = True
 
 text_dir = Path("data/converted_reports/texts")
@@ -54,21 +55,50 @@ def generate_variants(text):
  used by the aho-corasick algorithm """
 automata_map = {}
 
-""" variant_to_node will act as a lookup dictionary, matching variant strings to the full node objects
+""" variant_to_node is a dictionary of dictionaries, mapping variants to their nodes, for example:
+{
     "technique": {
-        "t1059": { "name": "Command and Scripting Interpreter", "original_id": "T1059" },
-        "powershell": { "name": "PowerShell", "original_id": "T1059.001" },
-    } """
+        "command line":      { node: {...}, ... },
+        "command-line":      { node: {...}, ... },
+        "commandline":       { node: {...}, ... },
+        ...
+    },
+    "group": {
+        "lazarus":            { node: {...}, alias: None },
+        "hidden cobra":       { node: {...}, alias: "Hidden Cobra" },
+        ...
+    },
+    ...
+}
+"""
 variant_to_node = {}
-technique_id_to_node = {}
-technique_id_pattern = re.compile(r"\bT1\d{3}(?:\.\d{3})?\b", re.IGNORECASE)
 
+
+""" technique_id_to_node is a dict mapping technique ids to their full node entry, for example
+{
+    "t1059":     { "name": "Command and Scripting Interpreter", "original_id": "T1059", ... },
+    "t1003.001": { "name": "LSASS Memory", "original_id": "T1003.001", ... },
+    ...
+}
+"""
+technique_id_to_node = {}
+
+technique_id_pattern = re.compile(r"\bT1\d{3}(?:\.\d{3})?\b", re.IGNORECASE)
+cve_pattern = re.compile(r"\bcve-\d{4}-\d+\b", re.IGNORECASE)
+cpe_pattern = re.compile(r"\bcpe:(?:2\.3:|/)[aoh]:[^\s:]+:[^\s:]+(?::[^\s:]*){0,10}", re.IGNORECASE)
+
+
+""" Build automatas, one for each type of layer, besides cve and cpe
+to use Aho-Corasick algorithm (bag of words keyword search)
+"""
 for label, nodes in layer_map.items():
-    A = ahocorasick.Automaton()
+    if label in ("cve", "cpe"):
+        continue  # handled separately via regex, no need for Aho-Corasick
+    A = ahocorasick.Automaton()  # Automaton for every entity type
     node_map = {}
 
     for node in nodes:
-        if label == "technique":  # adds only the names of the techniques, not ids, to the automaton
+        if label == "technique":  # add only names of techniques to automaton. ids will be found using regex.
             for variant in generate_variants(node["name"]):
                 if variant not in node_map:
                     node_map[variant] = node
@@ -102,15 +132,11 @@ for label, nodes in layer_map.items():
     automata_map[label] = A
     variant_to_node[label] = node_map
 
-# regex patterns for CVE and CPE
-cve_pattern = re.compile(r"\bcve-\d{4}-\d+\b", re.IGNORECASE)
-cpe_pattern = re.compile(r"\bcpe:(?:2\.3:|/)[aoh]:[^\s:]+:[^\s:]+(?::[^\s:]*){0,10}", re.IGNORECASE)
-
 
 def match_variants(text, category, automaton):
     """
     uses the automaton built on category (node type),
-    to match the entities in the text (converted report)
+    to match the entities in the text (converted report) and their variants,
     also saving the index of where it was found in the text
     """
     text_lower = text.lower()
@@ -118,6 +144,7 @@ def match_variants(text, category, automaton):
     results = []
 
     for end_idx, variant_str in automaton.iter(text_lower):
+        # These 3 lines are to avoid accepting partial word matches
         start_idx = end_idx - len(variant_str) + 1
         before = text_lower[start_idx - 1] if start_idx > 0 else " "
         after = text_lower[end_idx + 1] if end_idx + 1 < len(text_lower) else " "
@@ -187,11 +214,9 @@ def match_cpe(text):
 def process_folder(folder: Path, suffix: str):
     """
     Iterate over *folder* (txt or md). For every report:
-    1. run NER once and flatten its terms
-    2. run the old extraction logic
-    3. for every extracted node add
-       `"NER_score": exact_match_score / different_category_score / untrained_categories_score / 0`
-    4. write results to entity_hits_v3/<report>/<suffix>.json
+    1. extracts structured entity nodes, using regex or Aho-Corasick
+    2. runs NER on the raw text, if add_NER_score = True, and scores the matches based on ner_score
+    3. writes results to entity_hits_v3/<report>/<suffix>.json
     """
     for file in folder.glob(f"*.{suffix}"):
 
@@ -202,7 +227,6 @@ def process_folder(folder: Path, suffix: str):
         try:
             text = file.read_text(encoding="utf-8")
 
-            # ---------- 1.  NER ----------------------------------------------------
             ner_lookup = {}
             if add_NER_score:
                 try:
@@ -212,7 +236,6 @@ def process_folder(folder: Path, suffix: str):
                 except Exception as ner_err:
                     print(f"[WARN] NER failed for {file.name}: {ner_err}")
 
-            # ---------- 2.  ORIGINAL EXTRACTION (unchanged) ------------------------
             results: dict[str, list[dict]] = {}
 
             for layer_type, automaton in automata_map.items():
@@ -234,16 +257,13 @@ def process_folder(folder: Path, suffix: str):
             if cpes:
                 results["cpe"] = cpes
 
-            # ---------- 3.  ADD NER_score ------------------------------------------
-            for cat, entries in results.items():
+            for category, entries in results.items():
                 for ent in entries:
                     if add_NER_score and ner_lookup:
-                        # _ner_score now handles CVE/CPE safely (uses .get())
-                        ent["NER_score"] = ner_score(ent, cat, ner_lookup)
+                        ent["NER_score"] = ner_score(ent, category, ner_lookup)
                     else:
                         ent["NER_score"] = 0.0
 
-            # ---------- 4.  WRITE ---------------------------------------------------
             out_path = report_dir / f"{suffix}.json"
             out_path.write_text(json.dumps(results, indent=2), encoding="utf-8")
 
@@ -254,7 +274,10 @@ def process_folder(folder: Path, suffix: str):
 def deduplicate_entity_hits(base_dir_path: str):
     """
     removes duplicate nodes that were extracted,
-    from the output files created by process_folder
+    from the output files created by process_folder.
+    meaning, for a single report, we won't extract the same
+    node twice. however, we do extract duplicates if they
+    differ by index.
     """
     base_dir = Path(base_dir_path)
     for report_dir in base_dir.iterdir():
@@ -278,7 +301,7 @@ def deduplicate_entity_hits(base_dir_path: str):
                 seen = set()
                 deduped[category] = []
                 for entry in entries:
-                    key = json.dumps(entry, sort_keys=True)
+                    key = json.dumps(entry, sort_keys=True)  # this is the entire node, including index
                     if key not in seen:
                         seen.add(key)
                         deduped[category].append(entry)
@@ -309,7 +332,7 @@ def write_summary_counts(report_dir: Path):
 def add_context_sentences_to_hits():
     """
     For each entity in txt.json/md.json files in entity_hits_v3,
-    adds a 'sentence' field that shows up to n words before/after
+    adds a 'sentence' field that shows up to n words before and after
     the match (or bounded by periods).
     """
     n = 15
