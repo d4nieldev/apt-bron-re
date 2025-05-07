@@ -12,6 +12,8 @@ import os
 import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
+add_NER_score = False
+
 load_dotenv(Path(__file__).resolve().parents[1] / ".env")
 _NER_USER = os.getenv("ner_username")
 _NER_PASS = os.getenv("ner_password")
@@ -266,12 +268,13 @@ def process_folder(folder: Path, suffix: str):
             text = file.read_text(encoding="utf-8")
 
             # ---------- 1. NER (silent) ---------------------------------
-            try:
-                ner_json = _find_entities(text)
-                ner_terms_flat = _flat_ner_terms(ner_json)
-            except Exception as ner_err:                    # NER failed – continue without it
-                print(f"NER call failed for {file.name}: {ner_err}")
-                ner_terms_flat = set()
+            if add_NER_score:
+                try:
+                    ner_json = _find_entities(text)
+                    ner_terms_flat = _flat_ner_terms(ner_json)
+                except Exception as ner_err:                    # NER failed – continue without it
+                    print(f"NER call failed for {file.name}: {ner_err}")
+                    ner_terms_flat = set()
 
             # ---------- 2. original extraction --------------------------
             results: dict[str, list[dict]] = {}
