@@ -11,7 +11,7 @@ load_dotenv(ENV_PATH)
 ner_username = os.getenv("ner_username")
 ner_paswword = os.getenv("ner_password")
 
-report_name = "ESET_WinorDLL64-Lazarus-arsenal(02-23-2023).txt"
+report_name = "Blackberry_AeroBlade-Targeting-US-Aerospace-Industry(11-30-2023).txt"
 file_path = Path("data/converted_reports/texts") / report_name
 
 
@@ -30,8 +30,6 @@ def find_entities(text: str):
 
   return keywords_dict
 
-
-# -------------- NO CHANGES ABOVE THIS LINE ------------------
 
 # maps original categories ➜ unified buckets
 CATEGORY_MAP = {

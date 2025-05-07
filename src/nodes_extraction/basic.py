@@ -9,10 +9,15 @@ import requests
 from requests.auth import HTTPBasicAuth
 from dotenv import load_dotenv
 import os
+from collections import defaultdict
 import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-add_NER_score = False
+add_NER_score = True
+exact_match_score = 1.0
+different_category_score = 0.5
+untrained_categories_score = 0.75  # capec, cve, cwe and cpe aren't categories in NER (so can never be
+# exact_match_score, but also don't want to always give different_category_score)
 
 load_dotenv(Path(__file__).resolve().parents[1] / ".env")
 _NER_USER = os.getenv("ner_username")
@@ -56,63 +61,140 @@ def generate_variants(text):
     return variants.union(plural_forms)
 
 
-group_id_to_alias_variants = {}
-for g in layer_map.get("group", []):
-    alias_vars = set()
-    for alias_field in ("MITRE_aliases", "malpedia_aliases"):
-        for a in g.get(alias_field, []):
-            alias_vars.update(generate_variants(a))
-    group_id_to_alias_variants[g["original_id"].lower()] = alias_vars
+def _find_entities(text: str):
+  url = "https://127.0.0.1:8890/tagging/get_tags_from_text"
+  auth = HTTPBasicAuth(_NER_USER, _NER_PASS)
+
+  keywords_dict = requests.post(
+    url=url,
+    json={
+      'text': text,
+      'search_mode': 'Combined'},
+    verify=False,
+    auth=auth
+  ).json()
+
+  return keywords_dict
 
 
-def _find_entities(text: str) -> dict:
+CATEGORY_MAP = {
+    # collapse to TECHNIQUE
+    "TECHNIQUE": "TECHNIQUE",
+    "OS": "TECHNIQUE",
+    "PROTOCOL": "TECHNIQUE",
+    "PROGRAMMING_LANGUAGE": "TECHNIQUE",
+    # collapse to GROUP
+    "THREAT_ACTOR": "GROUP",
+    # collapse to SOFTWARE
+    "SOFTWARE": "SOFTWARE",
+    "SECURITY_PRODUCT": "SOFTWARE",
+    "PRODUCT": "SOFTWARE",
+}
+
+
+def unify_categories(tag_dict: dict[str, list[str]]) -> dict[str, list[str]]:
     """
-    Call the local NER API exactly like `ner_test.py` does and return the raw JSON.
+    Post-processes the raw tag output:
+    • Maps categories according to CATEGORY_MAP
+    • Puts everything else under 'OTHER'
+    • Removes duplicates while preserving the original order
     """
-    resp = requests.post(
-        url="https://127.0.0.1:8890/tagging/get_tags_from_text",
-        json={"text": text, "search_mode": "Combined"},
-        auth=HTTPBasicAuth(_NER_USER, _NER_PASS),
-        verify=False,                    # same self-signed cert warning suppression
-        timeout=60,
-    )
-    resp.raise_for_status()
-    return resp.json()
+    unified: dict[str, list[str]] = {}
+
+    def _add(cat: str, value: str) -> None:
+        if cat not in unified:
+            unified[cat] = []
+        # keep order but avoid duplicates
+        if value not in unified[cat]:
+            unified[cat].append(value)
+
+    for orig_cat, values in tag_dict.items():
+        new_cat = CATEGORY_MAP.get(orig_cat, "OTHER")
+        for v in values:
+            _add(new_cat, v)
+
+    return unified
 
 
-def _variants_for_entry(category: str, entry: dict) -> set[str]:
+def _build_ner_lookup(ner_json: dict) -> dict[str, set[str]]:
     """
-    Given an extracted node, return all of the textual variants that should
-    be searched for inside the NER output.
+    Flattens *ner_json* into lowercase lookup sets
+    keyed by our extraction categories.
+
+        technique/tactic → 'technique'
+        group            → 'group'
+        software         → 'software'
+        everything else  → 'other'
+
+    Returns {category: {term1, term2, …}}
     """
-    vars_set = set()
+    lookup = defaultdict(set)
 
-    if category in {"cve", "cpe"}:
-        token = entry.get("value", "")
-        vars_set.update(generate_variants(token))
-        return vars_set
+    for cat, values in ner_json.items():
+        cat_lc = cat.lower()
 
-    # name + id
-    vars_set.update(generate_variants(entry.get("name", "")))
-    vars_set.update(generate_variants(entry.get("original_id", "")))
+        if cat_lc in ("technique", "tactic"):
+            key = "technique"      # treat both as the same family
+        elif cat_lc == "group":
+            key = "group"
+        elif cat_lc == "software":
+            key = "software"
+        else:
+            key = "other"
 
-    # aliases for groups
-    if category == "group":
-        oid = entry.get("original_id", "").lower()
-        vars_set.update(group_id_to_alias_variants.get(oid, set()))
+        for v in values:
+            lookup[key].add(v.lower())
 
-    return vars_set
+    return lookup
 
 
-def _flat_ner_terms(ner_json: dict) -> set[str]:
+def _ner_score(entry: dict, category: str, ner_lookup: dict[str, set[str]]) -> float:
     """
-    Flatten the NER output to a single lower-cased set of strings so look-ups
-    are O(1).  (We don’t print it any more.)
+    Returns
+        • exact_match_score          – term found in SAME-family list
+        • different_category_score   – term found elsewhere
+        • untrained_categories_score – special case for CAPEC / CVE / CWE / CPE
+        • 0.0                        – not found at all
     """
-    flat: set[str] = set()
-    for terms in ner_json.values():
-        flat.update(t.lower() for t in terms)
-    return flat
+
+    search_terms: set[str] = set()
+
+    if category == "group" and entry.get("alias"):
+        search_terms |= {v.lower() for v in generate_variants(entry["alias"])}
+
+    elif category in ("cve", "cpe"):
+        if entry.get("value"):
+            search_terms.add(entry["value"].lower())
+
+    else:  # technique, tactic, software, capec, cwe …
+        if entry.get("name"):
+            search_terms |= {v.lower() for v in generate_variants(entry["name"])}
+
+    if entry.get("original_id"):
+        search_terms.add(entry["original_id"].lower())
+
+    if not search_terms:
+        return 0.0
+
+    if category in ("technique", "tactic"):
+        same_family = "technique"
+    elif category in ("software", "group"):
+        same_family = category
+    else:                                 # capec, cve, cwe, cpe, …
+        same_family = None
+
+    if same_family:
+        same_set = ner_lookup.get(same_family, set())
+        if any(t in same_set for t in search_terms):
+            return exact_match_score
+
+    # hit in ANY other ner list?
+    if any(t in s for t in search_terms for s in ner_lookup.values()):
+        if category in ("capec", "cve", "cwe", "cpe"):
+            return untrained_categories_score
+        return different_category_score
+
+    return 0.0
 
 
 """ building automatas, one for each layer type (besides CVE and CPE) to be later
@@ -256,10 +338,11 @@ def process_folder(folder: Path, suffix: str):
     Iterate over *folder* (txt or md). For every report:
     1. run NER once and flatten its terms
     2. run the old extraction logic
-    3. for every extracted node add `"NER_hit": True/False`
+    3. for every extracted node add `"NER_score": exact_match_score / different_category_score / untrained_categories_score / 0`
     4. write results to entity_hits_v3/<report>/<suffix>.json
     """
     for file in folder.glob(f"*.{suffix}"):
+
         base_name = file.stem
         report_dir = output_dir / base_name
         report_dir.mkdir(parents=True, exist_ok=True)
@@ -267,23 +350,25 @@ def process_folder(folder: Path, suffix: str):
         try:
             text = file.read_text(encoding="utf-8")
 
-            # ---------- 1. NER (silent) ---------------------------------
+            # ---------- 1.  NER ----------------------------------------------------
+            ner_lookup = {}
             if add_NER_score:
                 try:
-                    ner_json = _find_entities(text)
-                    ner_terms_flat = _flat_ner_terms(ner_json)
-                except Exception as ner_err:                    # NER failed – continue without it
-                    print(f"NER call failed for {file.name}: {ner_err}")
-                    ner_terms_flat = set()
+                    raw_ner = _find_entities(text)
+                    ner_json = unify_categories(raw_ner)
+                    ner_lookup = _build_ner_lookup(ner_json)
+                except Exception as ner_err:
+                    print(f"[WARN] NER failed for {file.name}: {ner_err}")
 
-            # ---------- 2. original extraction --------------------------
+            # ---------- 2.  ORIGINAL EXTRACTION (unchanged) ------------------------
             results: dict[str, list[dict]] = {}
 
             for layer_type, automaton in automata_map.items():
                 if layer_type == "technique":
                     name_hits = match_variants(text, layer_type, automaton)
-                    id_hits = match_technique_ids(text)
-                    combined = {json.dumps(h, sort_keys=True): h for h in (*name_hits, *id_hits)}
+                    id_hits   = match_technique_ids(text)
+                    combined  = {json.dumps(h, sort_keys=True): h
+                                 for h in (*name_hits, *id_hits)}
                     if combined:
                         results["technique"] = list(combined.values())
                 else:
@@ -298,11 +383,21 @@ def process_folder(folder: Path, suffix: str):
             if cpes:
                 results["cpe"] = cpes
 
+            # ---------- 3.  ADD NER_score ------------------------------------------
+            for cat, entries in results.items():
+                for ent in entries:
+                    if add_NER_score and ner_lookup:
+                        # _ner_score now handles CVE/CPE safely (uses .get())
+                        ent["NER_score"] = _ner_score(ent, cat, ner_lookup)
+                    else:
+                        ent["NER_score"] = 0.0
+
+            # ---------- 4.  WRITE ---------------------------------------------------
             out_path = report_dir / f"{suffix}.json"
             out_path.write_text(json.dumps(results, indent=2), encoding="utf-8")
 
         except Exception as e:
-            print(f"Failed to process {file.name}: {e}")
+            print(f"[ERROR] Failed to process {file.name}: {e}")
 
 
 def deduplicate_entity_hits(base_dir_path: str):
