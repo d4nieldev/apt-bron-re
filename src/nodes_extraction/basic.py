@@ -4,34 +4,23 @@ from pathlib import Path
 import ahocorasick
 from datetime import datetime
 
-#  imports for NER
-import requests
-from requests.auth import HTTPBasicAuth
-from dotenv import load_dotenv
-import os
-from collections import defaultdict
-import urllib3
-urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+from ner import (
+    _find_entities,
+    unify_categories,
+    _build_ner_lookup,
+    ner_score
+)
 
 add_NER_score = True
-exact_match_score = 1.0
-different_category_score = 0.5
-untrained_categories_score = 0.75  # capec, cve, cwe and cpe aren't categories in NER (so can never be
-# exact_match_score, but also don't want to always give different_category_score)
 
-load_dotenv(Path(__file__).resolve().parents[1] / ".env")
-_NER_USER = os.getenv("ner_username")
-_NER_PASS = os.getenv("ner_password")
-
-# paths
 text_dir = Path("data/converted_reports/texts")
 md_dir = Path("data/converted_reports/markdown")
 layer_dir = Path("data/layers_nodes")
 output_dir = Path("data/entity_hits_v3")
 output_dir.mkdir(parents=True, exist_ok=True)
 
-""" create a dictionary with keys as layer type (group, tactic, etc.) 
-and values as lists of the relevant entities """
+""" create a dictionary with keys as layer type (group, tactic, etc.) and 
+values as lists of the relevant entities using the nodes extracted from BRON """
 layer_map = {}
 for layer_file in layer_dir.glob("*.json"):
     label = layer_file.stem
@@ -42,7 +31,7 @@ for layer_file in layer_dir.glob("*.json"):
 def generate_variants(text):
     """
     generates simple variants, to enable entities (names or ids) to appear
-    in more manners
+    in more than one manner
     """
     base = text.lower()
     variants = {
@@ -53,155 +42,19 @@ def generate_variants(text):
     }
 
     plural_forms = set()
-    for v in variants:
-        if not v.endswith("s"):
-            plural_forms.add(v + "s")
-            plural_forms.add(v + "'s")
+    for var in variants:
+        if not var.endswith("s"):
+            plural_forms.add(var + "s")
+            plural_forms.add(var + "'s")
 
     return variants.union(plural_forms)
-
-
-def _find_entities(text: str):
-  url = "https://127.0.0.1:8890/tagging/get_tags_from_text"
-  auth = HTTPBasicAuth(_NER_USER, _NER_PASS)
-
-  keywords_dict = requests.post(
-    url=url,
-    json={
-      'text': text,
-      'search_mode': 'Combined'},
-    verify=False,
-    auth=auth
-  ).json()
-
-  return keywords_dict
-
-
-CATEGORY_MAP = {
-    # collapse to TECHNIQUE
-    "TECHNIQUE": "TECHNIQUE",
-    "OS": "TECHNIQUE",
-    "PROTOCOL": "TECHNIQUE",
-    "PROGRAMMING_LANGUAGE": "TECHNIQUE",
-    # collapse to GROUP
-    "THREAT_ACTOR": "GROUP",
-    # collapse to SOFTWARE
-    "SOFTWARE": "SOFTWARE",
-    "SECURITY_PRODUCT": "SOFTWARE",
-    "PRODUCT": "SOFTWARE",
-}
-
-
-def unify_categories(tag_dict: dict[str, list[str]]) -> dict[str, list[str]]:
-    """
-    Post-processes the raw tag output:
-    • Maps categories according to CATEGORY_MAP
-    • Puts everything else under 'OTHER'
-    • Removes duplicates while preserving the original order
-    """
-    unified: dict[str, list[str]] = {}
-
-    def _add(cat: str, value: str) -> None:
-        if cat not in unified:
-            unified[cat] = []
-        # keep order but avoid duplicates
-        if value not in unified[cat]:
-            unified[cat].append(value)
-
-    for orig_cat, values in tag_dict.items():
-        new_cat = CATEGORY_MAP.get(orig_cat, "OTHER")
-        for v in values:
-            _add(new_cat, v)
-
-    return unified
-
-
-def _build_ner_lookup(ner_json: dict) -> dict[str, set[str]]:
-    """
-    Flattens *ner_json* into lowercase lookup sets
-    keyed by our extraction categories.
-
-        technique/tactic → 'technique'
-        group            → 'group'
-        software         → 'software'
-        everything else  → 'other'
-
-    Returns {category: {term1, term2, …}}
-    """
-    lookup = defaultdict(set)
-
-    for cat, values in ner_json.items():
-        cat_lc = cat.lower()
-
-        if cat_lc in ("technique", "tactic"):
-            key = "technique"      # treat both as the same family
-        elif cat_lc == "group":
-            key = "group"
-        elif cat_lc == "software":
-            key = "software"
-        else:
-            key = "other"
-
-        for v in values:
-            lookup[key].add(v.lower())
-
-    return lookup
-
-
-def _ner_score(entry: dict, category: str, ner_lookup: dict[str, set[str]]) -> float:
-    """
-    Returns
-        • exact_match_score          – term found in SAME-family list
-        • different_category_score   – term found elsewhere
-        • untrained_categories_score – special case for CAPEC / CVE / CWE / CPE
-        • 0.0                        – not found at all
-    """
-
-    search_terms: set[str] = set()
-
-    if category == "group" and entry.get("alias"):
-        search_terms |= {v.lower() for v in generate_variants(entry["alias"])}
-
-    elif category in ("cve", "cpe"):
-        if entry.get("value"):
-            search_terms.add(entry["value"].lower())
-
-    else:  # technique, tactic, software, capec, cwe …
-        if entry.get("name"):
-            search_terms |= {v.lower() for v in generate_variants(entry["name"])}
-
-    if entry.get("original_id"):
-        search_terms.add(entry["original_id"].lower())
-
-    if not search_terms:
-        return 0.0
-
-    if category in ("technique", "tactic"):
-        same_family = "technique"
-    elif category in ("software", "group"):
-        same_family = category
-    else:                                 # capec, cve, cwe, cpe, …
-        same_family = None
-
-    if same_family:
-        same_set = ner_lookup.get(same_family, set())
-        if any(t in same_set for t in search_terms):
-            return exact_match_score
-
-    # hit in ANY other ner list?
-    if any(t in s for t in search_terms for s in ner_lookup.values()):
-        if category in ("capec", "cve", "cwe", "cpe"):
-            return untrained_categories_score
-        return different_category_score
-
-    return 0.0
 
 
 """ building automatas, one for each layer type (besides CVE and CPE) to be later
  used by the aho-corasick algorithm """
 automata_map = {}
 
-""" variant_to_node acts as a lookup dictionary, matching variant strings to the full node objects
+""" variant_to_node will act as a lookup dictionary, matching variant strings to the full node objects
     "technique": {
         "t1059": { "name": "Command and Scripting Interpreter", "original_id": "T1059" },
         "powershell": { "name": "PowerShell", "original_id": "T1059.001" },
@@ -225,7 +78,6 @@ for label, nodes in layer_map.items():
             name_variants = generate_variants(node["name"])
             id_variants = generate_variants(node["original_id"])
 
-            # ---- NEW: capture which alias produced the hit ----
             for alias_field in ("MITRE_aliases", "malpedia_aliases"):
                 for alias in node.get(alias_field, []):
                     for v in generate_variants(alias):
@@ -233,7 +85,6 @@ for label, nodes in layer_map.items():
                             node_map[v] = {"node": node, "alias": alias}  # ← keep alias
                             A.add_word(v, v)
 
-            # names / IDs behave as before, but we tag them with alias=None
             for v in name_variants.union(id_variants):
                 if v not in node_map:
                     node_map[v] = {"node": node, "alias": None}
@@ -388,7 +239,7 @@ def process_folder(folder: Path, suffix: str):
                 for ent in entries:
                     if add_NER_score and ner_lookup:
                         # _ner_score now handles CVE/CPE safely (uses .get())
-                        ent["NER_score"] = _ner_score(ent, cat, ner_lookup)
+                        ent["NER_score"] = ner_score(ent, cat, ner_lookup)
                     else:
                         ent["NER_score"] = 0.0
 
