@@ -1,28 +1,18 @@
 import re
 import json
-from pathlib import Path
 import ahocorasick
-from collections import defaultdict
-from math import log
-from datetime import datetime
-
+import sys
+from pathlib import Path
 from ner import prepare_ner_lookup, ner_score, generate_variants
-
-summary_root = Path("data/summaries")
-summary_root.mkdir(parents=True, exist_ok=True)
-timestamp_dir = summary_root / datetime.now().strftime("%Y%m%d_%H%M")
-timestamp_dir.mkdir(exist_ok=True)
-
-text_dir = Path("data/converted_reports/texts")
-md_dir = Path("data/converted_reports/markdown")
-layer_dir = Path("data/layers_nodes")
-output_dir = Path("data/entity_hits_v3")
-output_dir.mkdir(parents=True, exist_ok=True)
+from nodes_extraction.constants import (
+    TEXT_DIR, MD_DIR, OUTPUT_DIR, LAYER_DIR
+)
+sys.path.append(str(Path(__file__).resolve().parents[1]))
 
 """ create a dictionary with keys as layer type (group, tactic, etc.) and 
 values as lists of the relevant entities using the nodes extracted from BRON """
 layer_map = {}
-for layer_file in layer_dir.glob("*.json"):
+for layer_file in LAYER_DIR.glob("*.json"):
     label = layer_file.stem
     if label == "cpe_unversioned":
         continue  # don't load this layer for now
@@ -198,7 +188,7 @@ def process_folder(folder: Path, suffix: str, add_ner_score: bool, exact_score: 
     for file in folder.glob(f"*.{suffix}"):
 
         base_name = file.stem
-        report_dir = output_dir / base_name
+        report_dir = OUTPUT_DIR / base_name
         report_dir.mkdir(parents=True, exist_ok=True)
 
         try:
@@ -304,13 +294,13 @@ def add_context_sentences_to_hits(context_length):
     adds a 'sentence' field that shows up to n words before and after
     the match (or bounded by periods).
     """
-    for report_dir in output_dir.iterdir():
+    for report_dir in OUTPUT_DIR.iterdir():
         if not report_dir.is_dir():
             continue
 
         for suffix in ["txt", "md"]:
             json_path = report_dir / f"{suffix}.json"
-            source_path = (text_dir if suffix == "txt" else md_dir) / f"{report_dir.name}.{suffix}"
+            source_path = (TEXT_DIR if suffix == "txt" else MD_DIR) / f"{report_dir.name}.{suffix}"
             if not json_path.exists() or not source_path.exists():
                 continue
 
@@ -349,74 +339,3 @@ def add_context_sentences_to_hits(context_length):
 
             except Exception as e:
                 print(f"Failed to add sentence to {json_path.name}: {e}")
-
-
-def add_bm25_score(base_dir: Path, k1=1.5, b=0.75):
-    """
-    Adds a BM25-based score to each entity hit in entity_hits_v3,
-    scoring: group, tactic, technique, software, capec, cwe.
-    """
-
-    print("[*] Calculating BM25 scores...")
-
-    doc_lengths = {}
-    freq_map = defaultdict(lambda: defaultdict(int))     # (label → (report, key) → freq)
-    doc_freq = defaultdict(lambda: defaultdict(int))     # (label → key → doc_count)
-
-    for report_dir in base_dir.iterdir():
-        if not report_dir.is_dir():
-            continue
-        text_path = text_dir / f"{report_dir.name}.txt"
-        if not text_path.exists():
-            continue
-        try:
-            tokens = re.findall(r"\b\w+\b", text_path.read_text(encoding="utf-8").lower())
-            doc_lengths[report_dir.name] = len(tokens)
-            for file_type in ["txt", "md"]:
-                json_path = report_dir / f"{file_type}.json"
-                if not json_path.exists():
-                    continue
-                with open(json_path, encoding="utf-8") as f:
-                    data = json.load(f)
-                for label in ["group", "tactic", "technique", "software", "capec", "cwe", "cpe_versioned"]:
-                    for entry in data.get(label, []):
-                        key = entry.get("original_id", entry.get("name", "")).lower()
-                        freq_map[label][(report_dir.name, key)] += 1
-        except Exception as e:
-            print(f"[!] Failed to process {report_dir.name}: {e}")
-
-    m = len(doc_lengths)
-    avgdl = sum(doc_lengths.values()) / m if m else 1
-
-    for label, entity_freqs in freq_map.items():
-        seen_docs = defaultdict(set)
-        for (doc_name, key), _ in entity_freqs.items():
-            seen_docs[key].add(doc_name)
-        for key, docset in seen_docs.items():
-            doc_freq[label][key] = len(docset)
-
-    for report_dir in base_dir.iterdir():
-        if not report_dir.is_dir():
-            continue
-        for file_type in ["txt", "md"]:
-            json_path = report_dir / f"{file_type}.json"
-            if not json_path.exists():
-                continue
-            try:
-                with open(json_path, encoding="utf-8") as f:
-                    data = json.load(f)
-                dl = doc_lengths.get(report_dir.name, avgdl)
-                for label in ["group", "tactic", "technique", "software", "capec", "cwe", "cpe_versioned"]:
-                    for entry in data.get(label, []):
-                        key = entry.get("original_id", entry.get("name", "")).lower()
-                        f_ij = freq_map[label].get((report_dir.name, key), 0)
-                        n = doc_freq[label].get(key, 0)
-                        idf = log((m - n + 0.5) / (n + 0.5) + 1)
-                        denom = f_ij + k1 * (1 - b + b * (dl / avgdl))
-                        entry["bm25_score"] = round(idf * ((f_ij * (k1 + 1)) / denom), 4) if denom else 0
-                    if label in data:
-                        data[label].sort(key=lambda x: x.get("bm25_score", 0), reverse=True)
-                with open(json_path, "w", encoding="utf-8") as f:
-                    json.dump(data, f, indent=2)
-            except Exception as e:
-                print(f"[!] Failed to update {json_path.name}: {e}")
