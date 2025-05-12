@@ -8,22 +8,6 @@ from datetime import datetime
 
 from ner import prepare_ner_lookup, ner_score
 
-from summary_funcs import (
-    write_summary_for_entity_hits_v3,
-    summarize_problematic_names,
-    generate_bm25_statistics_and_histograms
-)
-
-""" booleans to run or not the NER score, and bm25 score 
-add_NER_score greatly worsens the runtime of the program, add_bm25_score doesn't have a great affect"""
-add_NER_score = True
-add_bm25_score = True
-
-""" booleans to run specific comparison and summary functions """
-run_write_summary = True
-run_problematic_summary = True
-run_generate_histograms = True
-
 summary_root = Path("data/summaries")
 summary_root.mkdir(parents=True, exist_ok=True)
 timestamp_dir = summary_root / datetime.now().strftime("%Y%m%d_%H%M")
@@ -226,7 +210,8 @@ def match_cpe(text):
     ]
 
 
-def process_folder(folder: Path, suffix: str):
+def process_folder(folder: Path, suffix: str, add_ner_score: bool, exact_score: float,
+                   diff_score: float, untrained_score: float):
     """
     Iterate over *folder* (txt or md). For every report:
     1. extracts structured entity nodes, using regex or Aho-Corasick
@@ -242,7 +227,7 @@ def process_folder(folder: Path, suffix: str):
         try:
             text = file.read_text(encoding="utf-8")
 
-            ner_lookup = prepare_ner_lookup(text) if add_NER_score else {}
+            ner_lookup = prepare_ner_lookup(text) if add_ner_score else {}
 
             results: dict[str, list[dict]] = {}
 
@@ -267,8 +252,9 @@ def process_folder(folder: Path, suffix: str):
 
             for category, entries in results.items():
                 for ent in entries:
-                    if add_NER_score and ner_lookup:
-                        ent["NER_score"] = ner_score(ent, category, ner_lookup)
+                    if add_ner_score and ner_lookup:
+                        ent["NER_score"] = ner_score(ent, category, ner_lookup, exact_score,
+                                                     diff_score, untrained_score)
                     else:
                         ent["NER_score"] = 0.0
 
@@ -279,7 +265,7 @@ def process_folder(folder: Path, suffix: str):
             print(f"[ERROR] Failed to process {file.name}: {e}")
 
 
-def deduplicate_entity_hits(base_dir_path: str):
+def deduplicate_entity_hits(base_dir_path: Path):
     """
     removes duplicate nodes that were extracted,
     from the output files created by process_folder.
@@ -441,29 +427,3 @@ def add_bm25_score(base_dir: Path, k1=1.5, b=0.75):
                     json.dump(data, f, indent=2)
             except Exception as e:
                 print(f"[!] Failed to update {json_path.name}: {e}")
-
-
-if __name__ == "__main__":
-    process_folder(text_dir, "txt")
-    process_folder(md_dir, "md")
-    deduplicate_entity_hits("data/entity_hits_v3")
-    print("Finished extracting nodes from the reports, results are in: data/entity_hits_v3 ")
-
-    add_context_sentences_to_hits()
-    print("Sentence context added to entity hits")
-
-    if add_bm25_score:
-        add_bm25_score(output_dir)
-        print("BM25 scores added to entities.")
-
-    if run_write_summary:
-        write_summary_for_entity_hits_v3(output_dir, timestamp_dir)
-        print(f"[✓] Global and per-report summaries written to: {timestamp_dir}")
-
-    if run_problematic_summary:
-        summarize_problematic_names(output_dir, output_dir=timestamp_dir / "bm25_problematic_names_summary.txt")
-
-    if run_generate_histograms:
-        generate_bm25_statistics_and_histograms(output_dir,
-                                                output_txt_path=timestamp_dir / "bm25_statistics_summary.txt",
-                                                output_hist_dir=timestamp_dir / "bm25_histograms")

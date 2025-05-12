@@ -6,10 +6,6 @@ from requests.auth import HTTPBasicAuth
 from collections import defaultdict
 from pathlib import Path
 
-exact_match_score = 1.0
-different_category_score = 0.5
-untrained_categories_score = 0.75
-
 # Disable insecure request warnings for local HTTPS
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -59,6 +55,7 @@ def _find_entities(text: str):
 
 def unify_categories(tag_dict: dict[str, list[str]]) -> dict[str, list[str]]:
     unified = {}
+
     def _add(cat: str, value: str):
         if cat not in unified:
             unified[cat] = []
@@ -98,7 +95,9 @@ def prepare_ner_lookup(text: str) -> dict[str, set[str]]:
         return {}
 
 
-def ner_score(entry: dict, category: str, ner_lookup: dict[str, set[str]]) -> float:
+def ner_score(entry: dict, category: str, ner_lookup: dict[str, set[str]], exact_match_score: float,
+              different_category_score: float, untrained_categories_score: float) -> float:
+
     search_terms: set[str] = set()
 
     if category == "group" and entry.get("alias"):
