@@ -34,6 +34,8 @@ def generate_variants(text):
     variants = {
         base,
         base.replace("-", " "),
+        base.replace("_", " "),
+        base.replace(" ", "_"),
         base.replace(" ", ""),
         base.replace(" ", "-")
     }

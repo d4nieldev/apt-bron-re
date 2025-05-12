@@ -17,6 +17,7 @@ from summary_funcs import (
 exact_match_score = 1.0
 different_category_score = 0.5
 untrained_categories_score = 0.75
+char_len = 50
 
 """ booleans to run or not the NER score, and bm25 score 
 add_NER_score greatly worsens the runtime of the program, add_bm25_score doesn't have a great affect"""
