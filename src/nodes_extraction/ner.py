@@ -26,6 +26,10 @@ CATEGORY_MAP = {
 
 
 def generate_variants(text):
+    """
+    generates simple variants, to enable entities (names or ids) to appear
+    in more than one manner
+    """
     base = text.lower()
     variants = {
         base,

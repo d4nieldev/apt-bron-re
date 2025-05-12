@@ -19,7 +19,8 @@ NODE_TYPES = {
     "cwe": ["name", "original_id"],
     "group": ["name", "original_id"],
     "technique": ["name", "original_id"],
-    "software": ["name", "original_id", "software_type"]
+    "software": ["name", "original_id", "software_type"],
+    "cpe": ["name", "original_id", "product", "vendor", "version"]
 }
 
 # === Save to: data/layer_nodes (one level outside /src/)
@@ -50,6 +51,22 @@ with GraphDatabase.driver(URI, auth=(USERNAME, PASSWORD)) as driver:
                     value = record.get(prop)
                     if value is not None:
                         obj[prop] = value
+
+                # === Add `words` field for CPE entries
+                if label == "cpe" and "original_id" in obj:
+                    parts = obj["original_id"].split(":")[3:]  # Skip first 3 parts
+                    raw_words = [p for p in parts if p != "*"]
+
+                    seen = set()
+                    words = []
+                    for word in raw_words:
+                        if word not in seen:
+                            seen.add(word)
+                            words.append(word)
+
+                    obj["words"] = words
+                    obj["at_least"] = len(words) // 2 + 1
+
                 if obj:
                     values.append(obj)
 

@@ -6,7 +6,7 @@ from collections import defaultdict
 from math import log
 from datetime import datetime
 
-from ner import prepare_ner_lookup, ner_score
+from ner import prepare_ner_lookup, ner_score, generate_variants
 
 summary_root = Path("data/summaries")
 summary_root.mkdir(parents=True, exist_ok=True)
@@ -26,28 +26,6 @@ for layer_file in layer_dir.glob("*.json"):
     label = layer_file.stem
     with open(layer_file, encoding="utf-8") as f:
         layer_map[label] = json.load(f)
-
-
-def generate_variants(text):
-    """
-    generates simple variants, to enable entities (names or ids) to appear
-    in more than one manner
-    """
-    base = text.lower()
-    variants = {
-        base,
-        base.replace("-", " "),
-        base.replace(" ", ""),
-        base.replace(" ", "-")
-    }
-
-    plural_forms = set()
-    for var in variants:
-        if not var.endswith("s"):
-            plural_forms.add(var + "s")
-            plural_forms.add(var + "'s")
-
-    return variants.union(plural_forms)
 
 
 """ building automatas, one for each layer type (besides CVE and CPE) to be later
