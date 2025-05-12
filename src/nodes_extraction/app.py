@@ -17,7 +17,8 @@ from summary_funcs import (
 exact_match_score = 1.0
 different_category_score = 0.5
 untrained_categories_score = 0.75
-char_len = 50
+cpe_char_range = 50
+context_length = 15  # how many chars it goes back and forward from the index of the hit, when adding context
 
 """ booleans to run or not the NER score, and bm25 score 
 add_NER_score greatly worsens the runtime of the program, add_bm25_score doesn't have a great affect"""
@@ -41,12 +42,13 @@ output_dir = Path("data/entity_hits_v3")
 
 if __name__ == "__main__":
     process_folder(text_dir, "txt", add_NER_score, exact_match_score,
-                   different_category_score, untrained_categories_score)
-    process_folder(md_dir, "md", add_NER_score, exact_match_score, different_category_score, untrained_categories_score)
+                   different_category_score, untrained_categories_score, cpe_char_range)
+    process_folder(md_dir, "md", add_NER_score, exact_match_score,
+                   different_category_score, untrained_categories_score, cpe_char_range)
     deduplicate_entity_hits(output_dir)
     print("Finished extracting nodes from the reports, results are in:", output_dir)
 
-    add_context_sentences_to_hits()
+    add_context_sentences_to_hits(context_length)
     print("Sentence context added to entity hits")
 
     if add_bm25_score_flag:

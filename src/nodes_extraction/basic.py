@@ -24,6 +24,8 @@ values as lists of the relevant entities using the nodes extracted from BRON """
 layer_map = {}
 for layer_file in layer_dir.glob("*.json"):
     label = layer_file.stem
+    if label == "cpe_unversioned":
+        continue  # don't load this layer for now
     with open(layer_file, encoding="utf-8") as f:
         layer_map[label] = json.load(f)
 
@@ -69,19 +71,26 @@ cpe_pattern = re.compile(r"\bcpe:(?:2\.3:|/)[aoh]:[^\s:]+:[^\s:]+(?::[^\s:]*){0,
 to use Aho-Corasick algorithm (bag of words keyword search)
 """
 for label, nodes in layer_map.items():
-    if label in ("cve", "cpe"):
-        continue  # handled separately via regex, no need for Aho-Corasick
-    A = ahocorasick.Automaton()  # Automaton for every entity type
+    A = ahocorasick.Automaton()
     node_map = {}
 
-    for node in nodes:
-        if label == "technique":  # add only names of techniques to automaton. ids will be found using regex.
+    if label == "cpe_versioned":
+        for node in nodes:
+            version = node["version"]
+            if version not in node_map:
+                node_map[version] = node
+                A.add_word(version, version)
+
+    elif label == "technique":
+        for node in nodes:
             for variant in generate_variants(node["name"]):
                 if variant not in node_map:
                     node_map[variant] = node
                     A.add_word(variant, variant)
             technique_id_to_node[node["original_id"].lower()] = node
-        elif label == "group":
+
+    elif label == "group":
+        for node in nodes:
             name_variants = generate_variants(node["name"])
             id_variants = generate_variants(node["original_id"])
 
@@ -89,7 +98,7 @@ for label, nodes in layer_map.items():
                 for alias in node.get(alias_field, []):
                     for v in generate_variants(alias):
                         if v not in node_map:
-                            node_map[v] = {"node": node, "alias": alias}  # ← keep alias
+                            node_map[v] = {"node": node, "alias": alias}
                             A.add_word(v, v)
 
             for v in name_variants.union(id_variants):
@@ -97,7 +106,8 @@ for label, nodes in layer_map.items():
                     node_map[v] = {"node": node, "alias": None}
                     A.add_word(v, v)
 
-        else:
+    else:
+        for node in nodes:
             name_variants = generate_variants(node["name"])
             id_variants = generate_variants(node["original_id"])
             for variant in name_variants.union(id_variants):
@@ -177,19 +187,8 @@ def match_cve(text):
     ]
 
 
-def match_cpe(text):
-    """
-    finds matches using regex on the structure of cpe
-    and returns the nodes in lowercase (how it appears in BRON, e.g. cpe:2.3:a:bmc:patrol_agent)
-    """
-    return [
-        {"value": m.group().lower(), "index": m.start()}
-        for m in cpe_pattern.finditer(text.lower())
-    ]
-
-
 def process_folder(folder: Path, suffix: str, add_ner_score: bool, exact_score: float,
-                   diff_score: float, untrained_score: float):
+                   diff_score: float, untrained_score: float, char_len: int):
     """
     Iterate over *folder* (txt or md). For every report:
     1. extracts structured entity nodes, using regex or Aho-Corasick
@@ -216,17 +215,34 @@ def process_folder(folder: Path, suffix: str, add_ner_score: bool, exact_score: 
                     combined = {json.dumps(h, sort_keys=True): h for h in (*name_hits, *id_hits)}
                     if combined:
                         results["technique"] = list(combined.values())
+
+                elif layer_type == "cpe_versioned":
+                    filtered = []
+                    for end_idx, version in automaton.iter(text.lower()):
+                        start_idx = end_idx - len(version) + 1
+                        before = text[start_idx - 1] if start_idx > 0 else " "
+                        after = text[end_idx + 1] if end_idx + 1 < len(text) else " "
+                        if not before.isalnum() and not after.isalnum():
+                            node = variant_to_node["cpe_versioned"][version]
+                            at_least = node["at_least"]
+                            radius = at_least * char_len
+                            context = text[max(0, start_idx - radius): min(len(text), end_idx + radius + 1)].lower()
+                            count = sum(1 for w in node["words"] if w.lower() in context)
+                            if count >= at_least:
+                                full_node = dict(node)
+                                full_node["index"] = start_idx
+                                filtered.append(full_node)
+                    if filtered:
+                        results["cpe_versioned"] = filtered
+
                 else:
                     hits = match_variants(text, layer_type, automaton)
                     if hits:
                         results[layer_type] = hits
 
             cves = match_cve(text)
-            cpes = match_cpe(text)
             if cves:
                 results["cve"] = cves
-            if cpes:
-                results["cpe"] = cpes
 
             for category, entries in results.items():
                 for ent in entries:
@@ -282,13 +298,12 @@ def deduplicate_entity_hits(base_dir_path: Path):
                 json.dump(deduped, output_f, indent=2)
 
 
-def add_context_sentences_to_hits():
+def add_context_sentences_to_hits(context_length):
     """
     For each entity in txt.json/md.json files in entity_hits_v3,
     adds a 'sentence' field that shows up to n words before and after
     the match (or bounded by periods).
     """
-    n = 15
     for report_dir in output_dir.iterdir():
         if not report_dir.is_dir():
             continue
@@ -314,14 +329,14 @@ def add_context_sentences_to_hits():
                         after = text[idx:]
 
                         before_words = re.findall(r"\b\w+\b", before)
-                        before_limit = max(0, len(before_words) - n)
+                        before_limit = max(0, len(before_words) - context_length)
                         before_snippet = " ".join(before_words[before_limit:])
 
                         if "." in before_snippet:
                             before_snippet = before_snippet.split(".")[-1].strip()
 
                         after_words = re.findall(r"\b\w+\b", after)
-                        after_limit = min(n, len(after_words))
+                        after_limit = min(context_length, len(after_words))
                         after_snippet = " ".join(after_words[:after_limit])
 
                         if "." in after_snippet:
@@ -363,7 +378,7 @@ def add_bm25_score(base_dir: Path, k1=1.5, b=0.75):
                     continue
                 with open(json_path, encoding="utf-8") as f:
                     data = json.load(f)
-                for label in ["group", "tactic", "technique", "software", "capec", "cwe"]:
+                for label in ["group", "tactic", "technique", "software", "capec", "cwe", "cpe_versioned"]:
                     for entry in data.get(label, []):
                         key = entry.get("original_id", entry.get("name", "")).lower()
                         freq_map[label][(report_dir.name, key)] += 1
@@ -391,7 +406,7 @@ def add_bm25_score(base_dir: Path, k1=1.5, b=0.75):
                 with open(json_path, encoding="utf-8") as f:
                     data = json.load(f)
                 dl = doc_lengths.get(report_dir.name, avgdl)
-                for label in ["group", "tactic", "technique", "software", "capec", "cwe"]:
+                for label in ["group", "tactic", "technique", "software", "capec", "cwe", "cpe_versioned"]:
                     for entry in data.get(label, []):
                         key = entry.get("original_id", entry.get("name", "")).lower()
                         f_ij = freq_map[label].get((report_dir.name, key), 0)
