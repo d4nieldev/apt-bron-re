@@ -8,3 +8,4 @@ lxml
 requests
 docling
 pyahocorasick
+matplotlib>=3.5
