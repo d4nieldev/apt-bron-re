@@ -6,12 +6,8 @@ from collections import defaultdict
 from math import log
 from datetime import datetime
 
-from ner import (
-    _find_entities,
-    unify_categories,
-    _build_ner_lookup,
-    ner_score
-)
+from ner import prepare_ner_lookup, ner_score
+
 from summary_funcs import (
     write_summary_for_entity_hits_v3,
     summarize_problematic_names,
@@ -246,14 +242,7 @@ def process_folder(folder: Path, suffix: str):
         try:
             text = file.read_text(encoding="utf-8")
 
-            ner_lookup = {}
-            if add_NER_score:
-                try:
-                    raw_ner = _find_entities(text)
-                    ner_json = unify_categories(raw_ner)
-                    ner_lookup = _build_ner_lookup(ner_json)
-                except Exception as ner_err:
-                    print(f"[WARN] NER failed for {file.name}: {ner_err}")
+            ner_lookup = prepare_ner_lookup(text) if add_NER_score else {}
 
             results: dict[str, list[dict]] = {}
 

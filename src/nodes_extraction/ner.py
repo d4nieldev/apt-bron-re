@@ -88,6 +88,16 @@ def _build_ner_lookup(ner_json: dict) -> dict[str, set[str]]:
     return lookup
 
 
+def prepare_ner_lookup(text: str) -> dict[str, set[str]]:
+    try:
+        raw_ner = _find_entities(text)
+        ner_json = unify_categories(raw_ner)
+        return _build_ner_lookup(ner_json)
+    except Exception as e:
+        print(f"[WARN] NER failed: {e}")
+        return {}
+
+
 def ner_score(entry: dict, category: str, ner_lookup: dict[str, set[str]]) -> float:
     search_terms: set[str] = set()
 
