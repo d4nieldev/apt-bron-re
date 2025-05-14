@@ -25,6 +25,28 @@ CATEGORY_MAP = {
 }
 
 
+# def generate_variants(text):
+#     """
+#     generates simple variants, to enable entities (names or ids) to appear
+#     in more than one manner
+#     """
+#     base = text.lower()
+#     variants = {
+#         base,
+#         base.replace("-", " "),
+#         base.replace("_", " "),
+#         base.replace(" ", "_"),
+#         base.replace(" ", ""),
+#         base.replace(" ", "-")
+#     }
+#     plural_forms = set()
+#     for var in variants:
+#         if not var.endswith("s"):
+#             plural_forms.add(var + "s")
+#             plural_forms.add(var + "'s")
+#     return variants.union(plural_forms)
+
+
 def generate_variants(text):
     """
     generates simple variants, to enable entities (names or ids) to appear
@@ -39,12 +61,7 @@ def generate_variants(text):
         base.replace(" ", ""),
         base.replace(" ", "-")
     }
-    plural_forms = set()
-    for var in variants:
-        if not var.endswith("s"):
-            plural_forms.add(var + "s")
-            plural_forms.add(var + "'s")
-    return variants.union(plural_forms)
+    return variants
 
 
 def _find_entities(text: str):
@@ -125,5 +142,5 @@ def ner_score(entry: dict, category: str, ner_lookup: dict[str, set[str]], match
 
     for ner_set in ner_lookup.values():
         if search_terms & ner_set:
-            return 1
+            return match_score
     return 0
