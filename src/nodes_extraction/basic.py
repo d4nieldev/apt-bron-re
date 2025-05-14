@@ -3,11 +3,11 @@ import json
 import ahocorasick
 import sys
 from pathlib import Path
-from ner import prepare_ner_lookup, ner_score, generate_variants
-from nodes_extraction.constants import (
+from .ner import prepare_ner_lookup, ner_score, generate_variants
+from .constants import (
     TEXT_DIR, MD_DIR, OUTPUT_DIR, LAYER_DIR
 )
-sys.path.append(str(Path(__file__).resolve().parents[1]))
+# sys.path.append(str(Path(__file__).resolve().parents[1]))
 
 """ create a dictionary with keys as layer type (group, tactic, etc.) and 
 values as lists of the relevant entities using the nodes extracted from BRON """

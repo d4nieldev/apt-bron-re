@@ -1,9 +1,9 @@
-from basic import (
+from .basic import (
     process_folder,
     deduplicate_entity_hits,
     add_context_sentences_to_hits
 )
-from summary_funcs import (
+from .summary_funcs import (
     write_summary_for_entity_hits_v3,
     summarize_problematic_names,
     generate_bm25_statistics_and_histograms,
@@ -11,9 +11,9 @@ from summary_funcs import (
 
 from data_prep.statistics import add_bm25_score
 
-from nodes_extraction.constants import TEXT_DIR, MD_DIR, OUTPUT_DIR, TIMESTAMP_DIR
+from .constants import TEXT_DIR, MD_DIR, OUTPUT_DIR, TIMESTAMP_DIR
 
-from nodes_extraction.config import (
+from .config import (
     EXACT_MATCH_SCORE, DIFFERENT_CATEGORY_SCORE, UNTRAINED_CATEGORY_SCORE,
     ADD_NER_SCORE, ADD_BM25_SCORE, CONTEXT_LENGTH, CPE_CHAR_RANGE,
     RUN_WRITE_SUMMARY, RUN_PROBLEMATIC_SUMMARY, RUN_GENERATE_HISTOGRAMS
