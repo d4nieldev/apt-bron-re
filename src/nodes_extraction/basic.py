@@ -189,7 +189,7 @@ def process_folder(folder: Path, suffix: str, add_ner_score: bool, exact_score: 
         try:
             text = file.read_text(encoding="utf-8")
 
-            ner_lookup = prepare_ner_lookup(text) if add_ner_score else {}
+            ner_lookup, mapped_ner = prepare_ner_lookup(text) if add_ner_score else ({}, {})
 
             results: dict[str, list[dict]] = {}
 
@@ -231,13 +231,33 @@ def process_folder(folder: Path, suffix: str, add_ner_score: bool, exact_score: 
 
             for category, entries in results.items():
                 for ent in entries:
-                    if add_ner_score and ner_lookup:
-                        ent["NER_score"] = ner_score(ent, category, ner_lookup, exact_score)
-                    else:
-                        ent["NER_score"] = 0.0
+                    score = ner_score(ent, category, ner_lookup, exact_score) if (add_ner_score and ner_lookup) else 0.0
+                    ent["NER_score"] = score
+
+                    if score == exact_score and mapped_ner:
+                        # Remove recognized terms from mapped_ner
+                        search_terms = set()
+
+                        if category == "group" and ent.get("alias"):
+                            search_terms |= {v.lower() for v in generate_variants(ent["alias"])}
+                        elif category in ("cve", "cpe"):
+                            if ent.get("value"):
+                                search_terms.add(ent["value"].lower())
+                        else:
+                            if ent.get("name"):
+                                search_terms |= {v.lower() for v in generate_variants(ent["name"])}
+
+                        if ent.get("original_id"):
+                            search_terms.add(ent["original_id"].lower())
+
+                        for k in mapped_ner:
+                            mapped_ner[k] = [s for s in mapped_ner[k] if s.lower() not in search_terms]
 
             out_path = report_dir / f"{suffix}.json"
             out_path.write_text(json.dumps(results, indent=2), encoding="utf-8")
+
+            debug_path = report_dir / f"{suffix}_mapped_ner_filtered.json"
+            debug_path.write_text(json.dumps(mapped_ner, indent=2), encoding="utf-8")
 
         except Exception as e:
             print(f"[ERROR] Failed to process {file.name}: {e}")

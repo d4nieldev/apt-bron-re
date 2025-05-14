@@ -18,6 +18,8 @@ from .config import (
     RUN_WRITE_SUMMARY, RUN_PROBLEMATIC_SUMMARY, RUN_GENERATE_HISTOGRAMS
 )
 
+from .ner import ner_layers_intersection
+
 
 if __name__ == "__main__":
     process_folder(TEXT_DIR, "txt", ADD_NER_SCORE, NER_MATCH_SCORE, CPE_CHAR_RANGE)
@@ -43,3 +45,5 @@ if __name__ == "__main__":
         generate_bm25_statistics_and_histograms(OUTPUT_DIR,
                                                 output_txt_path=TIMESTAMP_DIR / "bm25_statistics_summary.txt",
                                                 output_hist_dir=TIMESTAMP_DIR / "bm25_histograms")
+    ner_layers_intersection()
+    print("NER-layer intersections written.")
