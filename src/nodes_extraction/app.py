@@ -14,17 +14,14 @@ from data_prep.statistics import add_bm25_score
 from .constants import TEXT_DIR, MD_DIR, OUTPUT_DIR, TIMESTAMP_DIR
 
 from .config import (
-    EXACT_MATCH_SCORE, DIFFERENT_CATEGORY_SCORE, UNTRAINED_CATEGORY_SCORE,
-    ADD_NER_SCORE, ADD_BM25_SCORE, CONTEXT_LENGTH, CPE_CHAR_RANGE,
+    NER_MATCH_SCORE, ADD_NER_SCORE, ADD_BM25_SCORE, CONTEXT_LENGTH, CPE_CHAR_RANGE,
     RUN_WRITE_SUMMARY, RUN_PROBLEMATIC_SUMMARY, RUN_GENERATE_HISTOGRAMS
 )
 
 
 if __name__ == "__main__":
-    process_folder(TEXT_DIR, "txt", ADD_NER_SCORE, EXACT_MATCH_SCORE,
-                   DIFFERENT_CATEGORY_SCORE, UNTRAINED_CATEGORY_SCORE, CPE_CHAR_RANGE)
-    process_folder(MD_DIR, "md", ADD_NER_SCORE, EXACT_MATCH_SCORE,
-                   DIFFERENT_CATEGORY_SCORE, UNTRAINED_CATEGORY_SCORE, CPE_CHAR_RANGE)
+    process_folder(TEXT_DIR, "txt", ADD_NER_SCORE, NER_MATCH_SCORE, CPE_CHAR_RANGE)
+    process_folder(MD_DIR, "md", ADD_NER_SCORE, NER_MATCH_SCORE, CPE_CHAR_RANGE)
     deduplicate_entity_hits(OUTPUT_DIR)
     print("Finished extracting nodes from the reports, results are in:", OUTPUT_DIR)
 

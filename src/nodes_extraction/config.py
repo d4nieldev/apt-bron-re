@@ -1,7 +1,5 @@
 # === Scoring Config ===
-EXACT_MATCH_SCORE = 1.0
-DIFFERENT_CATEGORY_SCORE = 0.5
-UNTRAINED_CATEGORY_SCORE = 0.75
+NER_MATCH_SCORE = 1.0
 
 # === CPE Filtering ===
 CPE_CHAR_RANGE = 75  # Radius for context window

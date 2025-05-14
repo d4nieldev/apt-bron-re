@@ -177,8 +177,7 @@ def match_cve(text):
     ]
 
 
-def process_folder(folder: Path, suffix: str, add_ner_score: bool, exact_score: float,
-                   diff_score: float, untrained_score: float, char_len: int):
+def process_folder(folder: Path, suffix: str, add_ner_score: bool, exact_score: float, char_len: int):
     """
     Iterate over *folder* (txt or md). For every report:
     1. extracts structured entity nodes, using regex or Aho-Corasick
@@ -237,8 +236,7 @@ def process_folder(folder: Path, suffix: str, add_ner_score: bool, exact_score: 
             for category, entries in results.items():
                 for ent in entries:
                     if add_ner_score and ner_lookup:
-                        ent["NER_score"] = ner_score(ent, category, ner_lookup, exact_score,
-                                                     diff_score, untrained_score)
+                        ent["NER_score"] = ner_score(ent, category, ner_lookup, exact_score)
                     else:
                         ent["NER_score"] = 0.0
 

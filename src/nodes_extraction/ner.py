@@ -101,9 +101,11 @@ def prepare_ner_lookup(text: str) -> dict[str, set[str]]:
         return {}
 
 
-def ner_score(entry: dict, category: str, ner_lookup: dict[str, set[str]], exact_match_score: float,
-              different_category_score: float, untrained_categories_score: float) -> float:
-
+def ner_score(entry: dict, category: str, ner_lookup: dict[str, set[str]], match_score) -> float:
+    """
+    Return 1 if ANY of the node’s search terms appears in ANY NER output set,
+    otherwise 0.
+    """
     search_terms: set[str] = set()
 
     if category == "group" and entry.get("alias"):
@@ -119,22 +121,9 @@ def ner_score(entry: dict, category: str, ner_lookup: dict[str, set[str]], exact
         search_terms.add(entry["original_id"].lower())
 
     if not search_terms:
-        return 0.0
+        return 0   # nothing to look for
 
-    if category in ("technique", "tactic"):
-        same_family = "technique"
-    elif category in ("software", "group"):
-        same_family = category
-    else:
-        same_family = None
-
-    if same_family:
-        if any(term in ner_lookup.get(same_family, set()) for term in search_terms):
-            return exact_match_score
-
-    if any(term in s for term in search_terms for s in ner_lookup.values()):
-        if category in ("capec", "cve", "cwe", "cpe"):
-            return untrained_categories_score
-        return different_category_score
-
-    return 0.0
+    for ner_set in ner_lookup.values():
+        if search_terms & ner_set:
+            return 1
+    return 0
