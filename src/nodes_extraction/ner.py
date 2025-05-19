@@ -133,12 +133,15 @@ def ner_layers_intersection():
     For each report and each suffix (txt/md), loads *_mapped_ner_filtered.json,
     intersects with corresponding nodes in LAYER_DIR (via variants),
     and writes results to <report_dir>/<suffix>_ner_intersection.json.
+
+    Direct matches (category -> category) get score 1.0.
+    Cross-category variant matches get score 0.5.
     """
 
     # Load all layer data once
     layer_map = {}
     for layer_file in LAYER_DIR.glob("*.json"):
-        if layer_file.stem == "cpe_unversioned":
+        if layer_file.stem in {"cpe_unversioned", "cpe_versioned"}:
             continue
         with open(layer_file, encoding="utf-8") as f:
             layer_map[layer_file.stem] = json.load(f)
@@ -161,39 +164,57 @@ def ner_layers_intersection():
 
             matched_nodes = {}
 
-            for label, nodes in layer_map.items():
-                ner_candidates = set(ner_data.get(label, []))
+            # Iterate over main categories
+            for main_label, ner_values in ner_data.items():
+                ner_candidates = {v.lower() for v in ner_values}
                 if not ner_candidates:
                     continue
 
-                ner_candidates = {v.lower() for v in ner_candidates}
+                # === Score 1.0: Match with correct category
                 matches = []
-
-                for node in nodes:
+                for node in layer_map.get(main_label, []):
                     node_variants = set()
-
-                    # Basic fields
                     for field in ("name", "original_id"):
                         if field in node:
                             node_variants.update(generate_variants(node[field]))
 
-                    # Group-specific aliases
-                    if label == "group":
+                    if main_label == "group":
                         for alias_field in ("MITRE_aliases", "malpedia_aliases"):
                             for alias in node.get(alias_field, []):
                                 node_variants.update(generate_variants(alias))
 
-                    intersection = ner_candidates & node_variants
-                    if intersection:
+                    if ner_candidates & node_variants:
                         matched_node = dict(node)
-                        matched_node["ner"] = list(intersection)[0]
+                        matched_node["ner"] = list(ner_candidates & node_variants)[0]
+                        matched_node["ner_score"] = 1.0
                         matches.append(matched_node)
 
                 if matches:
-                    matched_nodes[label] = matches
+                    matched_nodes.setdefault(main_label, []).extend(matches)
+
+                # === Score 0.5: Match with other categories
+                for other_label, other_nodes in layer_map.items():
+                    if other_label == main_label:
+                        continue  # already handled
+                    for node in other_nodes:
+                        node_variants = set()
+                        for field in ("name", "original_id"):
+                            if field in node:
+                                node_variants.update(generate_variants(node[field]))
+
+                        if other_label == "group":
+                            for alias_field in ("MITRE_aliases", "malpedia_aliases"):
+                                for alias in node.get(alias_field, []):
+                                    node_variants.update(generate_variants(alias))
+
+                        if ner_candidates & node_variants:
+                            matched_node = dict(node)
+                            matched_node["ner"] = list(ner_candidates & node_variants)[0]
+                            matched_node["ner_score"] = 0.5
+                            matched_nodes.setdefault(other_label, []).append(matched_node)
 
             if matched_nodes:
                 out_path = report_dir / f"{suffix}_ner_intersection.json"
                 out_path.write_text(json.dumps(matched_nodes, indent=2), encoding="utf-8")
             else:
-                print("no match found")
+                print(f"[INFO] No matches for {report_dir.name}/{suffix}")
