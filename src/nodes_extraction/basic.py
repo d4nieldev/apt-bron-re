@@ -253,6 +253,19 @@ def process_folder(folder: Path, suffix: str, add_ner_score: bool, exact_score: 
                         for k in mapped_ner:
                             mapped_ner[k] = [s for s in mapped_ner[k] if s.lower() not in search_terms]
 
+            if mapped_ner:
+                for category, values in list(mapped_ner.items()):
+                    for val in values:
+                        for variant in generate_variants(val):
+                            if cve_pattern.fullmatch(variant):
+                                if val not in mapped_ner.get("cve", []):
+                                    mapped_ner.setdefault("cve", []).append(val)
+                                break
+                            elif cpe_pattern.fullmatch(variant):
+                                if val not in mapped_ner.get("cpe", []):
+                                    mapped_ner.setdefault("cpe", []).append(val)
+                                break
+
             out_path = report_dir / f"{suffix}.json"
             out_path.write_text(json.dumps(results, indent=2), encoding="utf-8")
 
