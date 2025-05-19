@@ -13,3 +13,4 @@ ADD_BM25_SCORE = True
 RUN_WRITE_SUMMARY = True
 RUN_PROBLEMATIC_SUMMARY = True
 RUN_GENERATE_HISTOGRAMS = True
+SEMANTIC_NER_INTERSECTION = True  # greatly affects runtime, uses LLM to find semantic distance

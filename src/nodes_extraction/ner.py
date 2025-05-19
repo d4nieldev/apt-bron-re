@@ -5,8 +5,9 @@ from dotenv import load_dotenv
 from requests.auth import HTTPBasicAuth
 from pathlib import Path
 import json
-
-from .constants import OUTPUT_DIR, LAYER_DIR
+from torch import tensor
+from sentence_transformers import SentenceTransformer, util
+from .constants import OUTPUT_DIR
 
 # Disable insecure request warnings for local HTTPS
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -128,24 +129,34 @@ def ner_score(entry: dict, category: str, ner_lookup: dict[str, set[str]], match
     return 0
 
 
-def ner_layers_intersection():
+def ner_layers_intersection(semantic_flag, sim_threshold=0.8):
     """
-    For each report and each suffix (txt/md), loads *_mapped_ner_filtered.json,
-    intersects with corresponding nodes in LAYER_DIR (via variants),
-    and writes results to <report_dir>/<suffix>_ner_intersection.json.
-
-    Direct matches (category -> category) get score 1.0.
-    Cross-category variant matches get score 0.5.
+    Loads *_mapped_ner_filtered.json, intersects with LAYER_DIR nodes using:
+    - Variant-based matching (with ner_score and match_type=variant)
+    - SBERT semantic similarity (with ner_score, match_type=semantic, and semantic_score)
+    Outputs merged results to *_ner_intersection.json
     """
 
-    # Load all layer data once
+    embedding_cache_path = Path("data/precomputed_node_embeddings.json")
+    if not embedding_cache_path.exists():
+        raise FileNotFoundError("Precomputed node embeddings file is missing. Run embeddings.py first.")
+
+    with open("data/precomputed_node_embeddings.json", encoding="utf-8") as f:
+        precomputed = json.load(f)
+
     layer_map = {}
-    for layer_file in LAYER_DIR.glob("*.json"):
-        if layer_file.stem in {"cpe_unversioned", "cpe_versioned"}:
-            continue
-        with open(layer_file, encoding="utf-8") as f:
-            layer_map[layer_file.stem] = json.load(f)
+    node_embeddings = {}
 
+    for label, entries in precomputed.items():
+        node_embeddings[label] = []
+        for entry in entries:
+            emb_tensor = tensor(entry["embedding"])
+            node = entry["node"]
+            text = entry["text"]
+            node_embeddings[label].append((emb_tensor, node, text))
+            layer_map.setdefault(label, []).append(node)
+
+    # === Process each report
     for report_dir in OUTPUT_DIR.iterdir():
         if not report_dir.is_dir():
             continue
@@ -163,56 +174,69 @@ def ner_layers_intersection():
                 continue
 
             matched_nodes = {}
+            sbert_model = SentenceTransformer('all-MiniLM-L6-v2')
 
-            # Iterate over main categories
-            for main_label, ner_values in ner_data.items():
-                ner_candidates = {v.lower() for v in ner_values}
-                if not ner_candidates:
-                    continue
+            for ner_label, ner_values in ner_data.items():
+                ner_values = [v for v in ner_values if v.strip()]
+                ner_lower = {v.lower() for v in ner_values}
+                ner_embeds = [(v, sbert_model.encode(v, convert_to_tensor=True)) for v in ner_values]
 
-                # === Score 1.0: Match with correct category
-                matches = []
-                for node in layer_map.get(main_label, []):
+                # === Variant Matching (same label, score = 1.0)
+                for node in layer_map.get(ner_label, []):
                     node_variants = set()
                     for field in ("name", "original_id"):
                         if field in node:
                             node_variants.update(generate_variants(node[field]))
-
-                    if main_label == "group":
+                    if ner_label == "group":
                         for alias_field in ("MITRE_aliases", "malpedia_aliases"):
                             for alias in node.get(alias_field, []):
                                 node_variants.update(generate_variants(alias))
 
-                    if ner_candidates & node_variants:
-                        matched_node = dict(node)
-                        matched_node["ner"] = list(ner_candidates & node_variants)[0]
-                        matched_node["ner_score"] = 1.0
-                        matches.append(matched_node)
+                    overlap = ner_lower & node_variants
+                    if overlap:
+                        matched = dict(node)
+                        matched["ner"] = list(overlap)[0]
+                        matched["ner_score"] = 1.0
+                        matched["match_type"] = "variant"
+                        matched_nodes.setdefault(ner_label, []).append(matched)
 
-                if matches:
-                    matched_nodes.setdefault(main_label, []).extend(matches)
-
-                # === Score 0.5: Match with other categories
+                # === Variant Matching (cross-label, score = 0.5)
                 for other_label, other_nodes in layer_map.items():
-                    if other_label == main_label:
-                        continue  # already handled
+                    if other_label == ner_label:
+                        continue
                     for node in other_nodes:
                         node_variants = set()
                         for field in ("name", "original_id"):
                             if field in node:
                                 node_variants.update(generate_variants(node[field]))
-
                         if other_label == "group":
                             for alias_field in ("MITRE_aliases", "malpedia_aliases"):
                                 for alias in node.get(alias_field, []):
                                     node_variants.update(generate_variants(alias))
 
-                        if ner_candidates & node_variants:
-                            matched_node = dict(node)
-                            matched_node["ner"] = list(ner_candidates & node_variants)[0]
-                            matched_node["ner_score"] = 0.5
-                            matched_nodes.setdefault(other_label, []).append(matched_node)
+                        overlap = ner_lower & node_variants
+                        if overlap:
+                            matched = dict(node)
+                            matched["ner"] = list(overlap)[0]
+                            matched["ner_score"] = 0.5
+                            matched["match_type"] = "variant"
+                            matched_nodes.setdefault(other_label, []).append(matched)
 
+                # === Semantic Matching (threshold-based)
+                if semantic_flag:
+                    for ner_str, ner_emb in ner_embeds:
+                        for label, emb_list in node_embeddings.items():
+                            for node_emb, node_obj, node_text in emb_list:
+                                score = util.cos_sim(ner_emb, node_emb).item()
+                                if score >= sim_threshold:
+                                    matched = dict(node_obj)
+                                    matched["ner"] = ner_str
+                                    matched["ner_score"] = 1.0 if label == ner_label else 0.5
+                                    matched["semantic_score"] = round(score, 4)
+                                    matched["match_type"] = "semantic"
+                                    matched_nodes.setdefault(label, []).append(matched)
+
+            # === Save results
             if matched_nodes:
                 out_path = report_dir / f"{suffix}_ner_intersection.json"
                 out_path.write_text(json.dumps(matched_nodes, indent=2), encoding="utf-8")
