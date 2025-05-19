@@ -1,9 +1,12 @@
 from sentence_transformers import SentenceTransformer
 import json
 from pathlib import Path
+import torch
 from nodes_extraction.constants import LAYER_DIR
 
-sbert_model = SentenceTransformer("all-MiniLM-L6-v2")
+device = "cuda" if torch.cuda.is_available() else "cpu"
+
+sbert_model = SentenceTransformer("all-MiniLM-L6-v2", device=device)
 output_path = Path(__file__).resolve().parents[2] / "data" / "embeddings" / "precomputed_node_embeddings.json"
 
 result = {}

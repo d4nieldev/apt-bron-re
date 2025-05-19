@@ -14,7 +14,7 @@ from data_prep.statistics import add_bm25_score
 from .constants import TEXT_DIR, MD_DIR, OUTPUT_DIR, TIMESTAMP_DIR
 
 from .config import (
-    NER_MATCH_SCORE, ADD_NER_SCORE, ADD_BM25_SCORE, CONTEXT_LENGTH, CPE_CHAR_RANGE,
+    NER_MATCH_SCORE, ADD_NER_SCORE, ADD_BM25_SCORE, CONTEXT_LENGTH, CPE_CHAR_RANGE, SIM_THRESHOLD,
     RUN_WRITE_SUMMARY, RUN_PROBLEMATIC_SUMMARY, RUN_GENERATE_HISTOGRAMS, SEMANTIC_NER_INTERSECTION
 )
 
@@ -45,5 +45,5 @@ if __name__ == "__main__":
         generate_bm25_statistics_and_histograms(OUTPUT_DIR,
                                                 output_txt_path=TIMESTAMP_DIR / "bm25_statistics_summary.txt",
                                                 output_hist_dir=TIMESTAMP_DIR / "bm25_histograms")
-    ner_layers_intersection(SEMANTIC_NER_INTERSECTION)
+    ner_layers_intersection(SEMANTIC_NER_INTERSECTION, SIM_THRESHOLD)
     print("NER-layer intersections written.")
