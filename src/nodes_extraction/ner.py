@@ -67,7 +67,7 @@ def _build_ner_lookup(ner_json: dict) -> dict[str, set[str]]:
 def map_ner_results(raw_ner: dict) -> dict[str, list[str]]:
     """
     Re-map raw NER output categories into simplified buckets that correspond with BRON.
-    All values are preserved, only keys (categories) are changed.
+    All values are preserved but blacklisted values, only keys (categories) are changed.
     """
 
     category_map = {
@@ -85,11 +85,13 @@ def map_ner_results(raw_ner: dict) -> dict[str, list[str]]:
         "OBSERVABLE-FILENAME": "software"
     }
 
+    blacklist = {"group", "threat group", "apt"}
     mapped = {}
 
     for category, values in raw_ner.items():
         new_key = category_map.get(category.upper(), "others")
-        mapped.setdefault(new_key, []).extend(values)
+        filtered_values = [v for v in values if v.strip().lower() not in blacklist]
+        mapped.setdefault(new_key, []).extend(filtered_values)
 
     return mapped
 
@@ -208,13 +210,24 @@ def process_report_with_ner_intersection(report_dir, suffix, sbert_model, semant
                             matched["match_type"] = "semantic"
                             matched_nodes.setdefault(label, []).append(matched)
 
-    # === Save results
+    # === Deduplicate and Save results
+    for label in matched_nodes:
+        seen = set()
+        deduped = []
+        for entry in matched_nodes[label]:
+            key = json.dumps(entry, sort_keys=True)
+            if key not in seen:
+                seen.add(key)
+                deduped.append(entry)
+        matched_nodes[label] = deduped
+
     if matched_nodes:
         out_path = report_dir / f"{suffix}_ner_intersection.json"
         out_path.write_text(json.dumps(matched_nodes, indent=2), encoding="utf-8")
         merge_ner_intersection_results(report_dir, suffix)
     else:
         print(f"[INFO] No matches for {report_dir.name}/{suffix}")
+
 
 
 def ner_layers_intersection(semantic_flag, sim_threshold):
