@@ -85,7 +85,8 @@ def map_ner_results(raw_ner: dict) -> dict[str, list[str]]:
         "OBSERVABLE-FILENAME": "software"
     }
 
-    blacklist = {"group", "threat group", "apt"}
+    blacklist = {"group", "threat group", "apt", "domain", "exploit", "tool", "t1059 003"}
+
     mapped = {}
 
     for category, values in raw_ner.items():
@@ -227,7 +228,6 @@ def process_report_with_ner_intersection(report_dir, suffix, sbert_model, semant
         merge_ner_intersection_results(report_dir, suffix)
     else:
         print(f"[INFO] No matches for {report_dir.name}/{suffix}")
-
 
 
 def ner_layers_intersection(semantic_flag, sim_threshold):

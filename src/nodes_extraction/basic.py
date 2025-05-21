@@ -10,8 +10,6 @@ values as lists of the relevant entities using the nodes extracted from BRON """
 layer_map = {}
 for layer_file in LAYER_DIR.glob("*.json"):
     label = layer_file.stem
-    if label == "cpe_unversioned":
-        continue  # don't load this layer for now
     with open(layer_file, encoding="utf-8") as f:
         layer_map[label] = json.load(f)
 
@@ -66,6 +64,13 @@ for label, nodes in layer_map.items():
             if version not in node_map:
                 node_map[version] = node
                 A.add_word(version, version)
+
+    elif label == "cpe_unversioned":
+        for node in nodes:
+            for variant in node.get("words", []):
+                if variant not in node_map:
+                    node_map[variant] = node
+                    A.add_word(variant, variant)
 
     elif label == "technique":
         for node in nodes:
@@ -219,6 +224,26 @@ def process_folder(folder: Path, suffix: str, add_ner_score: bool, exact_score: 
                                 filtered.append(full_node)
                     if filtered:
                         results["cpe_versioned"] = filtered
+
+                elif layer_type == "cpe_unversioned":
+                    filtered = []
+                    sentences = text.lower().splitlines()
+                    for i, sentence in enumerate(sentences):
+                        tokens = set(re.findall(r"\\b\\w+\\b", sentence))  # tokenize once
+                        for node_key, node in variant_to_node["cpe_unversioned"].items():
+                            words = node["words"]
+                            at_least = node.get("at_least", 2)
+                            count = sum(1 for w in words if w in tokens and w not in {"a", "this"})
+
+                            if count >= at_least - 1 and count > 1:
+                                full_node = dict(node)
+                                full_node["index"] = i
+                                full_node["sentence"] = sentence.strip()
+                                full_node["count"] = count
+                                filtered.append(full_node)
+
+                    if filtered:
+                        results["cpe_unversioned"] = filtered
 
                 else:
                     hits = match_variants(text, layer_type, automaton)
