@@ -8,3 +8,5 @@ lxml
 requests
 docling
 pyahocorasick
+matplotlib>=3.5
+sentence-transformers>=2.2.2
