@@ -38,39 +38,39 @@ def process_documents(doc_ids, max_docs=None):
             seen_pairs = set()
 
             # Compare between all entity type pairs
-            for src_type, src_list in entities.items():
-                for tgt_type, tgt_list in entities.items():
-                    if src_type == tgt_type:
-                        continue  # Skip same-type comparisons
+            for type_a, list_a in entities.items():
+                for type_b, list_b in entities.items():
+                    if type_a == type_b:
+                        continue # Skip same-type comparisons
 
-                    for src in src_list:
-                        for tgt in tgt_list:
+                    for ent_a in list_a:
+                        for ent_b in list_b:
 
-                            key = (src_type, src["name"], tgt_type, tgt["name"])
+                            # Sort to treat (A,B) and (B,A) as the same
+                            key = tuple(sorted([(type_a, ent_a["name"]), (type_b, ent_b["name"])]))
                             if key in seen_pairs:
                                 continue
                             seen_pairs.add(key)
 
                             # Generate edge prompt
-                            prompt = build_prompt(text, src["name"], tgt["name"])
+                            prompt = build_prompt(text, ent_a["name"], ent_b["name"])
                             response = llm.invoke(prompt)
                             result = response.content.strip()
 
                             # Print edge information if it's "yes" or "no"'
                             if "yes" in result.lower():
-                                print(f"  → [{src_type}:{src['name']}] → [{tgt_type}:{tgt['name']}]")
+                                print(f"  → [{type_a}:{ent_a['name']}] → [{type_b}:{ent_b['name']}]")
                                 print(f"     {result}")
 
                                 # Store edge information
                                 good_edges.append({
-                                    "source": src["name"],
-                                    "target": tgt["name"],
-                                    "source_type": src_type,
-                                    "target_type": tgt_type,
-                                    # "has_edge": "Yes" if "yes" in result.lower() else "No",
+                                    "entity_1": ent_a["name"],
+                                    "entity_2": ent_b["name"],
+                                    "type_1": type_a,
+                                    "type_2": type_b,
                                     "explanation": result,
-                                    "source_line": find_entity_line_index(text, src["name"]),
-                                    "target_line": find_entity_line_index(text, tgt["name"])
+                                    "line_1": find_entity_line_index(text, ent_a["name"]),
+                                    "line_2": find_entity_line_index(text, ent_b["name"])
                                 })
 
 
@@ -95,4 +95,4 @@ doc_ids = [
     if os.path.isdir(os.path.join(ENTITY_FOLDER, folder))
 ]
 
-process_documents(doc_ids, max_docs=2)
+process_documents(doc_ids, max_docs=1)
