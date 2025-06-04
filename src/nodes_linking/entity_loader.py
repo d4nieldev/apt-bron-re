@@ -4,7 +4,7 @@ import json
 
 
 def load_entities_and_text(doc_id: str) -> tuple[str, dict]:
-    entity_path = OUTPUT_DIR / doc_id / "md.json"
+    entity_path = OUTPUT_DIR / doc_id / "txt.json"
     text_path = TEXT_DIR / f"{doc_id}.txt"
 
     print(f"🔍 Looking for: {text_path}")

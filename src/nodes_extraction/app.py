@@ -20,6 +20,8 @@ from .config import (
 
 from .ner import ner_layers_intersection
 
+from jasons_union import process_and_merge_reports
+
 
 if __name__ == "__main__":
     process_folder(TEXT_DIR, "txt", ADD_NER_SCORE, NER_MATCH_SCORE, CPE_CHAR_RANGE)
@@ -47,3 +49,9 @@ if __name__ == "__main__":
                                                 output_hist_dir=TIMESTAMP_DIR / "bm25_histograms")
     ner_layers_intersection(SEMANTIC_NER_INTERSECTION, SIM_THRESHOLD)
     print("NER-layer intersections written.")
+
+    process_and_merge_reports()
+    print()
+
+
+

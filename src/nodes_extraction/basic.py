@@ -138,6 +138,11 @@ def match_variants(text, category, automaton):
                     "index": start_idx
                 }
 
+                # Add any missing fields from the node (e.g., description, aliases, etc.)
+                for key, value in node.items():
+                    if key not in hit:
+                        hit[key] = value
+
                 if category == "group":
                     hit["alias"] = node_info.get("alias")
 

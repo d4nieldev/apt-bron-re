@@ -95,4 +95,4 @@ doc_ids = [
     if os.path.isdir(os.path.join(ENTITY_FOLDER, folder))
 ]
 
-process_documents(doc_ids, max_docs=1)
+process_documents(doc_ids, max_docs=3)
