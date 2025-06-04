@@ -3,6 +3,8 @@ import json
 from pathlib import Path
 from neo4j import GraphDatabase
 from dotenv import load_dotenv
+import malpedia_groups_to_aliases
+import mitre_groups_to_aliases
 
 # === Load .env variables
 load_dotenv()
@@ -13,13 +15,13 @@ PASSWORD = os.environ["NEO4J_PASSWORD"]
 
 # === Node labels and properties
 NODE_TYPES = {
-    "tactic": ["name", "original_id"],
-    "capec": ["name", "original_id"],
-    "cwe": ["name", "original_id"],
-    "group": ["name", "original_id"],
-    "technique": ["name", "original_id"],
-    "software": ["name", "original_id", "software_type"],
-    "cpe": ["name", "original_id", "product", "vendor", "version"]
+    "tactic": ["name", "original_id", "description"],
+    "capec": ["name", "original_id", "description", "consequences", "skills_required", "likelihood_of_attack", "typical_severity"],
+    "cwe": ["name", "original_id", "description", "common_consequences", "likelihood_of_exploit"],
+    "group": ["name", "original_id", "description", "aliases"],
+    "technique": ["name", "original_id", "description"],
+    "software": ["name", "original_id", "software_type", "description"],
+    "cpe": ["name", "original_id", "product", "vendor", "version", "description"]
 }
 
 # === Save to: data/layer_nodes
@@ -111,3 +113,39 @@ with GraphDatabase.driver(URI, auth=(USERNAME, PASSWORD)) as driver:
                 print(f"✅ Saved {len(values):,} {label} nodes to {output_path}")
 
 print(f"🎉 All JSON files saved in {output_dir}")
+
+
+#Running the code to retrieve additional aliases
+malpedia_groups_to_aliases
+mitre_groups_to_aliases
+
+# Unite aliases into a single set (for all enriched layer files)
+def aliases_to_set():
+    group_file = output_dir / "group.json"
+    if not group_file.exists():
+        print("group.json not found in LAYER_DIR.")
+        return
+
+    try:
+        with group_file.open(encoding="utf-8") as f:
+            data = json.load(f)
+
+        for node in data:
+            all_aliases = set()
+            for field in ["MITRE_aliases", "malpedia_aliases", "aliases"]:
+                aliases = node.get(field, [])
+                if isinstance(aliases, list):
+                    all_aliases.update(aliases)
+            node["all_aliases"] = sorted(all_aliases)
+
+            # Remove original alias fields
+            for field in ["MITRE_aliases", "malpedia_aliases", "aliases"]:
+                node.pop(field, None)
+
+        with group_file.open("w", encoding="utf-8") as f:
+            json.dump(data, f, indent=2)
+
+    except Exception as e:
+        print(f"Error processing group.json: {e}")
+
+aliases_to_set()
