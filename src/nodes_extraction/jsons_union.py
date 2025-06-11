@@ -13,8 +13,8 @@ output_filename = "combined.json"
 target_files = [
     "md.json",
     "txt.json",
-    # "md_mapped_ner_filtered.json",
-    # "txt_mapped_ner_filtered.json",
+     "md_ner_intersection.json",
+     "txt_ner_intersection.json",
 ]
 
 # Iterate over all folders in entity_hits_v3

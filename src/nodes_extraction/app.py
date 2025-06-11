@@ -20,7 +20,7 @@ from .config import (
 
 from .ner import ner_layers_intersection
 
-from jasons_union import process_and_merge_reports
+from jsons_union import process_and_merge_reports
 
 
 if __name__ == "__main__":
