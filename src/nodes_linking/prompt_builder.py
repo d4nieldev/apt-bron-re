@@ -1,6 +1,3 @@
-from langchain_core.prompts import PromptTemplate
-
-
 def format_entity(entity: dict, label: str) -> str:
     name = entity.get("name", "Unknown")
     ent_type = entity.get("type", "Unknown")
@@ -55,25 +52,29 @@ def build_prompt() -> str:
 
     return """
 You are a cybersecurity analyst.
-
 =====================
 Document:
 {article_text}
-
 =====================
 Entity A:
 {entity_a}
-
 =====================
 Entity B:
 {entity_b}
-
 =====================
-
 Task:
-Based on the article and the context of the two entities above, decide whether there is a meaningful connection (an edge) between them in a cybersecurity context. 
-Before determining a connection, reason about the document, and given entities.
-Provide your thinking process between <think> and </think> tags, and answer if there is a link (only Yes or No) between <answer> and </answer> tags.
+Based on the article and the context of the two entities above, 
+determine whether there is a meaningful connection (an edge) between them in a cybersecurity context.
+
+Instructions:
+- Think carefully about whether each entity is clearly mentioned, referenced, or implied in the article.
+- If **either entity is not found or strongly implied**, consider that the confidence in that side is low.
+- Base your connection judgment only on information found or supported by the article.
+- Respond with:
+    <think>Provide your thinking process here</think>
+    <answer>Yes or No</answer>
+    <confidence>Low, Medium, or High</confidence>
+
 """.strip()
 
 

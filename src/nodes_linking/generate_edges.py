@@ -22,6 +22,10 @@ def process_documents(doc_ids, max_docs=None):
     if max_docs is not None:
         doc_ids = doc_ids[:max_docs]
 
+    total_pairs = 0
+    total_positive_edges = 0
+    docs_processed = 0
+
     for doc_id in doc_ids:
         try:
             print(f"\nProcessing document: {doc_id}")
@@ -63,6 +67,7 @@ def process_documents(doc_ids, max_docs=None):
                 print("No entity pairs found for processing.")
                 continue
 
+            total_pairs += len(prompts_inputs)
             # Generate predictions in batch using generate_many
             results = generate_many(
                 prompt=build_prompt(),
@@ -71,20 +76,57 @@ def process_documents(doc_ids, max_docs=None):
                 output_parser=StrOutputParser(),
                 description=f"Generating edges for {doc_id}"
             )
+            import re
+            def extract_confidence(text: str) -> str:
+                """Extracts <confidence>...</confidence> tag."""
+                match = re.search(r"<confidence>(.*?)</confidence>", text, re.IGNORECASE | re.DOTALL)
+                return match.group(1).strip().lower() if match else "low"
+
+
             # Extract valid "Yes" edges
             good_edges = []
             for result, (type_a, name_a, type_b, name_b) in zip(results, pair_metadata):
                 if not result.result:
                     continue
-                if "yes" in result.result.lower():
-                    print(f"  -> [{type_a}:{name_a}] ~ [{type_b}:{name_b}]\n     {result.result}")
+                result_text = result.result.strip().lower()
+                is_positive = "yes" in result_text
+                confidence = extract_confidence(result_text)
+
+                print(f"  -> [{type_a}:{name_a}] ~ [{type_b}:{name_b}] \n     {result.result}")
+                if is_positive:
+                    total_positive_edges += 1
+                    # print(f"  -> [{type_a}:{name_a}] ~ [{type_b}:{name_b}]\n     {result.result}")
+                    import re
+
+                    def split_sentences(text):
+                        # Split by ., ! or ? followed by space or end of string
+                        sentences = re.split(r'(?<=[.!?])\s+', text.strip())
+                        return '\n'.join(sentences)
+
+                    # Inside your loop
+                    formatted_explanation = split_sentences(result.result.strip())
+
                     good_edges.append({
                         "entity_1": name_a,
                         "entity_2": name_b,
                         "type_1": type_a,
                         "type_2": type_b,
-                        "explanation": result.result.strip()
+                        "explanation": formatted_explanation,
+                        "confidence": confidence
+
                     })
+
+            # === Per-document summary ===
+            num_pairs = len(prompts_inputs)
+            num_edges = len(good_edges)
+            doc_positive_rate = (100 * num_edges / num_pairs) if num_pairs > 0 else 0
+
+            print(f"\n--- Summary for {doc_id} ---")
+            print(f"Entity pairs analyzed: {num_pairs}")
+            print(f"Positive edges found: {num_edges}")
+            print(f"Positive rate: {doc_positive_rate:.2f}%")
+            print("\n")
+
 
             # Save output only if there are good edges
             if good_edges:
@@ -96,6 +138,7 @@ def process_documents(doc_ids, max_docs=None):
                 print(f"Saved {len(good_edges)} edges to {output_path}")
             else:
                 print("No meaningful edges found. ")
+            docs_processed += 1
 
         except Exception as e:
             print(f"Error processing {doc_id}: {e}")
@@ -103,6 +146,16 @@ def process_documents(doc_ids, max_docs=None):
     end_time = time.time()
     total_time = end_time - start_time
     print(f"Finished in {total_time} seconds.")
+
+    # === Summary ===
+    print("\n=== Processing Summary ===")
+    print(f"Documents processed: {docs_processed}")
+    print(f"Total entity pairs analyzed: {total_pairs}")
+    print(f"Total positive edges found: {total_positive_edges}")
+    if total_pairs > 0:
+        print(f"Positive edge rate: {100 * total_positive_edges / total_pairs:.2f}%")
+    print(f"Average time per document: {total_time / docs_processed:.2f} seconds" if docs_processed else "")
+    print(f"Total time: {total_time:.2f} seconds")
 
 # List all document IDs (folder names under entity_hits_v3)
 doc_ids = [
